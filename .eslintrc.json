@@ -22,7 +22,12 @@
     "ecmaVersion": "latest",
     "sourceType": "module"
   },
-  "plugins": ["@typescript-eslint", "react", "react-hooks", "eslint-plugin-import-helpers"],
+  "plugins": [
+    "@typescript-eslint",
+    "react",
+    "react-hooks",
+    "eslint-plugin-import-helpers"
+  ],
   "ignorePatterns": [
     "node_modules/",
     "build/",

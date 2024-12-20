@@ -1,8 +1,11 @@
 'use client'
 import { ControllerRenderProps } from 'react-hook-form'
-import { Eye, EyeOff } from 'lucide-react'
-import { Input } from '../ui/input'
+
 import { SignInSchemaProps } from '@/app/auth/signIn/components/form/schema'
+
+import { Eye, EyeOff } from 'lucide-react'
+
+import { Input } from '../ui/input'
 
 type InputPasswordProps = {
   field: ControllerRenderProps<SignInSchemaProps, 'password' | 'confirmPassword'>

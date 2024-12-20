@@ -1,16 +1,15 @@
 'use client'
+import { InputPassword } from '@/components/interface/input-password'
 import { Button } from '@/components/ui/button'
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
-// import { Label } from "@/components/ui/label";
-// import { Eye, EyeOff } from "lucide-react";
-
-import { useSignIn } from './use-signin'
-import { InputPassword } from '@/components/interface/input-password'
-import { BadgePercent } from 'lucide-react'
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
 
-export default function SignInForm() {
+import { BadgePercent } from 'lucide-react'
+
+import { useSignIn } from './use-signin'
+
+export const SignInForm = () => {
   const { form, onSubmit, showPassword, togglePasswordVisibility } = useSignIn()
 
   return (

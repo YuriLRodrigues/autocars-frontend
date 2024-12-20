@@ -1,14 +1,14 @@
 // components
-import Form from "./components/form";
-import Header from "./components/headers";
+import Form from './components/form'
+import Header from './components/headers'
 
 export default function SignIn() {
   return (
-    <main className="flex items-center justify-center min-h-screen bg-gray-100">
-      <div className="bg-white p-8 rounded-lg shadow-lg max-w-md w-full text-center">
+    <main className="flex min-h-screen items-center justify-center bg-gray-100">
+      <div className="w-full max-w-md rounded-lg bg-white p-8 text-center shadow-lg">
         <Header />
         <Form />
       </div>
     </main>
-  );
+  )
 }

@@ -1,25 +1,17 @@
-"use client";
-import { Button } from "@/components/ui/button";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
+'use client'
+import { Button } from '@/components/ui/button'
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
+import { Input } from '@/components/ui/input'
 // import { Label } from "@/components/ui/label";
 // import { Eye, EyeOff } from "lucide-react";
 
-import { useSignIn } from "./use-signin";
-import { InputPassword } from "@/components/interface/input-password";
-import { BadgePercent } from "lucide-react";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { useSignIn } from './use-signin'
+import { InputPassword } from '@/components/interface/input-password'
+import { BadgePercent } from 'lucide-react'
+import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
 
 export default function SignInForm() {
-  const { form, onSubmit, showPassword, togglePasswordVisibility } =
-    useSignIn();
+  const { form, onSubmit, showPassword, togglePasswordVisibility } = useSignIn()
 
   return (
     <Form {...form}>
@@ -107,23 +99,18 @@ export default function SignInForm() {
             <FormItem className="space-y-3">
               <FormLabel>Escolha o que quer fazer: </FormLabel>
               <FormControl>
-                <RadioGroup
-                  onValueChange={field.onChange}
-                  defaultValue={field.value}
-                >
+                <RadioGroup onValueChange={field.onChange} defaultValue={field.value}>
                   <div>
-                    <FormItem className="grid grid-cols-2 relative">
+                    <FormItem className="relative grid grid-cols-2">
                       <div>
                         <BadgePercent />
-                        <FormControl className="absolute top-2 right-2">
+                        <FormControl className="absolute right-2 top-2">
                           <RadioGroupItem value="SELLER" />
                         </FormControl>
                       </div>
-                      <div className="space-y-2 flex flex-col">
-                        <FormLabel className="font-semibold text-start">
-                          Vendedor
-                        </FormLabel>
-                        <FormLabel className="font-normal text-sm text-start">
+                      <div className="flex flex-col space-y-2">
+                        <FormLabel className="text-start font-semibold">Vendedor</FormLabel>
+                        <FormLabel className="text-start text-sm font-normal">
                           Usuários que querem vender carros
                         </FormLabel>
                       </div>
@@ -142,5 +129,5 @@ export default function SignInForm() {
         </div>
       </form>
     </Form>
-  );
+  )
 }

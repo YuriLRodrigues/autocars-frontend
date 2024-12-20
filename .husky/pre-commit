@@ -1,0 +1,15 @@
+#!/usr/bin/env sh
+. "$(dirname -- "$0")/_/husky.sh"
+
+
+echo 'Check for errors in the code'
+
+npx --no-install prettier --write . || (echo 'Prettier errors were found, correct them and commit again' && exit 1)
+
+npx tsc --noEmit || (echo 'Eslint errors were found, correct them and commit again' && exit 1)
+
+npx eslint --fix . || (echo 'Eslint errors were found, correct them and commit again' && exit 1)
+
+# npm run build || (echo 'application build errors found, correct them and commit again' && exit 1)
+
+echo 'Done'

@@ -18,10 +18,6 @@ export type ActionResponse<T> = {
   error?: string
 }
 
-export type HttpResponse<R = void> = {
-  body: R
-}
-
 export type RequestProps = {
   baseURL?: string
   url: string

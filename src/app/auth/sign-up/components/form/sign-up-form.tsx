@@ -1,0 +1,259 @@
+'use client'
+import Link from 'next/link'
+
+import { InputPassword, PasswordRulesTooltip } from '@/components/interface/input-password'
+import { BorderBeam } from '@/components/ui/border-beam'
+import { Button } from '@/components/ui/button'
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
+import { Icon } from '@/components/ui/icon'
+import { Input } from '@/components/ui/input'
+import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
+import { VisibleChieldComponent } from '@/components/ui/visible-chield-component'
+
+import { cn } from '@/lib/utils'
+import { ArrowRightIcon, Check } from 'lucide-react'
+
+import { useSignUp } from './use-sign-up'
+
+export const SignUpForm = () => {
+  const { form, onSubmit, showPassword, togglePasswordVisibility, fetchUserCEP, hasCompletedFirstStep } = useSignUp({})
+  const isSignUpStep = form.watch('step') === 'SIGNUP'
+
+  return (
+    <Form {...form}>
+      <div className="relative overflow-hidden rounded-xl p-3">
+        <form onSubmit={onSubmit} className="space-y-6 px-2">
+          <VisibleChieldComponent visible={isSignUpStep}>
+            <FormField
+              control={form.control}
+              name="name"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel className="font-semibold">Nome completo: </FormLabel>
+                  <FormControl>
+                    <Input {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </VisibleChieldComponent>
+
+          <VisibleChieldComponent visible={isSignUpStep}>
+            <FormField
+              control={form.control}
+              name="username"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel className="font-semibold">Nome de usuário: </FormLabel>
+                  <FormControl>
+                    <Input {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </VisibleChieldComponent>
+
+          <VisibleChieldComponent visible={isSignUpStep}>
+            <FormField
+              control={form.control}
+              name="email"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel className="font-semibold">E-mail: </FormLabel>
+                  <FormControl>
+                    <Input {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </VisibleChieldComponent>
+
+          <VisibleChieldComponent visible={isSignUpStep}>
+            <FormField
+              control={form.control}
+              name="password"
+              render={({ field }) => (
+                <FormItem>
+                  <span className="flex items-center gap-2">
+                    <FormLabel className="font-semibold">Senha: </FormLabel>
+                    <PasswordRulesTooltip password={form.watch('password')} />
+                  </span>
+                  <FormControl>
+                    <InputPassword
+                      showPassword={showPassword}
+                      togglePasswordVisibility={togglePasswordVisibility}
+                      field={field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </VisibleChieldComponent>
+
+          <VisibleChieldComponent visible={isSignUpStep}>
+            <FormField
+              control={form.control}
+              name="role"
+              render={({ field }) => (
+                <FormItem className="space-y-3">
+                  <FormLabel className="font-semibold">Escolha o que quer fazer: </FormLabel>
+                  <FormControl>
+                    <RadioGroup onValueChange={field.onChange} defaultValue={field.value}>
+                      <div className="grid grid-cols-2 gap-4">
+                        <FormItem
+                          className={cn(
+                            'relative flex items-center gap-4 rounded-lg border p-2',
+                            form.watch('role') === 'SELLER' && 'border-2 border-primary',
+                          )}
+                        >
+                          <Icon name="BadgePercent" className="size-10" />
+                          <FormControl className="absolute right-2 top-2">
+                            <RadioGroupItem value="SELLER" />
+                          </FormControl>
+
+                          <div className="flex flex-col space-y-2">
+                            <FormLabel className="text-start font-semibold">Vendedor</FormLabel>
+                            <FormLabel className="text-start text-xs">Usuários que querem vender carros</FormLabel>
+                          </div>
+                        </FormItem>
+
+                        <FormItem
+                          className={cn(
+                            'relative flex items-center gap-4 rounded-lg border p-2',
+                            form.watch('role') === 'CUSTOMER' && 'border-2 border-primary',
+                          )}
+                        >
+                          <Icon name="ShoppingCart" className="size-8" />
+                          <FormControl className="absolute right-2 top-2">
+                            <RadioGroupItem value="CUSTOMER" />
+                          </FormControl>
+
+                          <div className="flex flex-col space-y-2">
+                            <FormLabel className="text-start font-semibold">Comprador</FormLabel>
+                            <FormLabel className="text-start text-xs">Usuários que querem comprar carros</FormLabel>
+                          </div>
+                        </FormItem>
+                      </div>
+                    </RadioGroup>
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </VisibleChieldComponent>
+
+          {/* ADDRESS STEP */}
+
+          <VisibleChieldComponent visible={!isSignUpStep}>
+            <FormField
+              control={form.control}
+              name="zipCode"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel className="font-semibold">Código de endereçamento postal (CEP): </FormLabel>
+                  <FormControl>
+                    <Input
+                      {...field}
+                      value={field.value || ''}
+                      onChange={(e) => {
+                        fetchUserCEP(e)
+                        field.onChange(e)
+                      }}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </VisibleChieldComponent>
+
+          <VisibleChieldComponent visible={!isSignUpStep}>
+            <FormField
+              control={form.control}
+              name="city"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel className="font-semibold">Cidade: </FormLabel>
+                  <FormControl>
+                    <Input {...field} disabled={!!form.getValues('city')} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </VisibleChieldComponent>
+
+          <VisibleChieldComponent visible={!isSignUpStep}>
+            <FormField
+              control={form.control}
+              name="state"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel className="font-semibold">Estado: </FormLabel>
+                  <FormControl>
+                    <Input {...field} disabled={!!form.getValues('state')} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </VisibleChieldComponent>
+
+          <VisibleChieldComponent visible={!isSignUpStep}>
+            <FormField
+              control={form.control}
+              name="street"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel className="font-semibold">Rua: </FormLabel>
+                  <FormControl>
+                    <Input {...field} disabled={!!form.getValues('street')} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </VisibleChieldComponent>
+
+          <VisibleChieldComponent visible={!isSignUpStep}>
+            <FormField
+              control={form.control}
+              name="neighborhood"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel className="font-semibold">Bairro: </FormLabel>
+                  <FormControl>
+                    <Input {...field} disabled={!!form.getValues('neighborhood')} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </VisibleChieldComponent>
+
+          <div className="flex items-center justify-end gap-4 p-4">
+            <Button variant="outline" type="button" effect="ringHover" className="h-10" asChild>
+              <Link href="/">Voltar para o site</Link>
+            </Button>
+            <Button
+              type={'submit'}
+              onClick={isSignUpStep ? () => form.setValue('step', 'ADDRESS') : undefined}
+              icon={isSignUpStep ? ArrowRightIcon : Check}
+              iconPlacement="left"
+              effect={isSignUpStep ? 'expandIcon' : 'shine'}
+              disabled={!hasCompletedFirstStep}
+              className="h-8"
+            >
+              {isSignUpStep ? 'Próximo passo' : 'Finalizar cadastro'}
+            </Button>
+          </div>
+        </form>
+        <BorderBeam size={250} duration={12} delay={9} />
+      </div>
+    </Form>
+  )
+}

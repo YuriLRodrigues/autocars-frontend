@@ -1,6 +1,5 @@
-import { ChangeEvent, useState } from 'react'
+import { ChangeEvent, useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
-
 import { zodResolver } from '@hookform/resolvers/zod'
 import { toast } from 'sonner'
 
@@ -18,12 +17,9 @@ type CepProps = {
   localidade: string
   uf: string
   estado: string
-  regiao: string
 }
 
-export const useSignUp = (props: useSignUpProps) => {
-  const { defaultValues } = props
-
+export const useSignUp = ({ defaultValues }: useSignUpProps) => {
   const form = useForm<SignInSchemaProps>({
     resolver: zodResolver(signInSchema),
     reValidateMode: 'onChange',
@@ -33,7 +29,7 @@ export const useSignUp = (props: useSignUpProps) => {
       username: defaultValues?.username ?? '',
       email: defaultValues?.email ?? '',
       password: defaultValues?.password ?? '',
-      role: defaultValues?.role ?? 'SELLER',
+      role: defaultValues?.role ?? 'Seller',
       step: defaultValues?.step ?? 'SIGNUP',
       city: defaultValues?.city ?? '',
       street: defaultValues?.street ?? '',
@@ -44,22 +40,17 @@ export const useSignUp = (props: useSignUpProps) => {
   })
 
   const [showPassword, setShowPassword] = useState(false)
-
-  const togglePasswordVisibility = () => {
-    setShowPassword((prev) => !prev)
-  }
+  const togglePasswordVisibility = () => setShowPassword((prev) => !prev)
 
   const fetchUserCEP = async (cep: ChangeEvent<HTMLInputElement>) => {
     try {
       const response = await fetch(`https://viacep.com.br/ws/${cep.target.value}/json/`)
-
       const cepData: CepProps = await response.json()
 
       form.setValue('neighborhood', cepData.bairro)
       form.setValue('city', cepData.localidade)
       form.setValue('street', cepData.logradouro)
-      form.setValue('state', cepData.estado)
-      // form.setValue('zipCode', cep.target.value)
+      form.setValue('state', cepData.uf)
     } catch (error) {
       const _error = error as Error
       toast.error(`Erro ao buscar pelo CEP: ${_error.message}`)
@@ -71,14 +62,24 @@ export const useSignUp = (props: useSignUpProps) => {
   const hasFirstStepError = Object.keys(form.formState.errors).some((field) =>
     ['name', 'username', 'email', 'password', 'confirmPassword', 'role'].includes(field),
   )
-
   const hasInsertAllFields = Object.values(watchFields).every((value) => value && value.length > 0)
-
   const hasCompletedFirstStep = hasInsertAllFields && !hasFirstStepError
+
+  const [progress, setProgress] = useState(0)
+
+  useEffect(() => {
+    const fields = form.watch()
+    const totalFields = Object.keys(fields).length
+    const filledFields = Object.values(fields).filter((value) => value && value.trim()).length
+    setProgress((filledFields / totalFields) * 100)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [form.watch()])
 
   const onSubmit = (data: SignInSchemaProps) => {
     console.log(data)
   }
+
+  const isSignUpStep = form.watch('step') === 'SIGNUP'
 
   return {
     form,
@@ -87,5 +88,8 @@ export const useSignUp = (props: useSignUpProps) => {
     togglePasswordVisibility,
     fetchUserCEP,
     hasCompletedFirstStep,
+    progress,
+    isSignUpStep,
+    hasInsertAllFields,
   }
 }

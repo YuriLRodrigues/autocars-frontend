@@ -1,35 +1,47 @@
 'use client'
+
 import Link from 'next/link'
+import { useSignUp } from './use-sign-up'
 
 import { InputPassword, PasswordRulesTooltip } from '@/components/interface/input-password'
 import { BorderBeam } from '@/components/ui/border-beam'
 import { Button } from '@/components/ui/button'
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
+import { Progress } from '@/components/ui/progress'
 import { Icon } from '@/components/ui/icon'
 import { Input } from '@/components/ui/input'
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
 import { VisibleChieldComponent } from '@/components/ui/visible-chield-component'
 
 import { cn } from '@/lib/utils'
-import { ArrowRightIcon, Check } from 'lucide-react'
-
-import { useSignUp } from './use-sign-up'
+import { ArrowRightIcon, Check, ArrowLeftIcon } from 'lucide-react'
 
 export const SignUpForm = () => {
-  const { form, onSubmit, showPassword, togglePasswordVisibility, fetchUserCEP, hasCompletedFirstStep } = useSignUp({})
-  const isSignUpStep = form.watch('step') === 'SIGNUP'
+  const {
+    form,
+    onSubmit,
+    showPassword,
+    togglePasswordVisibility,
+    fetchUserCEP,
+    hasCompletedFirstStep,
+    progress,
+    isSignUpStep,
+    hasInsertAllFields,
+  } = useSignUp({})
 
   return (
     <Form {...form}>
+      <Progress value={progress} className="mb-5 max-w-[100vw]" />
       <div className="relative overflow-hidden rounded-xl p-3">
         <form onSubmit={onSubmit} className="space-y-6 px-2">
+          {/* Step 1 */}
           <VisibleChieldComponent visible={isSignUpStep}>
             <FormField
               control={form.control}
               name="name"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="font-semibold">Nome completo: </FormLabel>
+                  <FormLabel className="font-semibold">Nome completo:</FormLabel>
                   <FormControl>
                     <Input {...field} />
                   </FormControl>
@@ -37,15 +49,13 @@ export const SignUpForm = () => {
                 </FormItem>
               )}
             />
-          </VisibleChieldComponent>
 
-          <VisibleChieldComponent visible={isSignUpStep}>
             <FormField
               control={form.control}
               name="username"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="font-semibold">Nome de usuário: </FormLabel>
+                  <FormLabel className="font-semibold">Nome de usuário:</FormLabel>
                   <FormControl>
                     <Input {...field} />
                   </FormControl>
@@ -53,15 +63,13 @@ export const SignUpForm = () => {
                 </FormItem>
               )}
             />
-          </VisibleChieldComponent>
 
-          <VisibleChieldComponent visible={isSignUpStep}>
             <FormField
               control={form.control}
               name="email"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="font-semibold">E-mail: </FormLabel>
+                  <FormLabel className="font-semibold">E-mail:</FormLabel>
                   <FormControl>
                     <Input {...field} />
                   </FormControl>
@@ -69,16 +77,14 @@ export const SignUpForm = () => {
                 </FormItem>
               )}
             />
-          </VisibleChieldComponent>
 
-          <VisibleChieldComponent visible={isSignUpStep}>
             <FormField
               control={form.control}
               name="password"
               render={({ field }) => (
                 <FormItem>
                   <span className="flex items-center gap-2">
-                    <FormLabel className="font-semibold">Senha: </FormLabel>
+                    <FormLabel className="font-semibold">Senha:</FormLabel>
                     <PasswordRulesTooltip password={form.watch('password')} />
                   </span>
                   <FormControl>
@@ -92,27 +98,25 @@ export const SignUpForm = () => {
                 </FormItem>
               )}
             />
-          </VisibleChieldComponent>
 
-          <VisibleChieldComponent visible={isSignUpStep}>
             <FormField
               control={form.control}
               name="role"
               render={({ field }) => (
                 <FormItem className="space-y-3">
-                  <FormLabel className="font-semibold">Escolha o que quer fazer: </FormLabel>
+                  <FormLabel className="font-semibold">Escolha o que quer fazer:</FormLabel>
                   <FormControl>
                     <RadioGroup onValueChange={field.onChange} defaultValue={field.value}>
                       <div className="grid grid-cols-2 gap-4">
                         <FormItem
                           className={cn(
                             'relative flex items-center gap-4 rounded-lg border p-2',
-                            form.watch('role') === 'SELLER' && 'border-2 border-primary',
+                            form.watch('role') === 'Seller' && 'border-2 border-primary',
                           )}
                         >
                           <Icon name="BadgePercent" className="size-10" />
                           <FormControl className="absolute right-2 top-2">
-                            <RadioGroupItem value="SELLER" />
+                            <RadioGroupItem value="Seller" />
                           </FormControl>
 
                           <div className="flex flex-col space-y-2">
@@ -124,12 +128,12 @@ export const SignUpForm = () => {
                         <FormItem
                           className={cn(
                             'relative flex items-center gap-4 rounded-lg border p-2',
-                            form.watch('role') === 'CUSTOMER' && 'border-2 border-primary',
+                            form.watch('role') === 'Customer' && 'border-2 border-primary',
                           )}
                         >
                           <Icon name="ShoppingCart" className="size-8" />
                           <FormControl className="absolute right-2 top-2">
-                            <RadioGroupItem value="CUSTOMER" />
+                            <RadioGroupItem value="Customer" />
                           </FormControl>
 
                           <div className="flex flex-col space-y-2">
@@ -146,19 +150,17 @@ export const SignUpForm = () => {
             />
           </VisibleChieldComponent>
 
-          {/* ADDRESS STEP */}
-
+          {/* Step 2*/}
           <VisibleChieldComponent visible={!isSignUpStep}>
             <FormField
               control={form.control}
               name="zipCode"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="font-semibold">Código de endereçamento postal (CEP): </FormLabel>
+                  <FormLabel className="font-semibold">CEP:</FormLabel>
                   <FormControl>
                     <Input
                       {...field}
-                      value={field.value || ''}
                       onChange={(e) => {
                         fetchUserCEP(e)
                         field.onChange(e)
@@ -169,15 +171,13 @@ export const SignUpForm = () => {
                 </FormItem>
               )}
             />
-          </VisibleChieldComponent>
 
-          <VisibleChieldComponent visible={!isSignUpStep}>
             <FormField
               control={form.control}
               name="city"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="font-semibold">Cidade: </FormLabel>
+                  <FormLabel className="font-semibold">Cidade:</FormLabel>
                   <FormControl>
                     <Input {...field} disabled={!!form.getValues('city')} />
                   </FormControl>
@@ -185,15 +185,13 @@ export const SignUpForm = () => {
                 </FormItem>
               )}
             />
-          </VisibleChieldComponent>
 
-          <VisibleChieldComponent visible={!isSignUpStep}>
             <FormField
               control={form.control}
               name="state"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="font-semibold">Estado: </FormLabel>
+                  <FormLabel className="font-semibold">Estado:</FormLabel>
                   <FormControl>
                     <Input {...field} disabled={!!form.getValues('state')} />
                   </FormControl>
@@ -201,15 +199,13 @@ export const SignUpForm = () => {
                 </FormItem>
               )}
             />
-          </VisibleChieldComponent>
 
-          <VisibleChieldComponent visible={!isSignUpStep}>
             <FormField
               control={form.control}
               name="street"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="font-semibold">Rua: </FormLabel>
+                  <FormLabel className="font-semibold">Rua:</FormLabel>
                   <FormControl>
                     <Input {...field} disabled={!!form.getValues('street')} />
                   </FormControl>
@@ -217,15 +213,13 @@ export const SignUpForm = () => {
                 </FormItem>
               )}
             />
-          </VisibleChieldComponent>
 
-          <VisibleChieldComponent visible={!isSignUpStep}>
             <FormField
               control={form.control}
               name="neighborhood"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="font-semibold">Bairro: </FormLabel>
+                  <FormLabel className="font-semibold">Bairro:</FormLabel>
                   <FormControl>
                     <Input {...field} disabled={!!form.getValues('neighborhood')} />
                   </FormControl>
@@ -236,20 +230,51 @@ export const SignUpForm = () => {
           </VisibleChieldComponent>
 
           <div className="flex items-center justify-end gap-4 p-4">
-            <Button variant="outline" type="button" effect="ringHover" className="h-10" asChild>
-              <Link href="/">Voltar para o site</Link>
-            </Button>
-            <Button
-              type={'submit'}
-              onClick={isSignUpStep ? () => form.setValue('step', 'ADDRESS') : undefined}
-              icon={isSignUpStep ? ArrowRightIcon : Check}
-              iconPlacement="left"
-              effect={isSignUpStep ? 'expandIcon' : 'shine'}
-              disabled={!hasCompletedFirstStep}
-              className="h-8"
-            >
-              {isSignUpStep ? 'Próximo passo' : 'Finalizar cadastro'}
-            </Button>
+            {isSignUpStep && (
+              <Button variant="outline" type="button" effect="ringHover" className="h-10" asChild>
+                <Link href="/">Voltar para o site</Link>
+              </Button>
+            )}
+
+            {!isSignUpStep && (
+              <Button
+                variant="outline"
+                type="button"
+                onClick={() => form.setValue('step', 'SIGNUP')}
+                icon={ArrowLeftIcon}
+                effect="ringHover"
+                className="h-10"
+                iconPlacement="left"
+              >
+                Voltar para o passo anterior
+              </Button>
+            )}
+
+            {isSignUpStep && (
+              <Button
+                type="button"
+                onClick={() => form.setValue('step', 'ADDRESS')}
+                icon={ArrowRightIcon}
+                iconPlacement="right"
+                effect="expandIcon"
+                disabled={!hasCompletedFirstStep}
+                className="h-8"
+              >
+                Próximo passo
+              </Button>
+            )}
+            {!isSignUpStep && (
+              <Button
+                type="submit"
+                icon={Check}
+                iconPlacement="right"
+                effect="shine"
+                className="h-8"
+                disabled={hasInsertAllFields}
+              >
+                Finalizar Cadastro
+              </Button>
+            )}
           </div>
         </form>
         <BorderBeam size={250} duration={12} delay={9} />

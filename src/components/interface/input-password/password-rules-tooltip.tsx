@@ -25,7 +25,7 @@ export const PasswordRulesTooltip = ({ password }: PasswordRulesTooltipProps) =>
   return (
     <TooltipProvider>
       <Tooltip>
-        <TooltipTrigger>
+        <TooltipTrigger type="button">
           <Icon name="Info" className="size-4 text-primary" />
         </TooltipTrigger>
         <TooltipContent side="right" className="bg-popover shadow-md dark:shadow-sm dark:shadow-gray-600">

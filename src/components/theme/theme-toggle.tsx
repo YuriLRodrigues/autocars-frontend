@@ -25,14 +25,14 @@ export const ThemeToggle = () => {
   return (
     <React.Fragment>
       <ToggleThemeDropdownMenu>
-        <Button variant="default" size="icon" className="fixed bottom-3 left-3">
+        <Button type="button" variant="default" size="icon" className="fixed bottom-3 left-3">
           <Sun className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
           <Moon className="absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
           {/* <span className="sr-only">Toggle theme</span> */}
         </Button>
       </ToggleThemeDropdownMenu>
       <ToggleThemeDrawer>
-        <Button variant="default" size="icon" className="fixed bottom-3 right-3">
+        <Button type="button" variant="default" size="icon" className="fixed bottom-3 right-3">
           <Sun className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
           <Moon className="absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
           {/* <span className="sr-only">Toggle theme</span> */}
@@ -104,6 +104,7 @@ const Colors = ({ mounted }: Props) => {
 
           return mounted ? (
             <Button
+              type="button"
               variant={'outline'}
               size="sm"
               key={theme.name}
@@ -153,6 +154,7 @@ const Mode = ({ mounted }: Props) => {
           const isActive = mode === theme
           return mounted ? (
             <Button
+              type="button"
               variant={'outline'}
               size="sm"
               key={mode}

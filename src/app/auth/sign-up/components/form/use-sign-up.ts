@@ -1,6 +1,12 @@
+import { useRouter } from 'next/navigation'
 import { ChangeEvent, useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
+
+import { AxiosErrorResponse } from '@/@types/axios-error'
+import { signUp } from '@/http/orval-generation/routes/user-controller'
+import { removeMask } from '@/utils/masks'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { AxiosError } from 'axios'
 import { toast } from 'sonner'
 
 import { signInSchema, SignInSchemaProps } from './schema'
@@ -17,9 +23,11 @@ type CepProps = {
   localidade: string
   uf: string
   estado: string
+  pais: string
 }
 
 export const useSignUp = ({ defaultValues }: useSignUpProps) => {
+  const router = useRouter()
   const form = useForm<SignInSchemaProps>({
     resolver: zodResolver(signInSchema),
     reValidateMode: 'onChange',
@@ -39,6 +47,7 @@ export const useSignUp = ({ defaultValues }: useSignUpProps) => {
     },
   })
 
+  const [progress, setProgress] = useState(0)
   const [showPassword, setShowPassword] = useState(false)
   const togglePasswordVisibility = () => setShowPassword((prev) => !prev)
 
@@ -57,26 +66,71 @@ export const useSignUp = ({ defaultValues }: useSignUpProps) => {
     }
   }
 
-  const watchFields = form.watch(['name', 'username', 'email', 'password', 'role'])
+  const watchFirstStepFields = form.watch(['name', 'username', 'email', 'password', 'role'])
+  const watchSecondStepFields = form.watch(['city', 'neighborhood', 'state', 'zipCode', 'street'])
 
   const hasFirstStepError = Object.keys(form.formState.errors).some((field) =>
-    ['name', 'username', 'email', 'password', 'confirmPassword', 'role'].includes(field),
+    ['name', 'username', 'email', 'password', 'role'].includes(field),
   )
-  const hasInsertAllFields = Object.values(watchFields).every((value) => value && value.length > 0)
-  const hasCompletedFirstStep = hasInsertAllFields && !hasFirstStepError
+  const hasInsertAllFirstStepFields = Object.values(watchFirstStepFields).every((value) => value && value.length > 0)
 
-  const [progress, setProgress] = useState(0)
+  const hasInsertAllFields =
+    Object.values(watchSecondStepFields).every((value) => value && value.length > 0) && hasInsertAllFirstStepFields
+
+  const hasCompletedFirstStep = hasInsertAllFirstStepFields && !hasFirstStepError
 
   useEffect(() => {
-    const fields = form.watch()
+    const fields = form.watch([
+      'name',
+      'username',
+      'email',
+      'password',
+      'role',
+      'city',
+      'neighborhood',
+      'state',
+      'zipCode',
+      'street',
+    ])
     const totalFields = Object.keys(fields).length
-    const filledFields = Object.values(fields).filter((value) => value && value.trim()).length
+    const filledFields = Object.values(fields).filter((value) => value.length > 0 && value.trim()).length
     setProgress((filledFields / totalFields) * 100)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [form.watch()])
 
-  const onSubmit = (data: SignInSchemaProps) => {
-    console.log(data)
+  const onSubmit = async (data: SignInSchemaProps) => {
+    try {
+      const response = await signUp({
+        name: data.name,
+        username: data.username,
+        email: data.email,
+        password: data.password,
+        role: data.role,
+        city: data.city,
+        street: data.street,
+        neighborhood: data.neighborhood,
+        zipCode: Number(removeMask(data.zipCode)),
+        state: data.state,
+        country: 'Brasil',
+      })
+
+      if (!response) {
+        toast.error('Falha ao cadastrar novo usuário.')
+        return
+      }
+      toast.success('Usuário cadastrado com sucesso.')
+      router.replace('/auth/sign-in')
+    } catch (error) {
+      const _error = error as AxiosError<AxiosErrorResponse>
+
+      switch (_error.response?.data?.error) {
+        case 'Resource already exists':
+          toast.error('E-mail ou nome de usuário já em uso.')
+          break
+        default:
+          toast.error(`Falha ao cadastrar novo usuário: ${_error.message}`)
+      }
+    }
   }
 
   const isSignUpStep = form.watch('step') === 'SIGNUP'

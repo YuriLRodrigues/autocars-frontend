@@ -1,13 +1,11 @@
 'use client'
 
 import Link from 'next/link'
-import { useSignUp } from './use-sign-up'
 
 import { InputPassword, PasswordRulesTooltip } from '@/components/interface/input-password'
 import { BorderBeam } from '@/components/ui/border-beam'
 import { Button } from '@/components/ui/button'
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
-import { Progress } from '@/components/ui/progress'
 import { Icon } from '@/components/ui/icon'
 import { Input } from '@/components/ui/input'
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
@@ -15,6 +13,9 @@ import { VisibleChieldComponent } from '@/components/ui/visible-chield-component
 
 import { cn } from '@/lib/utils'
 import { ArrowRightIcon, Check, ArrowLeftIcon } from 'lucide-react'
+
+import { Steps } from './steps'
+import { useSignUp } from './use-sign-up'
 
 export const SignUpForm = () => {
   const {
@@ -31,7 +32,11 @@ export const SignUpForm = () => {
 
   return (
     <Form {...form}>
-      <Progress value={progress} className="mb-5 max-w-[100vw]" />
+      <Steps
+        currentStep={isSignUpStep ? 'SIGNUP' : 'ADDRESS'}
+        progress={progress}
+        hasInsertAllFields={hasInsertAllFields}
+      />
       <div className="relative overflow-hidden rounded-xl p-3">
         <form onSubmit={onSubmit} className="space-y-6 px-2">
           {/* Step 1 */}
@@ -229,7 +234,7 @@ export const SignUpForm = () => {
             />
           </VisibleChieldComponent>
 
-          <div className="flex items-center justify-end gap-4 p-4">
+          <div className="flex flex-wrap items-center justify-end gap-4 p-4">
             {isSignUpStep && (
               <Button variant="outline" type="button" effect="ringHover" className="h-10" asChild>
                 <Link href="/">Voltar para o site</Link>
@@ -270,7 +275,7 @@ export const SignUpForm = () => {
                 iconPlacement="right"
                 effect="shine"
                 className="h-8"
-                disabled={hasInsertAllFields}
+                disabled={!hasInsertAllFields}
               >
                 Finalizar Cadastro
               </Button>

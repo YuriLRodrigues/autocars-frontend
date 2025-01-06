@@ -8,6 +8,11 @@ const nextConfig: NextConfig = {
         hostname: 'images.unsplash.com',
         pathname: '/**',
       },
+      {
+        protocol: 'https',
+        hostname: 'yurigay-minio.pd8edx.easypanel.host',
+        pathname: '/**',
+      },
     ],
   },
 }

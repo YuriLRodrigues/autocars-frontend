@@ -8,17 +8,17 @@ export default defineConfig({
       target: 'src/http/orval-generation/routes',
       schemas: 'src/http/orval-generation/schemas',
       client: 'react-query',
-      httpClient: 'fetch',
+      httpClient: 'axios',
       baseUrl: 'http://localhost:3333/',
       override: {
         mutator: {
-          path: 'src/http/custom-instance.ts',
-          name: 'custom-instance',
+          path: './src/http/custom-instance.ts',
+          name: 'customInstance',
         },
       },
     },
-    hooks: {
-      afterAllFilesWrite: 'eslint --fix .',
-    },
+    // hooks: {
+    //   afterAllFilesWrite: 'eslint --fix .',
+    // },
   },
 })

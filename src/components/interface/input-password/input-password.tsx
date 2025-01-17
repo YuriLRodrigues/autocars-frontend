@@ -1,18 +1,17 @@
 'use client'
-import { ControllerRenderProps } from 'react-hook-form'
+import { ControllerRenderProps, FieldValues, Path } from 'react-hook-form'
 
-import { SignInSchemaProps } from '@/app/auth/sign-up/components/form/schema'
 import { Icon } from '@/components/ui/icon'
 
 import { Input } from '../../ui/input'
 
-type InputPasswordProps = {
-  field: ControllerRenderProps<SignInSchemaProps, 'password'>
+type InputPasswordProps<T extends FieldValues> = {
+  field: ControllerRenderProps<T, Path<T>>
   togglePasswordVisibility: () => void
   showPassword: boolean
 }
 
-export const InputPassword = (props: InputPasswordProps) => {
+export const InputPassword = <T extends FieldValues>(props: InputPasswordProps<T>) => {
   const { field, showPassword, togglePasswordVisibility } = props
 
   return (

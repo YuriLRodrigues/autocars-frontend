@@ -8,8 +8,8 @@ import { Button } from '@/components/ui/button'
 import { Progress } from '@/components/ui/progress'
 import { ScrollArea } from '@/components/ui/scroll-area'
 
+import { ActionResponse } from '@/@types/actions'
 import { useControllableState } from '@/hooks/use-controllable-state'
-import { ActionResponse } from '@/http/custom-instance'
 import { cn, formatBytes } from '@/lib/utils'
 import { loadActions } from '@/utils/load-actions'
 import { FileText, Upload, X } from 'lucide-react'
@@ -148,9 +148,14 @@ export function FileUploader(props: FileUploaderProps) {
       if (onUpload) {
         try {
           const images = await loadActions(onUpload, fileWithPreview)
-          setResponseValues(images!)
-          toast.success('Imagem enviada com sucesso.')
-          return images
+
+          if (Array.isArray(images)) {
+            setResponseValues(images)
+            toast.success('Imagem enviada com sucesso.')
+            return images
+          }
+
+          throw new Error(images?.message)
         } catch (error) {
           const _error = error as Error
           switch (_error.message) {

@@ -2,17 +2,15 @@ import { useRouter } from 'next/navigation'
 import { ChangeEvent, useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 
-import { AxiosErrorResponse } from '@/@types/axios-error'
-import { signUp } from '@/http/orval-generation/routes/user-controller'
+import { signUp } from '@/http/orval-generation/routes/user-controller/user-controller'
 import { removeMask } from '@/utils/masks'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { AxiosError } from 'axios'
 import { toast } from 'sonner'
 
-import { signInSchema, SignInSchemaProps } from './schema'
+import { signUpSchema, SignUpSchemaProps } from './schema'
 
 type useSignUpProps = {
-  defaultValues?: Partial<SignInSchemaProps>
+  defaultValues?: Partial<SignUpSchemaProps>
 }
 
 type CepProps = {
@@ -26,10 +24,10 @@ type CepProps = {
   pais: string
 }
 
-export const useSignUp = ({ defaultValues }: useSignUpProps) => {
+export const useSignUp = ({ defaultValues = {} }: useSignUpProps) => {
   const router = useRouter()
-  const form = useForm<SignInSchemaProps>({
-    resolver: zodResolver(signInSchema),
+  const form = useForm<SignUpSchemaProps>({
+    resolver: zodResolver(signUpSchema),
     reValidateMode: 'onChange',
     mode: 'all',
     defaultValues: {
@@ -98,7 +96,7 @@ export const useSignUp = ({ defaultValues }: useSignUpProps) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [form.watch()])
 
-  const onSubmit = async (data: SignInSchemaProps) => {
+  const onSubmit = async (data: SignUpSchemaProps) => {
     try {
       const response = await signUp({
         name: data.name,
@@ -121,9 +119,9 @@ export const useSignUp = ({ defaultValues }: useSignUpProps) => {
       toast.success('Usuário cadastrado com sucesso.')
       router.replace('/auth/sign-in')
     } catch (error) {
-      const _error = error as AxiosError<AxiosErrorResponse>
+      const _error = error as Error
 
-      switch (_error.response?.data?.error) {
+      switch (_error.message) {
         case 'Resource already exists':
           toast.error('E-mail ou nome de usuário já em uso.')
           break

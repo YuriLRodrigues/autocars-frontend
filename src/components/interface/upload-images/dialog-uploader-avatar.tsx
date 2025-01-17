@@ -43,7 +43,7 @@ export function DialogUploaderDemo() {
           </Button>
         </div>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-xl" state={() => setOpen((s) => !s)}>
+      <DialogContent className="sm:max-w-xl">
         <DialogHeader>
           <DialogTitle>Envio de imagem</DialogTitle>
           <DialogDescription>Arraste e solte ou clique para escolher um arquivo.</DialogDescription>

@@ -12,7 +12,6 @@ import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
 import { VisibleChieldComponent } from '@/components/ui/visible-chield-component'
 
 import { cn } from '@/lib/utils'
-import { ArrowRightIcon, Check, ArrowLeftIcon } from 'lucide-react'
 
 import { Steps } from './steps'
 import { useSignUp } from './use-sign-up'
@@ -28,7 +27,7 @@ export const SignUpForm = () => {
     progress,
     isSignUpStep,
     hasInsertAllFields,
-  } = useSignUp({})
+  } = useSignUp()
 
   return (
     <Form {...form}>
@@ -236,7 +235,7 @@ export const SignUpForm = () => {
 
           <div className="flex flex-wrap items-center justify-end gap-4 p-4">
             {isSignUpStep && (
-              <Button variant="outline" type="button" effect="ringHover" className="h-10" asChild>
+              <Button variant="outline" type="button" effect="ringHover" className="h-8" asChild>
                 <Link href="/">Voltar para o site</Link>
               </Button>
             )}
@@ -246,9 +245,9 @@ export const SignUpForm = () => {
                 variant="outline"
                 type="button"
                 onClick={() => form.setValue('step', 'SIGNUP')}
-                icon={ArrowLeftIcon}
+                icon={<Icon name="ArrowLeft" />}
                 effect="ringHover"
-                className="h-10"
+                className="h-8"
                 iconPlacement="left"
               >
                 Voltar para o passo anterior
@@ -259,7 +258,7 @@ export const SignUpForm = () => {
               <Button
                 type="button"
                 onClick={() => form.setValue('step', 'ADDRESS')}
-                icon={ArrowRightIcon}
+                icon={<Icon name="ArrowRight" />}
                 iconPlacement="right"
                 effect="expandIcon"
                 disabled={!hasCompletedFirstStep}
@@ -271,7 +270,7 @@ export const SignUpForm = () => {
             {!isSignUpStep && (
               <Button
                 type="submit"
-                icon={Check}
+                icon={<Icon name="Check" />}
                 iconPlacement="right"
                 effect="shine"
                 className="h-8"

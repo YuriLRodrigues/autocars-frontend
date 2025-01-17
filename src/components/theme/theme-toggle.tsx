@@ -25,14 +25,14 @@ export const ThemeToggle = () => {
   return (
     <React.Fragment>
       <ToggleThemeDropdownMenu>
-        <Button type="button" variant="default" size="icon" className="fixed bottom-3 left-3">
+        <Button type="button" variant="default" size="icon" className="fixed bottom-3 right-5">
           <Sun className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
           <Moon className="absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
           {/* <span className="sr-only">Toggle theme</span> */}
         </Button>
       </ToggleThemeDropdownMenu>
       <ToggleThemeDrawer>
-        <Button type="button" variant="default" size="icon" className="fixed bottom-3 right-3">
+        <Button type="button" variant="default" size="icon" className="fixed bottom-3 right-5">
           <Sun className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
           <Moon className="absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
           {/* <span className="sr-only">Toggle theme</span> */}
@@ -55,7 +55,7 @@ const ToggleThemeDropdownMenu = ({ children }: ToggleProps) => {
 
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger asChild className="hidden md:flex">
+      <DropdownMenuTrigger asChild className="z-50 hidden md:flex">
         {children}
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
@@ -75,7 +75,7 @@ const ToggleThemeDrawer = ({ children }: ToggleProps) => {
 
   return (
     <Drawer>
-      <DrawerTrigger className="md:hidden" asChild>
+      <DrawerTrigger className="z-50 md:hidden" asChild>
         {children}
       </DrawerTrigger>
       <DrawerContent className="py-2">

@@ -1,6 +1,6 @@
 import { z } from 'zod'
 
-export const signInSchema = z.object({
+export const signUpSchema = z.object({
   name: z
     .string({ required_error: 'Nome é obrigatório.' })
     .nonempty({ message: 'Nome não pode estar vazio.' })
@@ -23,4 +23,4 @@ export const signInSchema = z.object({
   zipCode: z.string({ required_error: 'Código de endereçamento postal (CEP) é obrigatório.' }),
 })
 
-export type SignInSchemaProps = z.infer<typeof signInSchema>
+export type SignUpSchemaProps = z.infer<typeof signUpSchema>

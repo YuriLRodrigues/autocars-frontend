@@ -1,5 +1,5 @@
-export type ActionResponse<T = never> = {
+export type ActionResponse<T> = {
   success: boolean
   error?: string
-  data: T | never
+  data: T | Error | null
 }

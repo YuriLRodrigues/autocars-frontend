@@ -23,8 +23,6 @@ import type {
   UseQueryOptions,
   UseQueryResult,
 } from '@tanstack/react-query'
-
-import { customFetch } from '../../../custom-instance-fetch'
 import type {
   CreateAdBodyDto,
   CreateAdResponseDto,
@@ -36,6 +34,8 @@ import type {
   FindAllAdvertisementsByUserId200,
   FindAllAdvertisementsByUserIdParams,
   FindAllAdvertisementsParams,
+  FindAllManagerAdvertisements200,
+  FindAllManagerAdvertisementsParams,
   FindAllOwnAdvertisements200,
   FindAllOwnAdvertisementsParams,
   FindAllSoldAdsParams,
@@ -46,6 +46,7 @@ import type {
   SwaggerResourceNotFoundDto,
   UpdateAdDTO,
 } from '../../schemas'
+import { customFetch } from '../../../custom-instance-fetch'
 
 type SecondParameter<T extends (...args: any) => any> = Parameters<T>[1]
 
@@ -745,6 +746,210 @@ export function useFindAllOwnAdvertisements<
   },
 ): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
   const queryOptions = getFindAllOwnAdvertisementsQueryOptions(params, options)
+
+  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+
+  query.queryKey = queryOptions.queryKey
+
+  return query
+}
+
+export const getFindAllManagerAdvertisementsUrl = (params?: FindAllManagerAdvertisementsParams) => {
+  const normalizedParams = new URLSearchParams()
+
+  Object.entries(params || {}).forEach(([key, value]) => {
+    if (value !== undefined) {
+      normalizedParams.append(key, value === null ? 'null' : value.toString())
+    }
+  })
+
+  return normalizedParams.size
+    ? `http://localhost:3333/advertisement/all/manager?${normalizedParams.toString()}`
+    : `http://localhost:3333/advertisement/all/manager`
+}
+
+export const findAllManagerAdvertisements = async (
+  params?: FindAllManagerAdvertisementsParams,
+  options?: RequestInit,
+): Promise<FindAllManagerAdvertisements200> => {
+  return customFetch<FindAllManagerAdvertisements200>(getFindAllManagerAdvertisementsUrl(params), {
+    ...options,
+    method: 'GET',
+  })
+}
+
+export const getFindAllManagerAdvertisementsQueryKey = (params?: FindAllManagerAdvertisementsParams) => {
+  return [`http://localhost:3333/advertisement/all/manager`, ...(params ? [params] : [])] as const
+}
+
+export const getFindAllManagerAdvertisementsInfiniteQueryOptions = <
+  TData = InfiniteData<Awaited<ReturnType<typeof findAllManagerAdvertisements>>>,
+  TError = SwaggerBadRequestDto | SwaggerResourceNotFoundDto,
+>(
+  params?: FindAllManagerAdvertisementsParams,
+  options?: {
+    query?: Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof findAllManagerAdvertisements>>, TError, TData>>
+    request?: SecondParameter<typeof customFetch>
+  },
+) => {
+  const { query: queryOptions, request: requestOptions } = options ?? {}
+
+  const queryKey = queryOptions?.queryKey ?? getFindAllManagerAdvertisementsQueryKey(params)
+
+  const queryFn: QueryFunction<Awaited<ReturnType<typeof findAllManagerAdvertisements>>> = ({ signal }) =>
+    findAllManagerAdvertisements(params, { signal, ...requestOptions })
+
+  return { queryKey, queryFn, networkMode: 'always', ...queryOptions } as UseInfiniteQueryOptions<
+    Awaited<ReturnType<typeof findAllManagerAdvertisements>>,
+    TError,
+    TData
+  > & { queryKey: DataTag<QueryKey, TData, TError> }
+}
+
+export type FindAllManagerAdvertisementsInfiniteQueryResult = NonNullable<
+  Awaited<ReturnType<typeof findAllManagerAdvertisements>>
+>
+export type FindAllManagerAdvertisementsInfiniteQueryError = SwaggerBadRequestDto | SwaggerResourceNotFoundDto
+
+export function useFindAllManagerAdvertisementsInfinite<
+  TData = InfiniteData<Awaited<ReturnType<typeof findAllManagerAdvertisements>>>,
+  TError = SwaggerBadRequestDto | SwaggerResourceNotFoundDto,
+>(
+  params: undefined | FindAllManagerAdvertisementsParams,
+  options: {
+    query: Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof findAllManagerAdvertisements>>, TError, TData>> &
+      Pick<
+        DefinedInitialDataOptions<Awaited<ReturnType<typeof findAllManagerAdvertisements>>, TError, TData>,
+        'initialData'
+      >
+    request?: SecondParameter<typeof customFetch>
+  },
+): DefinedUseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useFindAllManagerAdvertisementsInfinite<
+  TData = InfiniteData<Awaited<ReturnType<typeof findAllManagerAdvertisements>>>,
+  TError = SwaggerBadRequestDto | SwaggerResourceNotFoundDto,
+>(
+  params?: FindAllManagerAdvertisementsParams,
+  options?: {
+    query?: Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof findAllManagerAdvertisements>>, TError, TData>> &
+      Pick<
+        UndefinedInitialDataOptions<Awaited<ReturnType<typeof findAllManagerAdvertisements>>, TError, TData>,
+        'initialData'
+      >
+    request?: SecondParameter<typeof customFetch>
+  },
+): UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useFindAllManagerAdvertisementsInfinite<
+  TData = InfiniteData<Awaited<ReturnType<typeof findAllManagerAdvertisements>>>,
+  TError = SwaggerBadRequestDto | SwaggerResourceNotFoundDto,
+>(
+  params?: FindAllManagerAdvertisementsParams,
+  options?: {
+    query?: Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof findAllManagerAdvertisements>>, TError, TData>>
+    request?: SecondParameter<typeof customFetch>
+  },
+): UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+
+export function useFindAllManagerAdvertisementsInfinite<
+  TData = InfiniteData<Awaited<ReturnType<typeof findAllManagerAdvertisements>>>,
+  TError = SwaggerBadRequestDto | SwaggerResourceNotFoundDto,
+>(
+  params?: FindAllManagerAdvertisementsParams,
+  options?: {
+    query?: Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof findAllManagerAdvertisements>>, TError, TData>>
+    request?: SecondParameter<typeof customFetch>
+  },
+): UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+  const queryOptions = getFindAllManagerAdvertisementsInfiniteQueryOptions(params, options)
+
+  const query = useInfiniteQuery(queryOptions) as UseInfiniteQueryResult<TData, TError> & {
+    queryKey: DataTag<QueryKey, TData, TError>
+  }
+
+  query.queryKey = queryOptions.queryKey
+
+  return query
+}
+
+export const getFindAllManagerAdvertisementsQueryOptions = <
+  TData = Awaited<ReturnType<typeof findAllManagerAdvertisements>>,
+  TError = SwaggerBadRequestDto | SwaggerResourceNotFoundDto,
+>(
+  params?: FindAllManagerAdvertisementsParams,
+  options?: {
+    query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof findAllManagerAdvertisements>>, TError, TData>>
+    request?: SecondParameter<typeof customFetch>
+  },
+) => {
+  const { query: queryOptions, request: requestOptions } = options ?? {}
+
+  const queryKey = queryOptions?.queryKey ?? getFindAllManagerAdvertisementsQueryKey(params)
+
+  const queryFn: QueryFunction<Awaited<ReturnType<typeof findAllManagerAdvertisements>>> = ({ signal }) =>
+    findAllManagerAdvertisements(params, { signal, ...requestOptions })
+
+  return { queryKey, queryFn, networkMode: 'always', ...queryOptions } as UseQueryOptions<
+    Awaited<ReturnType<typeof findAllManagerAdvertisements>>,
+    TError,
+    TData
+  > & { queryKey: DataTag<QueryKey, TData, TError> }
+}
+
+export type FindAllManagerAdvertisementsQueryResult = NonNullable<
+  Awaited<ReturnType<typeof findAllManagerAdvertisements>>
+>
+export type FindAllManagerAdvertisementsQueryError = SwaggerBadRequestDto | SwaggerResourceNotFoundDto
+
+export function useFindAllManagerAdvertisements<
+  TData = Awaited<ReturnType<typeof findAllManagerAdvertisements>>,
+  TError = SwaggerBadRequestDto | SwaggerResourceNotFoundDto,
+>(
+  params: undefined | FindAllManagerAdvertisementsParams,
+  options: {
+    query: Partial<UseQueryOptions<Awaited<ReturnType<typeof findAllManagerAdvertisements>>, TError, TData>> &
+      Pick<
+        DefinedInitialDataOptions<Awaited<ReturnType<typeof findAllManagerAdvertisements>>, TError, TData>,
+        'initialData'
+      >
+    request?: SecondParameter<typeof customFetch>
+  },
+): DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useFindAllManagerAdvertisements<
+  TData = Awaited<ReturnType<typeof findAllManagerAdvertisements>>,
+  TError = SwaggerBadRequestDto | SwaggerResourceNotFoundDto,
+>(
+  params?: FindAllManagerAdvertisementsParams,
+  options?: {
+    query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof findAllManagerAdvertisements>>, TError, TData>> &
+      Pick<
+        UndefinedInitialDataOptions<Awaited<ReturnType<typeof findAllManagerAdvertisements>>, TError, TData>,
+        'initialData'
+      >
+    request?: SecondParameter<typeof customFetch>
+  },
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useFindAllManagerAdvertisements<
+  TData = Awaited<ReturnType<typeof findAllManagerAdvertisements>>,
+  TError = SwaggerBadRequestDto | SwaggerResourceNotFoundDto,
+>(
+  params?: FindAllManagerAdvertisementsParams,
+  options?: {
+    query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof findAllManagerAdvertisements>>, TError, TData>>
+    request?: SecondParameter<typeof customFetch>
+  },
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+
+export function useFindAllManagerAdvertisements<
+  TData = Awaited<ReturnType<typeof findAllManagerAdvertisements>>,
+  TError = SwaggerBadRequestDto | SwaggerResourceNotFoundDto,
+>(
+  params?: FindAllManagerAdvertisementsParams,
+  options?: {
+    query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof findAllManagerAdvertisements>>, TError, TData>>
+    request?: SecondParameter<typeof customFetch>
+  },
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+  const queryOptions = getFindAllManagerAdvertisementsQueryOptions(params, options)
 
   const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 

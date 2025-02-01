@@ -12,6 +12,7 @@
 export type FindAdByIdResponseDtoSoldStatus =
   (typeof FindAdByIdResponseDtoSoldStatus)[keyof typeof FindAdByIdResponseDtoSoldStatus]
 
+// eslint-disable-next-line @typescript-eslint/no-redeclare
 export const FindAdByIdResponseDtoSoldStatus = {
   Sold: 'Sold',
   Active: 'Active',

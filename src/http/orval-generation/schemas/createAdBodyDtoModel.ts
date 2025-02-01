@@ -11,6 +11,7 @@
  */
 export type CreateAdBodyDtoModel = (typeof CreateAdBodyDtoModel)[keyof typeof CreateAdBodyDtoModel]
 
+// eslint-disable-next-line @typescript-eslint/no-redeclare
 export const CreateAdBodyDtoModel = {
   SUV: 'SUV',
   Sedan: 'Sedan',

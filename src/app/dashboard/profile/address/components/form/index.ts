@@ -1,0 +1,1 @@
+export { UpdateAddressForm } from './form'

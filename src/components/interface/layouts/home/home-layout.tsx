@@ -1,7 +1,7 @@
-import React from 'react'
+import React, { Suspense } from 'react'
 
 import { Footer } from './footer'
-import { Navbar } from './navbar'
+import { Navbar, NavbarSkeleton } from './navbar'
 
 type RootProps = {
   children: React.ReactNode
@@ -10,7 +10,9 @@ type RootProps = {
 export const HomeLayout = ({ children }: RootProps) => {
   return (
     <>
-      <Navbar />
+      <Suspense fallback={<NavbarSkeleton />}>
+        <Navbar />
+      </Suspense>
       {children}
       <Footer />
     </>

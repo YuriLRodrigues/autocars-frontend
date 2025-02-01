@@ -7,7 +7,6 @@
  */
 import { faker } from '@faker-js/faker'
 import { HttpResponse, delay, http } from 'msw'
-
 import type { HandleAdvertisementLikeResponseDto, HandleFeedbackLikeResponseDto } from '../../schemas'
 
 export const getFindAdIsLikedResponseMock = (): boolean => faker.datatype.boolean()

@@ -7,6 +7,8 @@
  */
 
 export interface FindAllBrandsResponseDto {
+  /** Unique identifier of the brand */
+  id: string
   /** The name of the brand */
   name: string
   /** The URL of the brand logo */

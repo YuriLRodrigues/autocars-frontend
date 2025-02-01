@@ -11,6 +11,7 @@
  */
 export type UpdateAdDTOCapacity = (typeof UpdateAdDTOCapacity)[keyof typeof UpdateAdDTOCapacity]
 
+// eslint-disable-next-line @typescript-eslint/no-redeclare
 export const UpdateAdDTOCapacity = {
   Two: 'Two',
   Four: 'Four',

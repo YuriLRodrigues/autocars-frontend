@@ -5,7 +5,7 @@
  * Cars seller API
  * OpenAPI spec version: 1.0.0
  */
-import type { FindAllAdvertisements200AllOf } from './findAllAdvertisements200AllOf'
 import type { PaginatedDto } from './paginatedDto'
+import type { FindAllAdvertisements200AllOf } from './findAllAdvertisements200AllOf'
 
 export type FindAllAdvertisements200 = PaginatedDto & FindAllAdvertisements200AllOf

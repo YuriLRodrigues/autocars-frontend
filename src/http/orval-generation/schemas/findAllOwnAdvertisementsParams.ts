@@ -5,8 +5,8 @@
  * Cars seller API
  * OpenAPI spec version: 1.0.0
  */
-import type { FindAllOwnAdvertisementsCreatedAt } from './findAllOwnAdvertisementsCreatedAt'
 import type { FindAllOwnAdvertisementsSoldStatus } from './findAllOwnAdvertisementsSoldStatus'
+import type { FindAllOwnAdvertisementsCreatedAt } from './findAllOwnAdvertisementsCreatedAt'
 
 export type FindAllOwnAdvertisementsParams = {
   /**
@@ -18,27 +18,31 @@ export type FindAllOwnAdvertisementsParams = {
    */
   limit?: number
   /**
-   * The title of the advertisement
+   * Filter advertisements by title
    */
   title?: string
   /**
-   * The sold status of the advertisement
+   * Filter advertisements by sold status
    */
   soldStatus?: FindAllOwnAdvertisementsSoldStatus
   /**
-   * The price of the advertisement
+   * Filter advertisements by price
    */
   price?: number
   /**
-   * The ordering of the createdAt field, either "asc" or "desc"
+   * Sort advertisements by creation date in ascending or descending order
    */
   createdAt?: FindAllOwnAdvertisementsCreatedAt
   /**
-   * The start date of the search range, can be a string or Date object
+   * Filter advertisements created from this start date (ISO 8601 format)
    */
   startDate?: string
   /**
-   * The end date of the search range, can be a string or Date object
+   * Filter advertisements created up to this end date (ISO 8601 format)
    */
   endDate?: string
+  /**
+   * Filter advertisements by brand ID
+   */
+  brandId?: string
 }

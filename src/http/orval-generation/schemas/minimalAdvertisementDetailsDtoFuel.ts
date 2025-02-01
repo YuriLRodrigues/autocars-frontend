@@ -12,6 +12,7 @@
 export type MinimalAdvertisementDetailsDtoFuel =
   (typeof MinimalAdvertisementDetailsDtoFuel)[keyof typeof MinimalAdvertisementDetailsDtoFuel]
 
+// eslint-disable-next-line @typescript-eslint/no-redeclare
 export const MinimalAdvertisementDetailsDtoFuel = {
   Gasoline: 'Gasoline',
   Flex: 'Flex',

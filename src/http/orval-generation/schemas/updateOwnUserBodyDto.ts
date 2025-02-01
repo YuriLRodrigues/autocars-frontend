@@ -11,6 +11,8 @@ export interface UpdateOwnUserBodyDto {
   avatar?: string
   /** The user's full name */
   name?: string
+  /** The user email */
+  email?: string
   /** The username */
   username?: string
   /** The user's role */

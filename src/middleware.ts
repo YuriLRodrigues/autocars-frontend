@@ -1,5 +1,9 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+
 import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
+
+import jwt from 'jsonwebtoken'
 
 import { AUTH_COOKIE_NAME } from './utils/constants'
 
@@ -11,7 +15,23 @@ export function middleware(request: NextRequest) {
     pathname,
   )
 
-  if (token && pathIsAuth) return NextResponse.redirect(new URL('/', request.nextUrl.origin))
+  if (token) {
+    try {
+      const decoded = jwt.decode(token) as { exp: number } | null
+
+      if (decoded?.exp) {
+        const now = Math.floor(Date.now() / 1000)
+
+        if (decoded.exp < now) {
+          return NextResponse.redirect(new URL('/auth/sign-in', request.nextUrl.origin))
+        }
+      }
+    } catch (error) {
+      return NextResponse.redirect(new URL('/auth/sign-in', request.nextUrl.origin))
+    }
+
+    if (pathIsAuth) return NextResponse.redirect(new URL('/', request.nextUrl.origin))
+  }
 
   if (!token && (pathname.includes('/dashboard') || (pathname !== '/' && !pathIsAuth))) {
     return NextResponse.redirect(new URL('/auth/sign-in', request.nextUrl.origin))

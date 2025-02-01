@@ -23,18 +23,16 @@ import type {
   UseQueryOptions,
   UseQueryResult,
 } from '@tanstack/react-query'
-
-import { customFetch } from '../../../custom-instance-fetch'
 import type {
-  BlockUserResponseDto,
   DeleteOwnUserResponseDto,
   DeleteUserResponseDto,
-  FindAllTopSellersParams,
   FindAllTopSellersResponseDto,
   FindAllUsers200,
   FindAllUsersParams,
   ForgotPasswordBodyDto,
   ForgotResponseDto,
+  HandleActiveUserResponseDto,
+  MeDto,
   NewPasswordBodyDto,
   NewPasswordParams,
   NewPasswordResponseDto,
@@ -50,57 +48,58 @@ import type {
   UpdateOwnUserBodyDto,
   UpdateOwnUserResponseDto,
 } from '../../schemas'
+import { customFetch } from '../../../custom-instance-fetch'
 
 type SecondParameter<T extends (...args: any) => any> = Parameters<T>[1]
 
-export const getBlockUserUrl = (id: string) => {
-  return `http://localhost:3333/user/block/${id}`
+export const getHandleActiveUserUrl = (id: string) => {
+  return `http://localhost:3333/user/handle-active/${id}`
 }
 
-export const blockUser = async (id: string, options?: RequestInit): Promise<BlockUserResponseDto> => {
-  return customFetch<BlockUserResponseDto>(getBlockUserUrl(id), {
+export const handleActiveUser = async (id: string, options?: RequestInit): Promise<HandleActiveUserResponseDto> => {
+  return customFetch<HandleActiveUserResponseDto>(getHandleActiveUserUrl(id), {
     ...options,
     method: 'PATCH',
   })
 }
 
-export const getBlockUserMutationOptions = <
-  TData = Awaited<ReturnType<typeof blockUser>>,
+export const getHandleActiveUserMutationOptions = <
+  TData = Awaited<ReturnType<typeof handleActiveUser>>,
   TError = SwaggerBadRequestDto | SwaggerNotAllowedDto | SwaggerResourceNotFoundDto,
   TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<TData, TError, { id: string }, TContext>
   request?: SecondParameter<typeof customFetch>
 }) => {
-  const mutationKey = ['blockUser']
+  const mutationKey = ['handleActiveUser']
   const { mutation: mutationOptions, request: requestOptions } = options
     ? options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey
       ? options
       : { ...options, mutation: { ...options.mutation, mutationKey } }
     : { mutation: { mutationKey }, request: undefined }
 
-  const mutationFn: MutationFunction<Awaited<ReturnType<typeof blockUser>>, { id: string }> = (props) => {
+  const mutationFn: MutationFunction<Awaited<ReturnType<typeof handleActiveUser>>, { id: string }> = (props) => {
     const { id } = props ?? {}
 
-    return blockUser(id, requestOptions)
+    return handleActiveUser(id, requestOptions)
   }
 
   return { mutationFn, ...mutationOptions } as UseMutationOptions<TData, TError, { id: string }, TContext>
 }
 
-export type BlockUserMutationResult = NonNullable<Awaited<ReturnType<typeof blockUser>>>
+export type HandleActiveUserMutationResult = NonNullable<Awaited<ReturnType<typeof handleActiveUser>>>
 
-export type BlockUserMutationError = SwaggerBadRequestDto | SwaggerNotAllowedDto | SwaggerResourceNotFoundDto
+export type HandleActiveUserMutationError = SwaggerBadRequestDto | SwaggerNotAllowedDto | SwaggerResourceNotFoundDto
 
-export const useBlockUser = <
-  TData = Awaited<ReturnType<typeof blockUser>>,
+export const useHandleActiveUser = <
+  TData = Awaited<ReturnType<typeof handleActiveUser>>,
   TError = SwaggerBadRequestDto | SwaggerNotAllowedDto | SwaggerResourceNotFoundDto,
   TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<TData, TError, { id: string }, TContext>
   request?: SecondParameter<typeof customFetch>
 }): UseMutationResult<TData, TError, { id: string }, TContext> => {
-  const mutationOptions = getBlockUserMutationOptions(options)
+  const mutationOptions = getHandleActiveUserMutationOptions(options)
 
   return useMutation(mutationOptions)
 }
@@ -204,50 +203,34 @@ export const useDeleteUser = <
 
   return useMutation(mutationOptions)
 }
-export const getFindAllTopSellersUrl = (params?: FindAllTopSellersParams) => {
-  const normalizedParams = new URLSearchParams()
-
-  Object.entries(params || {}).forEach(([key, value]) => {
-    if (value !== undefined) {
-      normalizedParams.append(key, value === null ? 'null' : value.toString())
-    }
-  })
-
-  return normalizedParams.size
-    ? `http://localhost:3333/user/top-sellers?${normalizedParams.toString()}`
-    : `http://localhost:3333/user/top-sellers`
+export const getFindAllTopSellersUrl = () => {
+  return `http://localhost:3333/user/top-sellers`
 }
 
-export const findAllTopSellers = async (
-  params?: FindAllTopSellersParams,
-  options?: RequestInit,
-): Promise<FindAllTopSellersResponseDto> => {
-  return customFetch<FindAllTopSellersResponseDto>(getFindAllTopSellersUrl(params), {
+export const findAllTopSellers = async (options?: RequestInit): Promise<FindAllTopSellersResponseDto[]> => {
+  return customFetch<FindAllTopSellersResponseDto[]>(getFindAllTopSellersUrl(), {
     ...options,
     method: 'GET',
   })
 }
 
-export const getFindAllTopSellersQueryKey = (params?: FindAllTopSellersParams) => {
-  return [`http://localhost:3333/user/top-sellers`, ...(params ? [params] : [])] as const
+export const getFindAllTopSellersQueryKey = () => {
+  return [`http://localhost:3333/user/top-sellers`] as const
 }
 
 export const getFindAllTopSellersInfiniteQueryOptions = <
   TData = InfiniteData<Awaited<ReturnType<typeof findAllTopSellers>>>,
   TError = SwaggerBadRequestDto | SwaggerResourceNotFoundDto,
->(
-  params?: FindAllTopSellersParams,
-  options?: {
-    query?: Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof findAllTopSellers>>, TError, TData>>
-    request?: SecondParameter<typeof customFetch>
-  },
-) => {
+>(options?: {
+  query?: Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof findAllTopSellers>>, TError, TData>>
+  request?: SecondParameter<typeof customFetch>
+}) => {
   const { query: queryOptions, request: requestOptions } = options ?? {}
 
-  const queryKey = queryOptions?.queryKey ?? getFindAllTopSellersQueryKey(params)
+  const queryKey = queryOptions?.queryKey ?? getFindAllTopSellersQueryKey()
 
   const queryFn: QueryFunction<Awaited<ReturnType<typeof findAllTopSellers>>> = ({ signal }) =>
-    findAllTopSellers(params, { signal, ...requestOptions })
+    findAllTopSellers({ signal, ...requestOptions })
 
   return { queryKey, queryFn, networkMode: 'always', ...queryOptions } as UseInfiniteQueryOptions<
     Awaited<ReturnType<typeof findAllTopSellers>>,
@@ -262,47 +245,35 @@ export type FindAllTopSellersInfiniteQueryError = SwaggerBadRequestDto | Swagger
 export function useFindAllTopSellersInfinite<
   TData = InfiniteData<Awaited<ReturnType<typeof findAllTopSellers>>>,
   TError = SwaggerBadRequestDto | SwaggerResourceNotFoundDto,
->(
-  params: undefined | FindAllTopSellersParams,
-  options: {
-    query: Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof findAllTopSellers>>, TError, TData>> &
-      Pick<DefinedInitialDataOptions<Awaited<ReturnType<typeof findAllTopSellers>>, TError, TData>, 'initialData'>
-    request?: SecondParameter<typeof customFetch>
-  },
-): DefinedUseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+>(options: {
+  query: Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof findAllTopSellers>>, TError, TData>> &
+    Pick<DefinedInitialDataOptions<Awaited<ReturnType<typeof findAllTopSellers>>, TError, TData>, 'initialData'>
+  request?: SecondParameter<typeof customFetch>
+}): DefinedUseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 export function useFindAllTopSellersInfinite<
   TData = InfiniteData<Awaited<ReturnType<typeof findAllTopSellers>>>,
   TError = SwaggerBadRequestDto | SwaggerResourceNotFoundDto,
->(
-  params?: FindAllTopSellersParams,
-  options?: {
-    query?: Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof findAllTopSellers>>, TError, TData>> &
-      Pick<UndefinedInitialDataOptions<Awaited<ReturnType<typeof findAllTopSellers>>, TError, TData>, 'initialData'>
-    request?: SecondParameter<typeof customFetch>
-  },
-): UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+>(options?: {
+  query?: Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof findAllTopSellers>>, TError, TData>> &
+    Pick<UndefinedInitialDataOptions<Awaited<ReturnType<typeof findAllTopSellers>>, TError, TData>, 'initialData'>
+  request?: SecondParameter<typeof customFetch>
+}): UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 export function useFindAllTopSellersInfinite<
   TData = InfiniteData<Awaited<ReturnType<typeof findAllTopSellers>>>,
   TError = SwaggerBadRequestDto | SwaggerResourceNotFoundDto,
->(
-  params?: FindAllTopSellersParams,
-  options?: {
-    query?: Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof findAllTopSellers>>, TError, TData>>
-    request?: SecondParameter<typeof customFetch>
-  },
-): UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+>(options?: {
+  query?: Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof findAllTopSellers>>, TError, TData>>
+  request?: SecondParameter<typeof customFetch>
+}): UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 
 export function useFindAllTopSellersInfinite<
   TData = InfiniteData<Awaited<ReturnType<typeof findAllTopSellers>>>,
   TError = SwaggerBadRequestDto | SwaggerResourceNotFoundDto,
->(
-  params?: FindAllTopSellersParams,
-  options?: {
-    query?: Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof findAllTopSellers>>, TError, TData>>
-    request?: SecondParameter<typeof customFetch>
-  },
-): UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
-  const queryOptions = getFindAllTopSellersInfiniteQueryOptions(params, options)
+>(options?: {
+  query?: Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof findAllTopSellers>>, TError, TData>>
+  request?: SecondParameter<typeof customFetch>
+}): UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+  const queryOptions = getFindAllTopSellersInfiniteQueryOptions(options)
 
   const query = useInfiniteQuery(queryOptions) as UseInfiniteQueryResult<TData, TError> & {
     queryKey: DataTag<QueryKey, TData, TError>
@@ -316,19 +287,16 @@ export function useFindAllTopSellersInfinite<
 export const getFindAllTopSellersQueryOptions = <
   TData = Awaited<ReturnType<typeof findAllTopSellers>>,
   TError = SwaggerBadRequestDto | SwaggerResourceNotFoundDto,
->(
-  params?: FindAllTopSellersParams,
-  options?: {
-    query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof findAllTopSellers>>, TError, TData>>
-    request?: SecondParameter<typeof customFetch>
-  },
-) => {
+>(options?: {
+  query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof findAllTopSellers>>, TError, TData>>
+  request?: SecondParameter<typeof customFetch>
+}) => {
   const { query: queryOptions, request: requestOptions } = options ?? {}
 
-  const queryKey = queryOptions?.queryKey ?? getFindAllTopSellersQueryKey(params)
+  const queryKey = queryOptions?.queryKey ?? getFindAllTopSellersQueryKey()
 
   const queryFn: QueryFunction<Awaited<ReturnType<typeof findAllTopSellers>>> = ({ signal }) =>
-    findAllTopSellers(params, { signal, ...requestOptions })
+    findAllTopSellers({ signal, ...requestOptions })
 
   return { queryKey, queryFn, networkMode: 'always', ...queryOptions } as UseQueryOptions<
     Awaited<ReturnType<typeof findAllTopSellers>>,
@@ -343,47 +311,35 @@ export type FindAllTopSellersQueryError = SwaggerBadRequestDto | SwaggerResource
 export function useFindAllTopSellers<
   TData = Awaited<ReturnType<typeof findAllTopSellers>>,
   TError = SwaggerBadRequestDto | SwaggerResourceNotFoundDto,
->(
-  params: undefined | FindAllTopSellersParams,
-  options: {
-    query: Partial<UseQueryOptions<Awaited<ReturnType<typeof findAllTopSellers>>, TError, TData>> &
-      Pick<DefinedInitialDataOptions<Awaited<ReturnType<typeof findAllTopSellers>>, TError, TData>, 'initialData'>
-    request?: SecondParameter<typeof customFetch>
-  },
-): DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+>(options: {
+  query: Partial<UseQueryOptions<Awaited<ReturnType<typeof findAllTopSellers>>, TError, TData>> &
+    Pick<DefinedInitialDataOptions<Awaited<ReturnType<typeof findAllTopSellers>>, TError, TData>, 'initialData'>
+  request?: SecondParameter<typeof customFetch>
+}): DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 export function useFindAllTopSellers<
   TData = Awaited<ReturnType<typeof findAllTopSellers>>,
   TError = SwaggerBadRequestDto | SwaggerResourceNotFoundDto,
->(
-  params?: FindAllTopSellersParams,
-  options?: {
-    query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof findAllTopSellers>>, TError, TData>> &
-      Pick<UndefinedInitialDataOptions<Awaited<ReturnType<typeof findAllTopSellers>>, TError, TData>, 'initialData'>
-    request?: SecondParameter<typeof customFetch>
-  },
-): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+>(options?: {
+  query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof findAllTopSellers>>, TError, TData>> &
+    Pick<UndefinedInitialDataOptions<Awaited<ReturnType<typeof findAllTopSellers>>, TError, TData>, 'initialData'>
+  request?: SecondParameter<typeof customFetch>
+}): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 export function useFindAllTopSellers<
   TData = Awaited<ReturnType<typeof findAllTopSellers>>,
   TError = SwaggerBadRequestDto | SwaggerResourceNotFoundDto,
->(
-  params?: FindAllTopSellersParams,
-  options?: {
-    query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof findAllTopSellers>>, TError, TData>>
-    request?: SecondParameter<typeof customFetch>
-  },
-): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+>(options?: {
+  query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof findAllTopSellers>>, TError, TData>>
+  request?: SecondParameter<typeof customFetch>
+}): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 
 export function useFindAllTopSellers<
   TData = Awaited<ReturnType<typeof findAllTopSellers>>,
   TError = SwaggerBadRequestDto | SwaggerResourceNotFoundDto,
->(
-  params?: FindAllTopSellersParams,
-  options?: {
-    query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof findAllTopSellers>>, TError, TData>>
-    request?: SecondParameter<typeof customFetch>
-  },
-): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
-  const queryOptions = getFindAllTopSellersQueryOptions(params, options)
+>(options?: {
+  query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof findAllTopSellers>>, TError, TData>>
+  request?: SecondParameter<typeof customFetch>
+}): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+  const queryOptions = getFindAllTopSellersQueryOptions(options)
 
   const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 
@@ -821,6 +777,134 @@ export const useSignUp = <
 
   return useMutation(mutationOptions)
 }
+export const getMeUrl = () => {
+  return `http://localhost:3333/user/me`
+}
+
+export const me = async (options?: RequestInit): Promise<MeDto> => {
+  return customFetch<MeDto>(getMeUrl(), {
+    ...options,
+    method: 'GET',
+  })
+}
+
+export const getMeQueryKey = () => {
+  return [`http://localhost:3333/user/me`] as const
+}
+
+export const getMeInfiniteQueryOptions = <
+  TData = InfiniteData<Awaited<ReturnType<typeof me>>>,
+  TError = SwaggerBadRequestDto,
+>(options?: {
+  query?: Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof me>>, TError, TData>>
+  request?: SecondParameter<typeof customFetch>
+}) => {
+  const { query: queryOptions, request: requestOptions } = options ?? {}
+
+  const queryKey = queryOptions?.queryKey ?? getMeQueryKey()
+
+  const queryFn: QueryFunction<Awaited<ReturnType<typeof me>>> = ({ signal }) => me({ signal, ...requestOptions })
+
+  return { queryKey, queryFn, networkMode: 'always', ...queryOptions } as UseInfiniteQueryOptions<
+    Awaited<ReturnType<typeof me>>,
+    TError,
+    TData
+  > & { queryKey: DataTag<QueryKey, TData, TError> }
+}
+
+export type MeInfiniteQueryResult = NonNullable<Awaited<ReturnType<typeof me>>>
+export type MeInfiniteQueryError = SwaggerBadRequestDto
+
+export function useMeInfinite<
+  TData = InfiniteData<Awaited<ReturnType<typeof me>>>,
+  TError = SwaggerBadRequestDto,
+>(options: {
+  query: Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof me>>, TError, TData>> &
+    Pick<DefinedInitialDataOptions<Awaited<ReturnType<typeof me>>, TError, TData>, 'initialData'>
+  request?: SecondParameter<typeof customFetch>
+}): DefinedUseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useMeInfinite<
+  TData = InfiniteData<Awaited<ReturnType<typeof me>>>,
+  TError = SwaggerBadRequestDto,
+>(options?: {
+  query?: Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof me>>, TError, TData>> &
+    Pick<UndefinedInitialDataOptions<Awaited<ReturnType<typeof me>>, TError, TData>, 'initialData'>
+  request?: SecondParameter<typeof customFetch>
+}): UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useMeInfinite<
+  TData = InfiniteData<Awaited<ReturnType<typeof me>>>,
+  TError = SwaggerBadRequestDto,
+>(options?: {
+  query?: Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof me>>, TError, TData>>
+  request?: SecondParameter<typeof customFetch>
+}): UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+
+export function useMeInfinite<
+  TData = InfiniteData<Awaited<ReturnType<typeof me>>>,
+  TError = SwaggerBadRequestDto,
+>(options?: {
+  query?: Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof me>>, TError, TData>>
+  request?: SecondParameter<typeof customFetch>
+}): UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+  const queryOptions = getMeInfiniteQueryOptions(options)
+
+  const query = useInfiniteQuery(queryOptions) as UseInfiniteQueryResult<TData, TError> & {
+    queryKey: DataTag<QueryKey, TData, TError>
+  }
+
+  query.queryKey = queryOptions.queryKey
+
+  return query
+}
+
+export const getMeQueryOptions = <TData = Awaited<ReturnType<typeof me>>, TError = SwaggerBadRequestDto>(options?: {
+  query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof me>>, TError, TData>>
+  request?: SecondParameter<typeof customFetch>
+}) => {
+  const { query: queryOptions, request: requestOptions } = options ?? {}
+
+  const queryKey = queryOptions?.queryKey ?? getMeQueryKey()
+
+  const queryFn: QueryFunction<Awaited<ReturnType<typeof me>>> = ({ signal }) => me({ signal, ...requestOptions })
+
+  return { queryKey, queryFn, networkMode: 'always', ...queryOptions } as UseQueryOptions<
+    Awaited<ReturnType<typeof me>>,
+    TError,
+    TData
+  > & { queryKey: DataTag<QueryKey, TData, TError> }
+}
+
+export type MeQueryResult = NonNullable<Awaited<ReturnType<typeof me>>>
+export type MeQueryError = SwaggerBadRequestDto
+
+export function useMe<TData = Awaited<ReturnType<typeof me>>, TError = SwaggerBadRequestDto>(options: {
+  query: Partial<UseQueryOptions<Awaited<ReturnType<typeof me>>, TError, TData>> &
+    Pick<DefinedInitialDataOptions<Awaited<ReturnType<typeof me>>, TError, TData>, 'initialData'>
+  request?: SecondParameter<typeof customFetch>
+}): DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useMe<TData = Awaited<ReturnType<typeof me>>, TError = SwaggerBadRequestDto>(options?: {
+  query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof me>>, TError, TData>> &
+    Pick<UndefinedInitialDataOptions<Awaited<ReturnType<typeof me>>, TError, TData>, 'initialData'>
+  request?: SecondParameter<typeof customFetch>
+}): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useMe<TData = Awaited<ReturnType<typeof me>>, TError = SwaggerBadRequestDto>(options?: {
+  query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof me>>, TError, TData>>
+  request?: SecondParameter<typeof customFetch>
+}): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+
+export function useMe<TData = Awaited<ReturnType<typeof me>>, TError = SwaggerBadRequestDto>(options?: {
+  query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof me>>, TError, TData>>
+  request?: SecondParameter<typeof customFetch>
+}): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+  const queryOptions = getMeQueryOptions(options)
+
+  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+
+  query.queryKey = queryOptions.queryKey
+
+  return query
+}
+
 export const getUpdateOwnUserUrl = () => {
   return `http://localhost:3333/user/update-own`
 }

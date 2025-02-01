@@ -2,12 +2,21 @@
 
 import * as React from 'react'
 
+import { useToggle } from '@/hooks/use-toggle'
 import { cn } from '@/lib/utils'
 import { Drawer as DrawerPrimitive } from 'vaul'
 
-const Drawer = ({ shouldScaleBackground = true, ...props }: React.ComponentProps<typeof DrawerPrimitive.Root>) => (
-  <DrawerPrimitive.Root shouldScaleBackground={shouldScaleBackground} {...props} />
-)
+const Drawer = ({ shouldScaleBackground = true, ...props }: React.ComponentProps<typeof DrawerPrimitive.Root>) => {
+  const { isOpen, toggle } = useToggle()
+  return (
+    <DrawerPrimitive.Root
+      open={isOpen}
+      onOpenChange={toggle}
+      shouldScaleBackground={shouldScaleBackground}
+      {...props}
+    />
+  )
+}
 Drawer.displayName = 'Drawer'
 
 const DrawerTrigger = DrawerPrimitive.Trigger

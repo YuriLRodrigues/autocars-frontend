@@ -5,15 +5,15 @@
  * Cars seller API
  * OpenAPI spec version: 1.0.0
  */
-import type { LikeEntity } from './likeEntity'
 import type { MinimalAdvertisementDetailsDtoCapacity } from './minimalAdvertisementDetailsDtoCapacity'
 import type { MinimalAdvertisementDetailsDtoDoors } from './minimalAdvertisementDetailsDtoDoors'
 import type { MinimalAdvertisementDetailsDtoFuel } from './minimalAdvertisementDetailsDtoFuel'
 import type { MinimalAdvertisementDetailsDtoGearBox } from './minimalAdvertisementDetailsDtoGearBox'
+import type { LikeEntity } from './likeEntity'
 
 export interface MinimalAdvertisementDetailsDto {
   /** URL da imagem da marca */
-  imageUrl: string
+  logoUrl: string
   /** Nome da marca */
   name: string
   /** ID único da marca */
@@ -28,6 +28,8 @@ export interface MinimalAdvertisementDetailsDto {
   advertisementId: string
   /** URL da miniatura do anúncio */
   thumbnailUrl: string
+  /** BlurHash for the image, used for low-quality image preview */
+  blurHash: string
   /** Capacidade do veículo */
   capacity: MinimalAdvertisementDetailsDtoCapacity
   /** Número de portas do veículo */

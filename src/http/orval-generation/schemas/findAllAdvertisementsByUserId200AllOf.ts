@@ -5,8 +5,8 @@
  * Cars seller API
  * OpenAPI spec version: 1.0.0
  */
-import type { UserAdvertisementsPropsDto } from './userAdvertisementsPropsDto'
+import type { UserAdvertisementsDto } from './userAdvertisementsDto'
 
 export type FindAllAdvertisementsByUserId200AllOf = {
-  results?: UserAdvertisementsPropsDto[]
+  results?: UserAdvertisementsDto[]
 }

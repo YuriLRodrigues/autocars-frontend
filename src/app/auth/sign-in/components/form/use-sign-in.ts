@@ -2,8 +2,10 @@ import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 
+import { useUserPayloadStore } from '@/hooks/use-user-details'
 import { signIn } from '@/http/orval-generation/routes/user-controller/user-controller'
 import { AUTH_COOKIE_NAME } from '@/utils/constants'
+import { SIGNIN_COOKIE_MAX_AGE } from '@/utils/cookie-max-age'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { setCookie } from 'cookies-next/client'
 import { toast } from 'sonner'
@@ -15,6 +17,7 @@ type useSignInProps = {
 }
 
 export const useSignIn = ({ defaultValues }: useSignInProps = {}) => {
+  const { addUserPayload } = useUserPayloadStore((state) => state.actions)
   const router = useRouter()
 
   const [showPassword, setShowPassword] = useState(false)
@@ -42,7 +45,10 @@ export const useSignIn = ({ defaultValues }: useSignInProps = {}) => {
         password: data.password,
       })
 
-      await setCookie(AUTH_COOKIE_NAME, token, { maxAge: 60 * 60 * 24 * 7 })
+      await setCookie(AUTH_COOKIE_NAME, token, { maxAge: SIGNIN_COOKIE_MAX_AGE })
+
+      addUserPayload()
+
       toast.success('Usuário conectado ao sistema, seja bem vindo!')
 
       router.replace('/')
@@ -55,6 +61,9 @@ export const useSignIn = ({ defaultValues }: useSignInProps = {}) => {
           break
         case 'Invalid credentials':
           toast.error('Credenciais inválidas.')
+          break
+        case 'Resource not found':
+          toast.error('Usuário não encontrado.')
           break
         default:
           toast.error(`Falha ao cadastrar novo usuário: ${_error.message || _error.cause}`)

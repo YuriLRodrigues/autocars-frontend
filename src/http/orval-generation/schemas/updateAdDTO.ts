@@ -5,15 +5,19 @@
  * Cars seller API
  * OpenAPI spec version: 1.0.0
  */
-import type { UpdateAdDTOCapacity } from './updateAdDTOCapacity'
-import type { UpdateAdDTOColor } from './updateAdDTOColor'
 import type { UpdateAdDTODoors } from './updateAdDTODoors'
-import type { UpdateAdDTOFuel } from './updateAdDTOFuel'
-import type { UpdateAdDTOGearBox } from './updateAdDTOGearBox'
 import type { UpdateAdDTOModel } from './updateAdDTOModel'
+import type { UpdateAdDTOColor } from './updateAdDTOColor'
 import type { UpdateAdDTOSoldStatus } from './updateAdDTOSoldStatus'
+import type { UpdateAdDTOGearBox } from './updateAdDTOGearBox'
+import type { UpdateAdDTOFuel } from './updateAdDTOFuel'
+import type { UpdateAdDTOCapacity } from './updateAdDTOCapacity'
 
 export interface UpdateAdDTO {
+  /** The IDs of the advertisement images */
+  newImagesIds: string[]
+  /** The IDs of the advertisement images */
+  removedImagesIds: string[]
   /** The vehicle’s mileage */
   km?: number
   /** The location of the advertisement */

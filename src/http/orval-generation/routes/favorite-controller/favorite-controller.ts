@@ -23,8 +23,6 @@ import type {
   UseQueryOptions,
   UseQueryResult,
 } from '@tanstack/react-query'
-
-import { customFetch } from '../../../custom-instance-fetch'
 import type {
   FindAllFavorites200,
   FindAllFavoritesByUserId200,
@@ -33,6 +31,7 @@ import type {
   SwaggerBadRequestDto,
   SwaggerResourceNotFoundDto,
 } from '../../schemas'
+import { customFetch } from '../../../custom-instance-fetch'
 
 type SecondParameter<T extends (...args: any) => any> = Parameters<T>[1]
 
@@ -66,7 +65,7 @@ export const getFindAllFavoritesByUserIdQueryKey = (params?: FindAllFavoritesByU
 
 export const getFindAllFavoritesByUserIdInfiniteQueryOptions = <
   TData = InfiniteData<Awaited<ReturnType<typeof findAllFavoritesByUserId>>>,
-  TError = SwaggerBadRequestDto,
+  TError = SwaggerBadRequestDto | SwaggerResourceNotFoundDto,
 >(
   params?: FindAllFavoritesByUserIdParams,
   options?: {
@@ -91,11 +90,11 @@ export const getFindAllFavoritesByUserIdInfiniteQueryOptions = <
 export type FindAllFavoritesByUserIdInfiniteQueryResult = NonNullable<
   Awaited<ReturnType<typeof findAllFavoritesByUserId>>
 >
-export type FindAllFavoritesByUserIdInfiniteQueryError = SwaggerBadRequestDto
+export type FindAllFavoritesByUserIdInfiniteQueryError = SwaggerBadRequestDto | SwaggerResourceNotFoundDto
 
 export function useFindAllFavoritesByUserIdInfinite<
   TData = InfiniteData<Awaited<ReturnType<typeof findAllFavoritesByUserId>>>,
-  TError = SwaggerBadRequestDto,
+  TError = SwaggerBadRequestDto | SwaggerResourceNotFoundDto,
 >(
   params: undefined | FindAllFavoritesByUserIdParams,
   options: {
@@ -109,7 +108,7 @@ export function useFindAllFavoritesByUserIdInfinite<
 ): DefinedUseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 export function useFindAllFavoritesByUserIdInfinite<
   TData = InfiniteData<Awaited<ReturnType<typeof findAllFavoritesByUserId>>>,
-  TError = SwaggerBadRequestDto,
+  TError = SwaggerBadRequestDto | SwaggerResourceNotFoundDto,
 >(
   params?: FindAllFavoritesByUserIdParams,
   options?: {
@@ -123,7 +122,7 @@ export function useFindAllFavoritesByUserIdInfinite<
 ): UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 export function useFindAllFavoritesByUserIdInfinite<
   TData = InfiniteData<Awaited<ReturnType<typeof findAllFavoritesByUserId>>>,
-  TError = SwaggerBadRequestDto,
+  TError = SwaggerBadRequestDto | SwaggerResourceNotFoundDto,
 >(
   params?: FindAllFavoritesByUserIdParams,
   options?: {
@@ -134,7 +133,7 @@ export function useFindAllFavoritesByUserIdInfinite<
 
 export function useFindAllFavoritesByUserIdInfinite<
   TData = InfiniteData<Awaited<ReturnType<typeof findAllFavoritesByUserId>>>,
-  TError = SwaggerBadRequestDto,
+  TError = SwaggerBadRequestDto | SwaggerResourceNotFoundDto,
 >(
   params?: FindAllFavoritesByUserIdParams,
   options?: {
@@ -155,7 +154,7 @@ export function useFindAllFavoritesByUserIdInfinite<
 
 export const getFindAllFavoritesByUserIdQueryOptions = <
   TData = Awaited<ReturnType<typeof findAllFavoritesByUserId>>,
-  TError = SwaggerBadRequestDto,
+  TError = SwaggerBadRequestDto | SwaggerResourceNotFoundDto,
 >(
   params?: FindAllFavoritesByUserIdParams,
   options?: {
@@ -178,11 +177,11 @@ export const getFindAllFavoritesByUserIdQueryOptions = <
 }
 
 export type FindAllFavoritesByUserIdQueryResult = NonNullable<Awaited<ReturnType<typeof findAllFavoritesByUserId>>>
-export type FindAllFavoritesByUserIdQueryError = SwaggerBadRequestDto
+export type FindAllFavoritesByUserIdQueryError = SwaggerBadRequestDto | SwaggerResourceNotFoundDto
 
 export function useFindAllFavoritesByUserId<
   TData = Awaited<ReturnType<typeof findAllFavoritesByUserId>>,
-  TError = SwaggerBadRequestDto,
+  TError = SwaggerBadRequestDto | SwaggerResourceNotFoundDto,
 >(
   params: undefined | FindAllFavoritesByUserIdParams,
   options: {
@@ -196,7 +195,7 @@ export function useFindAllFavoritesByUserId<
 ): DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 export function useFindAllFavoritesByUserId<
   TData = Awaited<ReturnType<typeof findAllFavoritesByUserId>>,
-  TError = SwaggerBadRequestDto,
+  TError = SwaggerBadRequestDto | SwaggerResourceNotFoundDto,
 >(
   params?: FindAllFavoritesByUserIdParams,
   options?: {
@@ -210,7 +209,7 @@ export function useFindAllFavoritesByUserId<
 ): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 export function useFindAllFavoritesByUserId<
   TData = Awaited<ReturnType<typeof findAllFavoritesByUserId>>,
-  TError = SwaggerBadRequestDto,
+  TError = SwaggerBadRequestDto | SwaggerResourceNotFoundDto,
 >(
   params?: FindAllFavoritesByUserIdParams,
   options?: {
@@ -221,7 +220,7 @@ export function useFindAllFavoritesByUserId<
 
 export function useFindAllFavoritesByUserId<
   TData = Awaited<ReturnType<typeof findAllFavoritesByUserId>>,
-  TError = SwaggerBadRequestDto,
+  TError = SwaggerBadRequestDto | SwaggerResourceNotFoundDto,
 >(
   params?: FindAllFavoritesByUserIdParams,
   options?: {

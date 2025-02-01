@@ -11,6 +11,7 @@
  */
 export type FindAdByIdResponseDtoDoors = (typeof FindAdByIdResponseDtoDoors)[keyof typeof FindAdByIdResponseDtoDoors]
 
+// eslint-disable-next-line @typescript-eslint/no-redeclare
 export const FindAdByIdResponseDtoDoors = {
   Two: 'Two',
   Three: 'Three',

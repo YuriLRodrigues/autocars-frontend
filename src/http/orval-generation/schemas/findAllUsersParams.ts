@@ -5,6 +5,10 @@
  * Cars seller API
  * OpenAPI spec version: 1.0.0
  */
+import type { FindAllUsersCreatedAt } from './findAllUsersCreatedAt'
+import type { FindAllUsersName } from './findAllUsersName'
+import type { FindAllUsersRole } from './findAllUsersRole'
+import type { FindAllUsersStatus } from './findAllUsersStatus'
 
 export type FindAllUsersParams = {
   /**
@@ -15,4 +19,24 @@ export type FindAllUsersParams = {
    * Limit for pagination
    */
   limit?: number
+  /**
+   * The ordering of the createdAt field, either "asc" or "desc"
+   */
+  createdAt?: FindAllUsersCreatedAt
+  /**
+   * The ordering of the name field, either "asc" or "desc"
+   */
+  name?: FindAllUsersName
+  /**
+   * The ordering of the createdAt field, either "asc" or "desc"
+   */
+  role?: FindAllUsersRole
+  /**
+   * The status of the field, either "ACTIVE" or "INACTIVE"
+   */
+  status?: FindAllUsersStatus
+  /**
+   * The title of the username, either "ACTIVE" or "INACTIVE"
+   */
+  title?: string
 }

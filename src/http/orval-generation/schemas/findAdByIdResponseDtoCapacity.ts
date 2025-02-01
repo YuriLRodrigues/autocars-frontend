@@ -12,6 +12,7 @@
 export type FindAdByIdResponseDtoCapacity =
   (typeof FindAdByIdResponseDtoCapacity)[keyof typeof FindAdByIdResponseDtoCapacity]
 
+// eslint-disable-next-line @typescript-eslint/no-redeclare
 export const FindAdByIdResponseDtoCapacity = {
   Two: 'Two',
   Four: 'Four',

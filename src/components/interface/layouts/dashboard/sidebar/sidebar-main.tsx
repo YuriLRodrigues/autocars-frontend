@@ -33,7 +33,11 @@ export const SidebarMain = ({ userRoles }: SidebarMainProps) => {
             if (!isValidToUserAccess) return null
             return (
               <SidebarMenuItem key={link.label}>
-                <SidebarMenuButton asChild className="hover:bg-foreground/5">
+                <SidebarMenuButton
+                  tooltip={link.label}
+                  asChild
+                  className="duration-200 hover:bg-foreground/10 hover:text-primary"
+                >
                   <Link href={link.href} className={cn(isLinkActive && 'bg-foreground/5 font-semibold text-primary')}>
                     <Icon name={link.iconName} />
                     <span>{link.label}</span>
@@ -42,6 +46,25 @@ export const SidebarMain = ({ userRoles }: SidebarMainProps) => {
               </SidebarMenuItem>
             )
           })}
+        </SidebarMenu>
+      </SidebarGroupContent>
+    </SidebarGroup>
+  )
+}
+
+export const SidebarMainSkeleton = () => {
+  return (
+    <SidebarGroup>
+      <SidebarGroupContent>
+        <SidebarMenu>
+          {[...Array(5)].map((_, index) => (
+            <SidebarMenuItem key={index}>
+              <SidebarMenuButton asChild>
+                <Icon name="Loader" className="size-5 animate-spin" />
+                <span>Loading...</span>
+              </SidebarMenuButton>
+            </SidebarMenuItem>
+          ))}
         </SidebarMenu>
       </SidebarGroupContent>
     </SidebarGroup>

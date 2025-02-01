@@ -11,6 +11,7 @@
  */
 export type UpdateAdDTOColor = (typeof UpdateAdDTOColor)[keyof typeof UpdateAdDTOColor]
 
+// eslint-disable-next-line @typescript-eslint/no-redeclare
 export const UpdateAdDTOColor = {
   Red: 'Red',
   Black: 'Black',

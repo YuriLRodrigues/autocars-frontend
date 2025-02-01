@@ -12,5 +12,5 @@ export interface BrandDto {
   /** The name of the brand */
   name: string
   /** The URL of the brand logo */
-  imageUrl: string
+  logoUrl: string
 }

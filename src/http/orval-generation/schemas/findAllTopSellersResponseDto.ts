@@ -7,6 +7,14 @@
  */
 
 export interface FindAllTopSellersResponseDto {
-  /** Api response message according to request */
-  message: string
+  /** The unique user ID */
+  id: string
+  /** The URL for the user avatar */
+  profileImg: string
+  /** The user's full name */
+  name: string
+  /** The total amount of sales made by the user */
+  amountSold: number
+  /** The total quantity of items sold by the user */
+  quantitySold: number
 }

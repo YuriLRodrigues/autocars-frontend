@@ -5,15 +5,15 @@
  * Cars seller API
  * OpenAPI spec version: 1.0.0
  */
-import type { BrandDto } from './brandDto'
-import type { FindAdByIdResponseDtoCapacity } from './findAdByIdResponseDtoCapacity'
-import type { FindAdByIdResponseDtoColor } from './findAdByIdResponseDtoColor'
 import type { FindAdByIdResponseDtoDoors } from './findAdByIdResponseDtoDoors'
-import type { FindAdByIdResponseDtoFuel } from './findAdByIdResponseDtoFuel'
-import type { FindAdByIdResponseDtoGearBox } from './findAdByIdResponseDtoGearBox'
 import type { FindAdByIdResponseDtoModel } from './findAdByIdResponseDtoModel'
+import type { FindAdByIdResponseDtoColor } from './findAdByIdResponseDtoColor'
 import type { FindAdByIdResponseDtoSoldStatus } from './findAdByIdResponseDtoSoldStatus'
+import type { FindAdByIdResponseDtoGearBox } from './findAdByIdResponseDtoGearBox'
+import type { FindAdByIdResponseDtoFuel } from './findAdByIdResponseDtoFuel'
+import type { FindAdByIdResponseDtoCapacity } from './findAdByIdResponseDtoCapacity'
 import type { ImageDto } from './imageDto'
+import type { BrandDto } from './brandDto'
 import type { UserDto } from './userDto'
 
 export interface FindAdByIdResponseDto {

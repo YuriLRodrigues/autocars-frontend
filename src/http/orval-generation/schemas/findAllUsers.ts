@@ -25,4 +25,6 @@ export interface FindAllUsers {
   createdAt: string
   /** The date when the user was last updated */
   updatedAt: string
+  /** Unique identifier of the user */
+  id: string
 }

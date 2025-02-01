@@ -12,10 +12,14 @@ const getBody = <T>(c: Response | Request): Promise<T> => {
     return c.blob() as Promise<T>
   }
 
+  if (contentType?.includes('multipart/form-data')) {
+    return c.formData() as Promise<T>
+  }
+
   return c.text() as Promise<T>
 }
 
-const getHeaders = async (headers?: HeadersInit): Promise<HeadersInit> => {
+const getHeaders = async (headers?: HeadersInit, body?: BodyInit | undefined | null): Promise<HeadersInit> => {
   let authToken: string | undefined
 
   if (typeof window === 'undefined') {
@@ -26,15 +30,23 @@ const getHeaders = async (headers?: HeadersInit): Promise<HeadersInit> => {
     authToken = getCookie(AUTH_COOKIE_NAME)?.toString()
   }
 
+  // Evitar sobrescrever o Content-Type para FormData
+  const defaultHeaders: HeadersInit =
+    body instanceof FormData
+      ? { Authorization: `Bearer ${authToken || ''}` }
+      : {
+          Authorization: `Bearer ${authToken || ''}`,
+          'Content-Type': 'application/json',
+        }
+
   return {
-    Authorization: `Bearer ${authToken || ''}`,
-    'Content-Type': 'multipart/form-data',
+    ...defaultHeaders,
     ...headers,
   }
 }
 
 export async function customFetch<T>(path: string, options: RequestInit): Promise<T> {
-  const headers = await getHeaders(options.headers)
+  const headers = await getHeaders(options.headers, options.body)
 
   const url = new URL(path)
 
@@ -47,12 +59,12 @@ export async function customFetch<T>(path: string, options: RequestInit): Promis
     const response = await fetch(request)
     if (!response.ok) {
       const errorBody = await getBody<FetchResponseError>(response).catch(() => null)
+
       const error = {
-        message: errorBody?.message || response.statusText,
+        message: errorBody?.error || 'UnknownError',
         error: errorBody?.error || 'UnknownError',
         statusCode: response.status,
       }
-      console.log({ error })
 
       throw error
     }

@@ -2,6 +2,7 @@
 
 import Link from 'next/link'
 
+import { Steps } from '@/components/interface/form/steps'
 import { InputPassword, PasswordRulesTooltip } from '@/components/interface/input-password'
 import { BorderBeam } from '@/components/ui/border-beam'
 import { Button } from '@/components/ui/button'
@@ -13,7 +14,6 @@ import { VisibleChieldComponent } from '@/components/ui/visible-chield-component
 
 import { cn } from '@/lib/utils'
 
-import { Steps } from './steps'
 import { useSignUp } from './use-sign-up'
 
 export const SignUpForm = () => {
@@ -24,17 +24,17 @@ export const SignUpForm = () => {
     togglePasswordVisibility,
     fetchUserCEP,
     hasCompletedFirstStep,
-    progress,
     isSignUpStep,
     hasInsertAllFields,
+    progressByStep,
   } = useSignUp()
 
   return (
     <Form {...form}>
       <Steps
         currentStep={isSignUpStep ? 'SIGNUP' : 'ADDRESS'}
-        progress={progress}
-        hasInsertAllFields={hasInsertAllFields}
+        steps={['SIGNUP', 'ADDRESS']}
+        progress={progressByStep}
       />
       <div className="relative overflow-hidden rounded-xl p-3">
         <form onSubmit={onSubmit} className="space-y-6 px-2">

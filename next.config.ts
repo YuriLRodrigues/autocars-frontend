@@ -10,7 +10,12 @@ const nextConfig: NextConfig = {
       },
       {
         protocol: 'https',
-        hostname: 'yurigay-minio.pd8edx.easypanel.host',
+        hostname: 'yuri-rodrigues-minio.pd8edx.easypanel.host',
+        pathname: '/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'w7.pngwing.com',
         pathname: '/**',
       },
     ],

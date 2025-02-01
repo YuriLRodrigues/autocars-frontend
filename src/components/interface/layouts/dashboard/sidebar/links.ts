@@ -30,7 +30,7 @@ export const dashboardLinks: DashboardLinksProps[] = [
   {
     href: '/dashboard/users',
     label: 'Usuários',
-    iconName: 'BadgePercent',
+    iconName: 'User',
     permissionRoles: [UserRoles.Manager],
   },
   {

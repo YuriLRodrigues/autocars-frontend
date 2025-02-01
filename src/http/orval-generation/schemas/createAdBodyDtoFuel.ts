@@ -11,6 +11,7 @@
  */
 export type CreateAdBodyDtoFuel = (typeof CreateAdBodyDtoFuel)[keyof typeof CreateAdBodyDtoFuel]
 
+// eslint-disable-next-line @typescript-eslint/no-redeclare
 export const CreateAdBodyDtoFuel = {
   Gasoline: 'Gasoline',
   Flex: 'Flex',

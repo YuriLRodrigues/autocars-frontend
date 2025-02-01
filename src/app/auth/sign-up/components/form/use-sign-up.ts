@@ -9,10 +9,6 @@ import { toast } from 'sonner'
 
 import { signUpSchema, SignUpSchemaProps } from './schema'
 
-type useSignUpProps = {
-  defaultValues?: Partial<SignUpSchemaProps>
-}
-
 type CepProps = {
   cep: string
   logradouro: string
@@ -24,7 +20,11 @@ type CepProps = {
   pais: string
 }
 
-export const useSignUp = ({ defaultValues = {} }: useSignUpProps) => {
+type useSignUpProps = {
+  defaultValues?: Partial<SignUpSchemaProps>
+}
+
+export const useSignUp = ({ defaultValues }: useSignUpProps = {}) => {
   const router = useRouter()
   const form = useForm<SignUpSchemaProps>({
     resolver: zodResolver(signUpSchema),
@@ -45,7 +45,6 @@ export const useSignUp = ({ defaultValues = {} }: useSignUpProps) => {
     },
   })
 
-  const [progress, setProgress] = useState(0)
   const [showPassword, setShowPassword] = useState(false)
   const togglePasswordVisibility = () => setShowPassword((prev) => !prev)
 
@@ -58,9 +57,10 @@ export const useSignUp = ({ defaultValues = {} }: useSignUpProps) => {
       form.setValue('city', cepData.localidade)
       form.setValue('street', cepData.logradouro)
       form.setValue('state', cepData.uf)
+      toast.success(`CEP encontrado!`)
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (error) {
-      const _error = error as Error
-      toast.error(`Erro ao buscar pelo CEP: ${_error.message}`)
+      toast.error(`Erro ao buscar pelo CEP`)
     }
   }
 
@@ -76,25 +76,36 @@ export const useSignUp = ({ defaultValues = {} }: useSignUpProps) => {
     Object.values(watchSecondStepFields).every((value) => value && value.length > 0) && hasInsertAllFirstStepFields
 
   const hasCompletedFirstStep = hasInsertAllFirstStepFields && !hasFirstStepError
+  const isSignUpStep = form.watch('step') === 'SIGNUP'
+
+  const [progressByStep, setProgressByStep] = useState<Record<string, number>>({})
+
+  const stepFields: Record<string, (keyof SignUpSchemaProps)[]> = {
+    SIGNUP: ['name', 'username', 'email', 'password', 'role'],
+    ADDRESS: ['city', 'street', 'state', 'neighborhood', 'zipCode'],
+  }
+
+  const calculateProgress = (fields: (keyof SignUpSchemaProps)[]) => {
+    const total = fields.length
+    const filled = fields.filter((field) => {
+      const value = form.getValues(field)
+      return value && value.trim().length > 0
+    }).length
+    return (filled / total) * 100
+  }
 
   useEffect(() => {
-    const fields = form.watch([
-      'name',
-      'username',
-      'email',
-      'password',
-      'role',
-      'city',
-      'neighborhood',
-      'state',
-      'zipCode',
-      'street',
-    ])
-    const totalFields = Object.keys(fields).length
-    const filledFields = Object.values(fields).filter((value) => value.length > 0 && value.trim()).length
-    setProgress((filledFields / totalFields) * 100)
+    const subscription = form.watch(() => {
+      const newProgressByStep: Record<string, number> = {}
+      Object.keys(stepFields).forEach((step) => {
+        newProgressByStep[step] = calculateProgress(stepFields[step])
+      })
+      setProgressByStep(newProgressByStep)
+    })
+
+    return () => subscription.unsubscribe()
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [form.watch()])
+  }, [form, stepFields])
 
   const onSubmit = async (data: SignUpSchemaProps) => {
     try {
@@ -131,16 +142,14 @@ export const useSignUp = ({ defaultValues = {} }: useSignUpProps) => {
     }
   }
 
-  const isSignUpStep = form.watch('step') === 'SIGNUP'
-
   return {
     form,
     onSubmit: form.handleSubmit(onSubmit),
+    progressByStep,
     showPassword,
     togglePasswordVisibility,
     fetchUserCEP,
     hasCompletedFirstStep,
-    progress,
     isSignUpStep,
     hasInsertAllFields,
   }

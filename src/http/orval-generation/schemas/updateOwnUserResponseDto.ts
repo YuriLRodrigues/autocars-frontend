@@ -7,6 +7,6 @@
  */
 
 export interface UpdateOwnUserResponseDto {
-  /** Api response message according to request */
-  message: string
+  /** Bearer token for authorization */
+  token: string
 }

@@ -11,6 +11,7 @@
  */
 export type FindAdByIdResponseDtoFuel = (typeof FindAdByIdResponseDtoFuel)[keyof typeof FindAdByIdResponseDtoFuel]
 
+// eslint-disable-next-line @typescript-eslint/no-redeclare
 export const FindAdByIdResponseDtoFuel = {
   Gasoline: 'Gasoline',
   Flex: 'Flex',

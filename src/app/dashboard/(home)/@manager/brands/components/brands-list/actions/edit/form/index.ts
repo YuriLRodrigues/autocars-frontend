@@ -1,0 +1,1 @@
+export { UpdateBrandForm } from './form'

@@ -5,12 +5,12 @@
  * Cars seller API
  * OpenAPI spec version: 1.0.0
  */
-import type { CreateAdBodyDtoCapacity } from './createAdBodyDtoCapacity'
-import type { CreateAdBodyDtoColor } from './createAdBodyDtoColor'
 import type { CreateAdBodyDtoDoors } from './createAdBodyDtoDoors'
-import type { CreateAdBodyDtoFuel } from './createAdBodyDtoFuel'
-import type { CreateAdBodyDtoGearBox } from './createAdBodyDtoGearBox'
 import type { CreateAdBodyDtoModel } from './createAdBodyDtoModel'
+import type { CreateAdBodyDtoColor } from './createAdBodyDtoColor'
+import type { CreateAdBodyDtoGearBox } from './createAdBodyDtoGearBox'
+import type { CreateAdBodyDtoFuel } from './createAdBodyDtoFuel'
+import type { CreateAdBodyDtoCapacity } from './createAdBodyDtoCapacity'
 
 export interface CreateAdBodyDto {
   /** The IDs of the advertisement images */
@@ -23,8 +23,6 @@ export interface CreateAdBodyDto {
   phone: string
   /** The title of the advertisement */
   title: string
-  /** The unique identifier of the user who posted the advertisement */
-  userId: string
   /** The description of the advertisement */
   description: string
   /** The year of the vehicle */

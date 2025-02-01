@@ -1,4 +1,5 @@
 'use client'
+import Link from 'next/link'
 import { Fragment } from 'react'
 
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
@@ -23,7 +24,7 @@ export function NavUser({
   user: {
     name: string
     email: string
-    avatar: string
+    avatar?: string
   }
 }) {
   const { isMobile } = useSidebar()
@@ -48,16 +49,18 @@ export function NavUser({
             sideOffset={4}
           >
             <DropdownMenuLabel className="p-0 font-normal">
-              <div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
+              <div className="flex items-center gap-2 p-1.5 text-left text-sm">
                 <UserAvatarProfile avatar={user.avatar} email={user.email} name={user.name} />
               </div>
             </DropdownMenuLabel>
             <DropdownMenuSeparator />
             <DropdownMenuGroup>
               {dashboardProfileLinks.map((link) => (
-                <DropdownMenuItem key={link.label}>
-                  <Icon name={link.iconName} />
-                  {link.label}
+                <DropdownMenuItem key={link.label} asChild className="hover:cursor-pointer">
+                  <Link href={link.href}>
+                    <Icon name={link.iconName} />
+                    {link.label}
+                  </Link>
                 </DropdownMenuItem>
               ))}
               <DropdownMenuItem className="hover:bg-transparent dark:hover:bg-transparent">
@@ -71,7 +74,7 @@ export function NavUser({
   )
 }
 
-const UserAvatarProfile = ({ avatar, name, email }: { avatar: string; name: string; email: string }) => {
+const UserAvatarProfile = ({ avatar, name, email }: { avatar?: string; name: string; email: string }) => {
   return (
     <Fragment>
       <Avatar className="h-8 w-8 rounded-lg">

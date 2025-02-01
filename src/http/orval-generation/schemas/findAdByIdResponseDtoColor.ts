@@ -11,6 +11,7 @@
  */
 export type FindAdByIdResponseDtoColor = (typeof FindAdByIdResponseDtoColor)[keyof typeof FindAdByIdResponseDtoColor]
 
+// eslint-disable-next-line @typescript-eslint/no-redeclare
 export const FindAdByIdResponseDtoColor = {
   Red: 'Red',
   Black: 'Black',

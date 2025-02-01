@@ -35,12 +35,12 @@ export const profileLinks: NavbarLinksProps[] = [
     iconName: 'LayoutDashboard',
   },
   {
-    href: '/profile',
+    href: 'dashboard/profile',
     label: 'Perfil',
     iconName: 'User',
   },
   {
-    href: '/profile/address',
+    href: 'dashboard/profile/address',
     label: 'Endereço',
     iconName: 'MapPinHouse',
   },

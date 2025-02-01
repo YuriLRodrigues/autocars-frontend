@@ -2,6 +2,9 @@ import { ReactNode } from 'react'
 
 import { Badge } from '@/components/ui/badge'
 
+import { Capacity, Color, Doors, Fuel, GearBox, Model } from '@/@types/advertisement'
+import { UserRoles } from '@/@types/user'
+
 export const mappingThemeMode: Record<string, string> = {
   dark: 'Escuro',
   light: 'Claro',
@@ -21,6 +24,12 @@ export const mappingMonthReference: Record<number, string> = {
   10: 'Outubro',
   11: 'Novembro',
   12: 'Dezembro',
+}
+
+export const mappingUserRoles: Record<UserRoles, string> = {
+  Manager: 'Administrador',
+  Customer: 'Comprador',
+  Seller: 'Vendedor',
 }
 
 export const mappingBorderBeamColors: Record<string, Record<string, string>> = {
@@ -91,6 +100,130 @@ export const mappingAdSoldStatus: Record<'Sold' | 'Active' | 'Reserved', ReactNo
     <div className="flex items-center justify-center gap-3">
       <Badge variant="alert" className="h-3.5 w-3.5 animate-pulse rounded-full px-0 py-0" />
       <p>Reservado</p>
+    </div>
+  ),
+}
+
+export const mappingStepsLabel: Record<'SIGNUP' | 'ADDRESS' | 'SEND-IMAGES' | 'AD-DATA' | 'AD-DETAILS', string> = {
+  SIGNUP: 'Cadastro',
+  ADDRESS: 'Endereço',
+  'SEND-IMAGES': 'Enviar fotos',
+  'AD-DATA': 'Informações do anúncio',
+  'AD-DETAILS': 'Detalhes do anúncio',
+}
+
+export const mappingModel: Record<Model, string> = {
+  [Model.SUV]: 'SUV',
+  [Model.Sedan]: 'Sedã',
+  [Model.Hatch]: 'Hatch',
+  [Model.Pickups]: 'Picapes',
+  [Model.Crossover]: 'Crossover',
+  [Model.Stilt]: 'Carro alto',
+  [Model.Minivan]: 'Minivan',
+  [Model.Sport]: 'Esportivo',
+  [Model.Van]: 'Van',
+  [Model.Coupe]: 'Cupê',
+}
+
+export const mappingGearBox: Record<GearBox, string> = {
+  [GearBox.Automatic]: 'Automático',
+  [GearBox.Manual]: 'Manual',
+}
+
+export const mappingFuel: Record<Fuel, string> = {
+  [Fuel.Gasoline]: 'Gasolina',
+  [Fuel.Flex]: 'Flex',
+  [Fuel.Ethanol]: 'Etanol',
+  [Fuel.Diesel]: 'Diesel',
+  [Fuel.GNV]: 'GNV',
+  [Fuel.Eletric]: 'Elétrico',
+}
+
+export const mappingCapacity: Record<Capacity, string> = {
+  [Capacity.Two]: 'Duas pessoas',
+  [Capacity.Four]: 'Quatro pessoas',
+  [Capacity.Five]: 'Cinco pessoas',
+  [Capacity.Six]: 'Seis pessoas',
+}
+
+export const mappingDoors: Record<Doors, string> = {
+  [Doors.Two]: 'Duas portas',
+  [Doors.Three]: 'Três portas',
+  [Doors.Four]: 'Quatro portas',
+}
+
+export const mappingNumberOfCapacity: Record<Capacity, string> = {
+  [Capacity.Two]: '2',
+  [Capacity.Four]: '4',
+  [Capacity.Five]: '5',
+  [Capacity.Six]: '6',
+}
+
+export const mappingNumberOfDoors: Record<Doors, string> = {
+  [Doors.Two]: '2',
+  [Doors.Three]: '3',
+  [Doors.Four]: '4',
+}
+
+export const mappingColor: Record<Color, React.ReactNode> = {
+  [Color.Red]: (
+    <div className="flex items-center gap-2">
+      <span className="h-4 w-4 rounded-full bg-red-500" /> Vermelho
+    </div>
+  ),
+  [Color.Black]: (
+    <div className="flex items-center gap-2">
+      <span className="h-4 w-4 rounded-full bg-black" /> Preto
+    </div>
+  ),
+  [Color.Green]: (
+    <div className="flex items-center gap-2">
+      <span className="h-4 w-4 rounded-full bg-green-500" /> Verde
+    </div>
+  ),
+  [Color.Silver]: (
+    <div className="flex items-center gap-2">
+      <span className="h-4 w-4 rounded-full bg-gray-300" /> Prata
+    </div>
+  ),
+  [Color.White]: (
+    <div className="flex items-center gap-2">
+      <span className="h-4 w-4 rounded-full border bg-white" /> Branco
+    </div>
+  ),
+  [Color.Blue]: (
+    <div className="flex items-center gap-2">
+      <span className="h-4 w-4 rounded-full bg-blue-500" /> Azul
+    </div>
+  ),
+  [Color.Gray]: (
+    <div className="flex items-center gap-2">
+      <span className="h-4 w-4 rounded-full bg-gray-500" /> Cinza
+    </div>
+  ),
+  [Color.Yellow]: (
+    <div className="flex items-center gap-2">
+      <span className="h-4 w-4 rounded-full bg-yellow-500" /> Amarelo
+    </div>
+  ),
+  [Color.Orange]: (
+    <div className="flex items-center gap-2">
+      <span className="h-4 w-4 rounded-full bg-orange-500" /> Laranja
+    </div>
+  ),
+  [Color.Metalic]: (
+    <div className="flex items-center gap-2">
+      <span className="h-4 w-4 rounded-full bg-gray-400" /> Metálico
+    </div>
+  ),
+  [Color.Pink]: (
+    <div className="flex items-center gap-2">
+      <span className="h-4 w-4 rounded-full bg-pink-500" /> Rosa
+    </div>
+  ),
+  [Color.Purple]: (
+    <div className="flex items-center gap-2">
+      <span className="h-4 w-4 rounded-full bg-purple-500" /> Roxo
     </div>
   ),
 }

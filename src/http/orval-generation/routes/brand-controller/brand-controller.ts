@@ -23,13 +23,12 @@ import type {
   UseQueryOptions,
   UseQueryResult,
 } from '@tanstack/react-query'
-
-import { customFetch } from '../../../custom-instance-fetch'
 import type {
   CreateBrandBodyDto,
   CreateBrandResponseDto,
   DeleteBrandResponseDto,
-  FindAllBrandsResponseDto,
+  FindAllBrands200,
+  FindAllBrandsParams,
   SwaggerBadRequestDto,
   SwaggerNotAllowedDto,
   SwaggerResourceAlreadyExistsDto,
@@ -37,6 +36,7 @@ import type {
   UpdateBrandBodyDto,
   UpdateBrandResponseDto,
 } from '../../schemas'
+import { customFetch } from '../../../custom-instance-fetch'
 
 type SecondParameter<T extends (...args: any) => any> = Parameters<T>[1]
 
@@ -102,92 +102,47 @@ export const useCreateBrand = <
 
   return useMutation(mutationOptions)
 }
-export const getUpdateBrandUrl = () => {
-  return `http://localhost:3333/brand`
-}
+export const getFindAllBrandsUrl = (params?: FindAllBrandsParams) => {
+  const normalizedParams = new URLSearchParams()
 
-export const updateBrand = async (
-  updateBrandBodyDto: UpdateBrandBodyDto,
-  options?: RequestInit,
-): Promise<UpdateBrandResponseDto> => {
-  return customFetch<UpdateBrandResponseDto>(getUpdateBrandUrl(), {
-    ...options,
-    method: 'PATCH',
-    headers: { 'Content-Type': 'application/json', ...options?.headers },
-    body: JSON.stringify(updateBrandBodyDto),
+  Object.entries(params || {}).forEach(([key, value]) => {
+    if (value !== undefined) {
+      normalizedParams.append(key, value === null ? 'null' : value.toString())
+    }
   })
+
+  return normalizedParams.size
+    ? `http://localhost:3333/brand?${normalizedParams.toString()}`
+    : `http://localhost:3333/brand`
 }
 
-export const getUpdateBrandMutationOptions = <
-  TData = Awaited<ReturnType<typeof updateBrand>>,
-  TError = SwaggerBadRequestDto | SwaggerNotAllowedDto | SwaggerResourceNotFoundDto,
-  TContext = unknown,
->(options?: {
-  mutation?: UseMutationOptions<TData, TError, { data: UpdateBrandBodyDto }, TContext>
-  request?: SecondParameter<typeof customFetch>
-}) => {
-  const mutationKey = ['updateBrand']
-  const { mutation: mutationOptions, request: requestOptions } = options
-    ? options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey
-      ? options
-      : { ...options, mutation: { ...options.mutation, mutationKey } }
-    : { mutation: { mutationKey }, request: undefined }
-
-  const mutationFn: MutationFunction<Awaited<ReturnType<typeof updateBrand>>, { data: UpdateBrandBodyDto }> = (
-    props,
-  ) => {
-    const { data } = props ?? {}
-
-    return updateBrand(data, requestOptions)
-  }
-
-  return { mutationFn, ...mutationOptions } as UseMutationOptions<TData, TError, { data: UpdateBrandBodyDto }, TContext>
-}
-
-export type UpdateBrandMutationResult = NonNullable<Awaited<ReturnType<typeof updateBrand>>>
-export type UpdateBrandMutationBody = UpdateBrandBodyDto
-export type UpdateBrandMutationError = SwaggerBadRequestDto | SwaggerNotAllowedDto | SwaggerResourceNotFoundDto
-
-export const useUpdateBrand = <
-  TData = Awaited<ReturnType<typeof updateBrand>>,
-  TError = SwaggerBadRequestDto | SwaggerNotAllowedDto | SwaggerResourceNotFoundDto,
-  TContext = unknown,
->(options?: {
-  mutation?: UseMutationOptions<TData, TError, { data: UpdateBrandBodyDto }, TContext>
-  request?: SecondParameter<typeof customFetch>
-}): UseMutationResult<TData, TError, { data: UpdateBrandBodyDto }, TContext> => {
-  const mutationOptions = getUpdateBrandMutationOptions(options)
-
-  return useMutation(mutationOptions)
-}
-export const getFindAllBrandsUrl = () => {
-  return `http://localhost:3333/brand`
-}
-
-export const findAllBrands = async (options?: RequestInit): Promise<FindAllBrandsResponseDto[]> => {
-  return customFetch<FindAllBrandsResponseDto[]>(getFindAllBrandsUrl(), {
+export const findAllBrands = async (params?: FindAllBrandsParams, options?: RequestInit): Promise<FindAllBrands200> => {
+  return customFetch<FindAllBrands200>(getFindAllBrandsUrl(params), {
     ...options,
     method: 'GET',
   })
 }
 
-export const getFindAllBrandsQueryKey = () => {
-  return [`http://localhost:3333/brand`] as const
+export const getFindAllBrandsQueryKey = (params?: FindAllBrandsParams) => {
+  return [`http://localhost:3333/brand`, ...(params ? [params] : [])] as const
 }
 
 export const getFindAllBrandsInfiniteQueryOptions = <
   TData = InfiniteData<Awaited<ReturnType<typeof findAllBrands>>>,
   TError = SwaggerBadRequestDto,
->(options?: {
-  query?: Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof findAllBrands>>, TError, TData>>
-  request?: SecondParameter<typeof customFetch>
-}) => {
+>(
+  params?: FindAllBrandsParams,
+  options?: {
+    query?: Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof findAllBrands>>, TError, TData>>
+    request?: SecondParameter<typeof customFetch>
+  },
+) => {
   const { query: queryOptions, request: requestOptions } = options ?? {}
 
-  const queryKey = queryOptions?.queryKey ?? getFindAllBrandsQueryKey()
+  const queryKey = queryOptions?.queryKey ?? getFindAllBrandsQueryKey(params)
 
   const queryFn: QueryFunction<Awaited<ReturnType<typeof findAllBrands>>> = ({ signal }) =>
-    findAllBrands({ signal, ...requestOptions })
+    findAllBrands(params, { signal, ...requestOptions })
 
   return { queryKey, queryFn, networkMode: 'always', ...queryOptions } as UseInfiniteQueryOptions<
     Awaited<ReturnType<typeof findAllBrands>>,
@@ -202,35 +157,47 @@ export type FindAllBrandsInfiniteQueryError = SwaggerBadRequestDto
 export function useFindAllBrandsInfinite<
   TData = InfiniteData<Awaited<ReturnType<typeof findAllBrands>>>,
   TError = SwaggerBadRequestDto,
->(options: {
-  query: Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof findAllBrands>>, TError, TData>> &
-    Pick<DefinedInitialDataOptions<Awaited<ReturnType<typeof findAllBrands>>, TError, TData>, 'initialData'>
-  request?: SecondParameter<typeof customFetch>
-}): DefinedUseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+>(
+  params: undefined | FindAllBrandsParams,
+  options: {
+    query: Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof findAllBrands>>, TError, TData>> &
+      Pick<DefinedInitialDataOptions<Awaited<ReturnType<typeof findAllBrands>>, TError, TData>, 'initialData'>
+    request?: SecondParameter<typeof customFetch>
+  },
+): DefinedUseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 export function useFindAllBrandsInfinite<
   TData = InfiniteData<Awaited<ReturnType<typeof findAllBrands>>>,
   TError = SwaggerBadRequestDto,
->(options?: {
-  query?: Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof findAllBrands>>, TError, TData>> &
-    Pick<UndefinedInitialDataOptions<Awaited<ReturnType<typeof findAllBrands>>, TError, TData>, 'initialData'>
-  request?: SecondParameter<typeof customFetch>
-}): UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+>(
+  params?: FindAllBrandsParams,
+  options?: {
+    query?: Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof findAllBrands>>, TError, TData>> &
+      Pick<UndefinedInitialDataOptions<Awaited<ReturnType<typeof findAllBrands>>, TError, TData>, 'initialData'>
+    request?: SecondParameter<typeof customFetch>
+  },
+): UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 export function useFindAllBrandsInfinite<
   TData = InfiniteData<Awaited<ReturnType<typeof findAllBrands>>>,
   TError = SwaggerBadRequestDto,
->(options?: {
-  query?: Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof findAllBrands>>, TError, TData>>
-  request?: SecondParameter<typeof customFetch>
-}): UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+>(
+  params?: FindAllBrandsParams,
+  options?: {
+    query?: Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof findAllBrands>>, TError, TData>>
+    request?: SecondParameter<typeof customFetch>
+  },
+): UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 
 export function useFindAllBrandsInfinite<
   TData = InfiniteData<Awaited<ReturnType<typeof findAllBrands>>>,
   TError = SwaggerBadRequestDto,
->(options?: {
-  query?: Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof findAllBrands>>, TError, TData>>
-  request?: SecondParameter<typeof customFetch>
-}): UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
-  const queryOptions = getFindAllBrandsInfiniteQueryOptions(options)
+>(
+  params?: FindAllBrandsParams,
+  options?: {
+    query?: Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof findAllBrands>>, TError, TData>>
+    request?: SecondParameter<typeof customFetch>
+  },
+): UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+  const queryOptions = getFindAllBrandsInfiniteQueryOptions(params, options)
 
   const query = useInfiniteQuery(queryOptions) as UseInfiniteQueryResult<TData, TError> & {
     queryKey: DataTag<QueryKey, TData, TError>
@@ -244,16 +211,19 @@ export function useFindAllBrandsInfinite<
 export const getFindAllBrandsQueryOptions = <
   TData = Awaited<ReturnType<typeof findAllBrands>>,
   TError = SwaggerBadRequestDto,
->(options?: {
-  query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof findAllBrands>>, TError, TData>>
-  request?: SecondParameter<typeof customFetch>
-}) => {
+>(
+  params?: FindAllBrandsParams,
+  options?: {
+    query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof findAllBrands>>, TError, TData>>
+    request?: SecondParameter<typeof customFetch>
+  },
+) => {
   const { query: queryOptions, request: requestOptions } = options ?? {}
 
-  const queryKey = queryOptions?.queryKey ?? getFindAllBrandsQueryKey()
+  const queryKey = queryOptions?.queryKey ?? getFindAllBrandsQueryKey(params)
 
   const queryFn: QueryFunction<Awaited<ReturnType<typeof findAllBrands>>> = ({ signal }) =>
-    findAllBrands({ signal, ...requestOptions })
+    findAllBrands(params, { signal, ...requestOptions })
 
   return { queryKey, queryFn, networkMode: 'always', ...queryOptions } as UseQueryOptions<
     Awaited<ReturnType<typeof findAllBrands>>,
@@ -265,38 +235,38 @@ export const getFindAllBrandsQueryOptions = <
 export type FindAllBrandsQueryResult = NonNullable<Awaited<ReturnType<typeof findAllBrands>>>
 export type FindAllBrandsQueryError = SwaggerBadRequestDto
 
-export function useFindAllBrands<
-  TData = Awaited<ReturnType<typeof findAllBrands>>,
-  TError = SwaggerBadRequestDto,
->(options: {
-  query: Partial<UseQueryOptions<Awaited<ReturnType<typeof findAllBrands>>, TError, TData>> &
-    Pick<DefinedInitialDataOptions<Awaited<ReturnType<typeof findAllBrands>>, TError, TData>, 'initialData'>
-  request?: SecondParameter<typeof customFetch>
-}): DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useFindAllBrands<
-  TData = Awaited<ReturnType<typeof findAllBrands>>,
-  TError = SwaggerBadRequestDto,
->(options?: {
-  query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof findAllBrands>>, TError, TData>> &
-    Pick<UndefinedInitialDataOptions<Awaited<ReturnType<typeof findAllBrands>>, TError, TData>, 'initialData'>
-  request?: SecondParameter<typeof customFetch>
-}): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useFindAllBrands<
-  TData = Awaited<ReturnType<typeof findAllBrands>>,
-  TError = SwaggerBadRequestDto,
->(options?: {
-  query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof findAllBrands>>, TError, TData>>
-  request?: SecondParameter<typeof customFetch>
-}): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useFindAllBrands<TData = Awaited<ReturnType<typeof findAllBrands>>, TError = SwaggerBadRequestDto>(
+  params: undefined | FindAllBrandsParams,
+  options: {
+    query: Partial<UseQueryOptions<Awaited<ReturnType<typeof findAllBrands>>, TError, TData>> &
+      Pick<DefinedInitialDataOptions<Awaited<ReturnType<typeof findAllBrands>>, TError, TData>, 'initialData'>
+    request?: SecondParameter<typeof customFetch>
+  },
+): DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useFindAllBrands<TData = Awaited<ReturnType<typeof findAllBrands>>, TError = SwaggerBadRequestDto>(
+  params?: FindAllBrandsParams,
+  options?: {
+    query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof findAllBrands>>, TError, TData>> &
+      Pick<UndefinedInitialDataOptions<Awaited<ReturnType<typeof findAllBrands>>, TError, TData>, 'initialData'>
+    request?: SecondParameter<typeof customFetch>
+  },
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useFindAllBrands<TData = Awaited<ReturnType<typeof findAllBrands>>, TError = SwaggerBadRequestDto>(
+  params?: FindAllBrandsParams,
+  options?: {
+    query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof findAllBrands>>, TError, TData>>
+    request?: SecondParameter<typeof customFetch>
+  },
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 
-export function useFindAllBrands<
-  TData = Awaited<ReturnType<typeof findAllBrands>>,
-  TError = SwaggerBadRequestDto,
->(options?: {
-  query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof findAllBrands>>, TError, TData>>
-  request?: SecondParameter<typeof customFetch>
-}): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
-  const queryOptions = getFindAllBrandsQueryOptions(options)
+export function useFindAllBrands<TData = Awaited<ReturnType<typeof findAllBrands>>, TError = SwaggerBadRequestDto>(
+  params?: FindAllBrandsParams,
+  options?: {
+    query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof findAllBrands>>, TError, TData>>
+    request?: SecondParameter<typeof customFetch>
+  },
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+  const queryOptions = getFindAllBrandsQueryOptions(params, options)
 
   const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 
@@ -305,8 +275,73 @@ export function useFindAllBrands<
   return query
 }
 
-export const getDeleteBrandUrl = (id: string) => {
+export const getUpdateBrandUrl = (id: string) => {
   return `http://localhost:3333/brand/${id}`
+}
+
+export const updateBrand = async (
+  id: string,
+  updateBrandBodyDto: UpdateBrandBodyDto,
+  options?: RequestInit,
+): Promise<UpdateBrandResponseDto> => {
+  return customFetch<UpdateBrandResponseDto>(getUpdateBrandUrl(id), {
+    ...options,
+    method: 'PATCH',
+    headers: { 'Content-Type': 'application/json', ...options?.headers },
+    body: JSON.stringify(updateBrandBodyDto),
+  })
+}
+
+export const getUpdateBrandMutationOptions = <
+  TData = Awaited<ReturnType<typeof updateBrand>>,
+  TError = SwaggerBadRequestDto | SwaggerNotAllowedDto | SwaggerResourceNotFoundDto,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<TData, TError, { id: string; data: UpdateBrandBodyDto }, TContext>
+  request?: SecondParameter<typeof customFetch>
+}) => {
+  const mutationKey = ['updateBrand']
+  const { mutation: mutationOptions, request: requestOptions } = options
+    ? options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey
+      ? options
+      : { ...options, mutation: { ...options.mutation, mutationKey } }
+    : { mutation: { mutationKey }, request: undefined }
+
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<typeof updateBrand>>,
+    { id: string; data: UpdateBrandBodyDto }
+  > = (props) => {
+    const { id, data } = props ?? {}
+
+    return updateBrand(id, data, requestOptions)
+  }
+
+  return { mutationFn, ...mutationOptions } as UseMutationOptions<
+    TData,
+    TError,
+    { id: string; data: UpdateBrandBodyDto },
+    TContext
+  >
+}
+
+export type UpdateBrandMutationResult = NonNullable<Awaited<ReturnType<typeof updateBrand>>>
+export type UpdateBrandMutationBody = UpdateBrandBodyDto
+export type UpdateBrandMutationError = SwaggerBadRequestDto | SwaggerNotAllowedDto | SwaggerResourceNotFoundDto
+
+export const useUpdateBrand = <
+  TData = Awaited<ReturnType<typeof updateBrand>>,
+  TError = SwaggerBadRequestDto | SwaggerNotAllowedDto | SwaggerResourceNotFoundDto,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<TData, TError, { id: string; data: UpdateBrandBodyDto }, TContext>
+  request?: SecondParameter<typeof customFetch>
+}): UseMutationResult<TData, TError, { id: string; data: UpdateBrandBodyDto }, TContext> => {
+  const mutationOptions = getUpdateBrandMutationOptions(options)
+
+  return useMutation(mutationOptions)
+}
+export const getDeleteBrandUrl = (id: string) => {
+  return `http://localhost:3333/brand/delete/${id}`
 }
 
 export const deleteBrand = async (id: string, options?: RequestInit): Promise<DeleteBrandResponseDto> => {

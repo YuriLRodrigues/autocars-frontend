@@ -11,4 +11,8 @@ export type FindAllSoldAdsParams = {
    * Limit of data to be returned from the API
    */
   referenceDate?: number
+  /**
+   * Indicates if the search is for an admin user (manager) or not
+   */
+  isManager: boolean
 }

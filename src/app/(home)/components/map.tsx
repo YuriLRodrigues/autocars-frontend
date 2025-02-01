@@ -1,4 +1,5 @@
 'use client'
+import { Container } from '@/components/interface/container'
 import { WorldMap } from '@/components/ui/world-map'
 
 import { motion } from 'framer-motion'
@@ -7,7 +8,7 @@ export function WorldMapSection() {
   return (
     <div className="w-full">
       <div className="mx-auto max-w-7xl text-center">
-        <p className="text-xl font-bold text-black dark:text-white md:text-4xl">
+        <Container.Title>
           Alcance{' '}
           <span className="text-neutral-400">
             {'Global'.split('').map((word, idx) => (
@@ -22,10 +23,10 @@ export function WorldMapSection() {
               </motion.span>
             ))}
           </span>
-        </p>
-        <p className="mx-auto max-w-2xl py-4 text-sm text-neutral-500 md:text-lg">
+        </Container.Title>
+        <Container.Description className="max-w-[500px]">
           Compre, venda e descubra carros de qualquer lugar. Seu próximo carro está a um clique de distância.
-        </p>
+        </Container.Description>
       </div>
       <WorldMap
         dots={[

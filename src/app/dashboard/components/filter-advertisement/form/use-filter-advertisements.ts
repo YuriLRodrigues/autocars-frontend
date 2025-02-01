@@ -92,7 +92,7 @@ export const useFilterAdvertisementsForm = () => {
     }
 
     toast.success(`Novos filtros adicionados`)
-    toggle(true)
+    toggle(false)
     router.push(url.value())
     return
   }

@@ -8,10 +8,11 @@ import { SelectMonthForm } from './form/form'
 
 type TotalAdsChartsProps = {
   referenceDate?: number
+  isManager: boolean
 }
 
-export const TotalAdsCharts = async ({ referenceDate }: TotalAdsChartsProps) => {
-  const { results } = await findAllSoldAds({ referenceDate }, { next: {} })
+export const TotalAdsCharts = async ({ referenceDate, isManager }: TotalAdsChartsProps) => {
+  const { results } = await findAllSoldAds({ referenceDate, isManager })
 
   return (
     <section className="relative">

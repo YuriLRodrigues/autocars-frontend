@@ -2,11 +2,26 @@
 
 import * as React from 'react'
 
+import { ToggleProvider } from '@/context/toggle-context'
+import { useToggle } from '@/hooks/use-toggle'
 import { cn } from '@/lib/utils'
 import * as DialogPrimitive from '@radix-ui/react-dialog'
 import { X } from 'lucide-react'
 
-const Dialog = DialogPrimitive.Root
+type DialogProps = React.ComponentProps<typeof DialogPrimitive.Root>
+
+const Dialog = (props: DialogProps) => {
+  return (
+    <ToggleProvider>
+      <DialogPrimitiveRoot {...props} />
+    </ToggleProvider>
+  )
+}
+
+const DialogPrimitiveRoot = (props: DialogProps) => {
+  const { isOpen, toggle } = useToggle()
+  return <DialogPrimitive.Root open={isOpen} onOpenChange={toggle} {...props} />
+}
 
 const DialogTrigger = DialogPrimitive.Trigger
 

@@ -2,20 +2,24 @@
 
 import * as React from 'react'
 
+import { ToggleProvider } from '@/context/toggle-context'
 import { useToggle } from '@/hooks/use-toggle'
 import { cn } from '@/lib/utils'
 import { Drawer as DrawerPrimitive } from 'vaul'
 
-const Drawer = ({ shouldScaleBackground = true, ...props }: React.ComponentProps<typeof DrawerPrimitive.Root>) => {
-  const { isOpen, toggle } = useToggle()
+type DrawerProps = React.ComponentProps<typeof DrawerPrimitive.Root>
+
+const Drawer = (props: DrawerProps) => {
   return (
-    <DrawerPrimitive.Root
-      open={isOpen}
-      onOpenChange={toggle}
-      shouldScaleBackground={shouldScaleBackground}
-      {...props}
-    />
+    <ToggleProvider>
+      <DrawerPrimitiveRoot {...props} />
+    </ToggleProvider>
   )
+}
+
+const DrawerPrimitiveRoot = (props: DrawerProps) => {
+  const { isOpen, toggle } = useToggle()
+  return <DrawerPrimitive.Root open={isOpen} onOpenChange={toggle} {...props} />
 }
 Drawer.displayName = 'Drawer'
 

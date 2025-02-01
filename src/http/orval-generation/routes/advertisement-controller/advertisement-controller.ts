@@ -1468,7 +1468,7 @@ export function useFindAllAdvertisements<
   return query
 }
 
-export const getFindAllSoldAdsUrl = (params?: FindAllSoldAdsParams) => {
+export const getFindAllSoldAdsUrl = (params: FindAllSoldAdsParams) => {
   const normalizedParams = new URLSearchParams()
 
   Object.entries(params || {}).forEach(([key, value]) => {
@@ -1483,7 +1483,7 @@ export const getFindAllSoldAdsUrl = (params?: FindAllSoldAdsParams) => {
 }
 
 export const findAllSoldAds = async (
-  params?: FindAllSoldAdsParams,
+  params: FindAllSoldAdsParams,
   options?: RequestInit,
 ): Promise<FindAllSoldAdsResponseDto> => {
   return customFetch<FindAllSoldAdsResponseDto>(getFindAllSoldAdsUrl(params), {
@@ -1492,7 +1492,7 @@ export const findAllSoldAds = async (
   })
 }
 
-export const getFindAllSoldAdsQueryKey = (params?: FindAllSoldAdsParams) => {
+export const getFindAllSoldAdsQueryKey = (params: FindAllSoldAdsParams) => {
   return [`http://localhost:3333/advertisement/sold-ads`, ...(params ? [params] : [])] as const
 }
 
@@ -1500,7 +1500,7 @@ export const getFindAllSoldAdsInfiniteQueryOptions = <
   TData = InfiniteData<Awaited<ReturnType<typeof findAllSoldAds>>>,
   TError = SwaggerBadRequestDto | SwaggerResourceNotFoundDto,
 >(
-  params?: FindAllSoldAdsParams,
+  params: FindAllSoldAdsParams,
   options?: {
     query?: Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof findAllSoldAds>>, TError, TData>>
     request?: SecondParameter<typeof customFetch>
@@ -1527,7 +1527,7 @@ export function useFindAllSoldAdsInfinite<
   TData = InfiniteData<Awaited<ReturnType<typeof findAllSoldAds>>>,
   TError = SwaggerBadRequestDto | SwaggerResourceNotFoundDto,
 >(
-  params: undefined | FindAllSoldAdsParams,
+  params: FindAllSoldAdsParams,
   options: {
     query: Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof findAllSoldAds>>, TError, TData>> &
       Pick<DefinedInitialDataOptions<Awaited<ReturnType<typeof findAllSoldAds>>, TError, TData>, 'initialData'>
@@ -1538,7 +1538,7 @@ export function useFindAllSoldAdsInfinite<
   TData = InfiniteData<Awaited<ReturnType<typeof findAllSoldAds>>>,
   TError = SwaggerBadRequestDto | SwaggerResourceNotFoundDto,
 >(
-  params?: FindAllSoldAdsParams,
+  params: FindAllSoldAdsParams,
   options?: {
     query?: Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof findAllSoldAds>>, TError, TData>> &
       Pick<UndefinedInitialDataOptions<Awaited<ReturnType<typeof findAllSoldAds>>, TError, TData>, 'initialData'>
@@ -1549,7 +1549,7 @@ export function useFindAllSoldAdsInfinite<
   TData = InfiniteData<Awaited<ReturnType<typeof findAllSoldAds>>>,
   TError = SwaggerBadRequestDto | SwaggerResourceNotFoundDto,
 >(
-  params?: FindAllSoldAdsParams,
+  params: FindAllSoldAdsParams,
   options?: {
     query?: Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof findAllSoldAds>>, TError, TData>>
     request?: SecondParameter<typeof customFetch>
@@ -1560,7 +1560,7 @@ export function useFindAllSoldAdsInfinite<
   TData = InfiniteData<Awaited<ReturnType<typeof findAllSoldAds>>>,
   TError = SwaggerBadRequestDto | SwaggerResourceNotFoundDto,
 >(
-  params?: FindAllSoldAdsParams,
+  params: FindAllSoldAdsParams,
   options?: {
     query?: Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof findAllSoldAds>>, TError, TData>>
     request?: SecondParameter<typeof customFetch>
@@ -1581,7 +1581,7 @@ export const getFindAllSoldAdsQueryOptions = <
   TData = Awaited<ReturnType<typeof findAllSoldAds>>,
   TError = SwaggerBadRequestDto | SwaggerResourceNotFoundDto,
 >(
-  params?: FindAllSoldAdsParams,
+  params: FindAllSoldAdsParams,
   options?: {
     query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof findAllSoldAds>>, TError, TData>>
     request?: SecondParameter<typeof customFetch>
@@ -1608,7 +1608,7 @@ export function useFindAllSoldAds<
   TData = Awaited<ReturnType<typeof findAllSoldAds>>,
   TError = SwaggerBadRequestDto | SwaggerResourceNotFoundDto,
 >(
-  params: undefined | FindAllSoldAdsParams,
+  params: FindAllSoldAdsParams,
   options: {
     query: Partial<UseQueryOptions<Awaited<ReturnType<typeof findAllSoldAds>>, TError, TData>> &
       Pick<DefinedInitialDataOptions<Awaited<ReturnType<typeof findAllSoldAds>>, TError, TData>, 'initialData'>
@@ -1619,7 +1619,7 @@ export function useFindAllSoldAds<
   TData = Awaited<ReturnType<typeof findAllSoldAds>>,
   TError = SwaggerBadRequestDto | SwaggerResourceNotFoundDto,
 >(
-  params?: FindAllSoldAdsParams,
+  params: FindAllSoldAdsParams,
   options?: {
     query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof findAllSoldAds>>, TError, TData>> &
       Pick<UndefinedInitialDataOptions<Awaited<ReturnType<typeof findAllSoldAds>>, TError, TData>, 'initialData'>
@@ -1630,7 +1630,7 @@ export function useFindAllSoldAds<
   TData = Awaited<ReturnType<typeof findAllSoldAds>>,
   TError = SwaggerBadRequestDto | SwaggerResourceNotFoundDto,
 >(
-  params?: FindAllSoldAdsParams,
+  params: FindAllSoldAdsParams,
   options?: {
     query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof findAllSoldAds>>, TError, TData>>
     request?: SecondParameter<typeof customFetch>
@@ -1641,7 +1641,7 @@ export function useFindAllSoldAds<
   TData = Awaited<ReturnType<typeof findAllSoldAds>>,
   TError = SwaggerBadRequestDto | SwaggerResourceNotFoundDto,
 >(
-  params?: FindAllSoldAdsParams,
+  params: FindAllSoldAdsParams,
   options?: {
     query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof findAllSoldAds>>, TError, TData>>
     request?: SecondParameter<typeof customFetch>

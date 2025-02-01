@@ -2,10 +2,25 @@
 
 import * as React from 'react'
 
+import { ToggleProvider } from '@/context/toggle-context'
+import { useToggle } from '@/hooks/use-toggle'
 import { cn } from '@/lib/utils'
 import * as PopoverPrimitive from '@radix-ui/react-popover'
 
-const Popover = PopoverPrimitive.Root
+type PopoverProps = React.ComponentProps<typeof PopoverPrimitive.Root>
+
+const Popover = (props: PopoverProps) => {
+  return (
+    <ToggleProvider>
+      <PopoverPrimitiveRoot {...props} />
+    </ToggleProvider>
+  )
+}
+
+const PopoverPrimitiveRoot = (props: PopoverProps) => {
+  const { isOpen, toggle } = useToggle()
+  return <PopoverPrimitive.Root open={isOpen} onOpenChange={toggle} {...props} />
+}
 
 const PopoverTrigger = PopoverPrimitive.Trigger
 

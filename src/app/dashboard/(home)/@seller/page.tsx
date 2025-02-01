@@ -20,7 +20,7 @@ export default async function SellerPage({ searchParams }: SellerPageProps) {
       <section className="space-y-3">
         <h3 className="text-xl font-semibold">Anúncios/Vendas</h3>
         <Suspense fallback={<TotalAdsChartsSkeleton />}>
-          <TotalAdsCharts referenceDate={referenceDate} />
+          <TotalAdsCharts referenceDate={referenceDate} isManager={false} />
         </Suspense>
       </section>
     </Container.Content>

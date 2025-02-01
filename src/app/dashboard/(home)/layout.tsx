@@ -3,8 +3,8 @@ import { authToken } from '@/auth'
 
 export default async function DashboardLayout({
   manager,
-  customer,
   seller,
+  customer,
   children,
 }: {
   manager: React.ReactNode
@@ -17,10 +17,10 @@ export default async function DashboardLayout({
   const isSeller = auth?.roles.includes(UserRoles.Seller)
   const isCustomer = auth?.roles.includes(UserRoles.Customer)
 
-  if (isManager) return manager
-  if (isManager && isSeller) return manager
-  if (isSeller && !isManager) return seller
-  if (isCustomer && !isSeller && !isManager) return customer
+  if (isManager) return <>{manager}</>
+  if (isManager && isSeller) return <>{manager}</>
+  if (isSeller && !isManager) return <>{seller}</>
+  if (isCustomer && !isSeller && !isManager) return <>{customer}</>
 
-  if (!isCustomer && !isSeller && !isManager) return children
+  if (!isCustomer && !isSeller && !isManager) return <>{children}</>
 }

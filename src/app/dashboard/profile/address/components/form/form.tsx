@@ -12,7 +12,7 @@ export const UpdateAddressForm = () => {
 
   return (
     <Form {...form}>
-      <form onSubmit={handleSubmit} className="mx-auto space-y-3 p-1 md:min-w-[500px]">
+      <form onSubmit={handleSubmit} className="mx-auto w-full space-y-3 p-1 md:w-auto md:min-w-[500px]">
         <FormField
           control={form.control}
           name="zipCode"
@@ -85,7 +85,7 @@ export const UpdateAddressForm = () => {
           )}
         />
 
-        <div className="flex flex-wrap items-center justify-end gap-4 md:col-span-2">
+        <div className="!mb-6 flex flex-wrap items-center justify-end gap-4 md:col-span-2">
           <Button
             type="submit"
             icon={<Icon name="Check" />}

@@ -27,29 +27,34 @@ export default async function ManagerPage({ searchParams }: ManagerPageProps) {
           <TabsTrigger value="manager">Visão Geral</TabsTrigger>
           <TabsTrigger value="me">Minhas Métricas</TabsTrigger>
         </TabsList>
-        <TabsContent value="manager">
+        <TabsContent value="manager" className="space-y-4">
           <ManagerBigNumbers />
+          <section className="space-y-3">
+            <h3 className="text-xl font-semibold">Anúncios/Vendas</h3>
+            <Suspense fallback={<TotalAdsChartsSkeleton />}>
+              <TotalAdsCharts referenceDate={referenceDate} isManager={true} />
+            </Suspense>
+          </section>
         </TabsContent>
-        <TabsContent value="me">
+        <TabsContent value="me" className="space-y-4">
           <MeBigNumbers />
+          <section className="space-y-3">
+            <h3 className="text-xl font-semibold">Meus Anúncios/Vendas</h3>
+            <Suspense fallback={<TotalAdsChartsSkeleton />}>
+              <TotalAdsCharts referenceDate={referenceDate} isManager={false} />
+            </Suspense>
+          </section>
         </TabsContent>
+
+        <section className="space-y-3">
+          <h2 className="text-xl font-semibold">Top vendedores</h2>
+          <TopSellersTable>
+            <Suspense fallback={<TableRowsSkeleton />}>
+              <TableRows />
+            </Suspense>
+          </TopSellersTable>
+        </section>
       </Tabs>
-
-      <section className="space-y-3">
-        <h2 className="text-xl font-semibold">Top vendedores</h2>
-        <TopSellersTable>
-          <Suspense fallback={<TableRowsSkeleton />}>
-            <TableRows />
-          </Suspense>
-        </TopSellersTable>
-      </section>
-
-      <section className="space-y-3">
-        <h3 className="text-xl font-semibold">Anúncios/Vendas</h3>
-        <Suspense fallback={<TotalAdsChartsSkeleton />}>
-          <TotalAdsCharts referenceDate={referenceDate} />
-        </Suspense>
-      </section>
     </Container.Content>
   )
 }

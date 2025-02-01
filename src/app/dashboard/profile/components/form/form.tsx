@@ -22,7 +22,7 @@ export const UpdateProfileForm = () => {
 
   return (
     <Form {...form}>
-      <form onSubmit={handleSubmit} className="mx-auto space-y-3 p-1 md:min-w-[500px]">
+      <form onSubmit={handleSubmit} className="mx-auto w-full space-y-3 p-1 md:w-auto md:min-w-[500px]">
         <div className="flex flex-col gap-6 md:col-span-2">
           <DialogUploaderAvatar files={uploadedAvatar} onUpload={onUpload} />
         </div>
@@ -66,7 +66,7 @@ export const UpdateProfileForm = () => {
           )}
         />
 
-        <div className="flex flex-wrap items-center justify-end gap-4 md:col-span-2">
+        <div className="!mb-6 flex flex-wrap items-center justify-end gap-4 md:col-span-2">
           <Button
             type="submit"
             icon={<Icon name="Check" />}

@@ -1,8 +1,8 @@
 import { Suspense } from 'react'
 
-import { FilterAdvertisements } from '../../../components/filter-advertisement/filter-advertisement'
-import { InputTitleForm } from '../../../components/filter-advertisement/form/input-title-form'
-import { PaginationManager, PaginationOwn } from '../../../components/pagination-advertisements'
+import { FilterAdvertisements } from '../../components/filter-advertisement/filter-advertisement'
+import { InputTitleForm } from '../../components/filter-advertisement/form/input-title-form'
+import { PaginationManager, PaginationOwn } from '../../components/pagination-advertisements'
 import { ManagerTable } from '@/app/dashboard/components/advertisements-table/manager/manager-table'
 import {
   ManagerTableRows,

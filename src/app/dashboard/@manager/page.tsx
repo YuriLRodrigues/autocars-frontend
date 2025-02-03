@@ -1,6 +1,6 @@
 import { Suspense } from 'react'
 
-import { TotalAdsCharts, TotalAdsChartsSkeleton } from '../../components/total-ads-charts'
+import { TotalAdsCharts, TotalAdsChartsSkeleton } from '../components/total-ads-charts'
 import { ManagerBigNumbers } from './components/manager-big-numbers'
 import { MeBigNumbers } from './components/me-big-numbers'
 import { TableRows, TableRowsSkeleton, TopSellersTable } from './components/top-sellers'

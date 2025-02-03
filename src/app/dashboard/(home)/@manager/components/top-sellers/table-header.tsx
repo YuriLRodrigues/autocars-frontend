@@ -13,9 +13,9 @@ export const TableHeader = (props: TableHeaderProps) => {
       <TableHeaderRoot>
         <TableRow className="*:text-center">
           <TableHead className="!text-left">Usuário</TableHead>
+          <TableHead>Permissões</TableHead>
           <TableHead>Valor vendido</TableHead>
           <TableHead>Quantidade de anúncios</TableHead>
-          <TableHead>Ações</TableHead>
         </TableRow>
       </TableHeaderRoot>
       {children}

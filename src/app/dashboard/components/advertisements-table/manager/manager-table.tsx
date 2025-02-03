@@ -4,19 +4,19 @@ import { Card } from '@/components/ui/card'
 import { ScrollTable } from '@/components/ui/scroll-table'
 import { TableBody } from '@/components/ui/table'
 
-import { TableHeader } from './table-header'
+import { ManagerTableHeader } from './manager-table-header'
 
-type AdvertisementsTableProps = {
+type ManagerTableProps = {
   children: ReactNode
 }
 
-export const AdvertisementsTable = ({ children }: AdvertisementsTableProps) => {
+export const ManagerTable = ({ children }: ManagerTableProps) => {
   return (
     <Card>
       <ScrollTable>
-        <TableHeader>
+        <ManagerTableHeader>
           <TableBody>{children}</TableBody>
-        </TableHeader>
+        </ManagerTableHeader>
       </ScrollTable>
     </Card>
   )

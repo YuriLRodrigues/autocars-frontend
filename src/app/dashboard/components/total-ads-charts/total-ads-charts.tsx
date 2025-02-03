@@ -1,7 +1,8 @@
+'use client'
 import { Card, CardContent, CardHeader } from '@/components/ui/card'
 import { Skeleton } from '@/components/ui/skeleton'
 
-import { findAllSoldAds } from '@/http/orval-generation/routes/advertisement-controller/advertisement-controller'
+import { useFindAllSoldAds } from '@/http/orval-generation/routes/advertisement-controller/advertisement-controller'
 
 import { SallesChart } from './chart'
 import { SelectMonthForm } from './form/form'
@@ -11,8 +12,12 @@ type TotalAdsChartsProps = {
   isManager: boolean
 }
 
-export const TotalAdsCharts = async ({ referenceDate, isManager }: TotalAdsChartsProps) => {
-  const { results } = await findAllSoldAds({ referenceDate, isManager })
+export const TotalAdsCharts = ({ referenceDate, isManager }: TotalAdsChartsProps) => {
+  const { data, isLoading } = useFindAllSoldAds({ referenceDate, isManager })
+
+  if (isLoading) return <TotalAdsChartsSkeleton />
+
+  const results = data?.results || []
 
   return (
     <section className="relative">

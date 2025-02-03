@@ -1,1 +1,1 @@
-export { CreateAdvertisementForm } from './form'
+export { EditAdvertisementForm } from './form'

@@ -77,7 +77,7 @@ export function NavUser({
 const UserAvatarProfile = ({ avatar, name, email }: { avatar?: string; name: string; email: string }) => {
   return (
     <Fragment>
-      <Avatar className="h-8 w-8 rounded-lg">
+      <Avatar>
         <AvatarImage
           src={avatar || '/assets/default-user-avatar.webp'}
           alt={name}

@@ -6,14 +6,14 @@ import { Skeleton } from '@/components/ui/skeleton'
 import { TableCell, TableRow as TableRowRoot } from '@/components/ui/table'
 
 import { SoldStatus } from '@/@types/advertisement'
-import { findAllOwnAdvertisements } from '@/http/orval-generation/routes/advertisement-controller/advertisement-controller'
+import { findAllManagerAdvertisements } from '@/http/orval-generation/routes/advertisement-controller/advertisement-controller'
 import { formatDate } from '@/utils/format-date'
 import { formatCurrencyBRL } from '@/utils/format-number'
 import { mappingAdSoldStatus } from '@/utils/mappings'
 
-import { DeleteAdvertisement } from './actions/delete/delete-advertisement'
+import { DeleteAdvertisement } from '../actions/delete/delete-advertisement'
 
-type OwnAdvertisementsTableRowsProps = {
+type ManagerTableRowsProps = {
   limit?: number
   page?: number
   createdAt?: 'asc' | 'desc'
@@ -25,7 +25,7 @@ type OwnAdvertisementsTableRowsProps = {
   brandId?: string
 }
 
-export const OwnAdvertisementsTableRows = async ({
+export const ManagerTableRows = async ({
   limit,
   page,
   createdAt,
@@ -35,8 +35,8 @@ export const OwnAdvertisementsTableRows = async ({
   title,
   soldStatus,
   brandId,
-}: OwnAdvertisementsTableRowsProps) => {
-  const { results } = await findAllOwnAdvertisements(
+}: ManagerTableRowsProps) => {
+  const { results } = await findAllManagerAdvertisements(
     {
       limit,
       page,
@@ -50,7 +50,7 @@ export const OwnAdvertisementsTableRows = async ({
     },
     {
       next: {
-        tags: ['findAllOwnAdvertisements'],
+        tags: ['findAllManagerAdvertisements'],
       },
     },
   )
@@ -59,7 +59,7 @@ export const OwnAdvertisementsTableRows = async ({
     return (
       <TableRowRoot className="*:text-center">
         <TableCell className="p-6" colSpan={7}>
-          Você não publicou nenhum anúncio atualmente.
+          Nenhum anúncio foi publicado ainda.
         </TableCell>
       </TableRowRoot>
     )
@@ -74,6 +74,18 @@ export const OwnAdvertisementsTableRows = async ({
             <AvatarFallback>AC</AvatarFallback>
           </Avatar>
           <span className="text-sm font-medium text-foreground">{row.title}</span>
+        </div>
+      </TableCell>
+      <TableCell className="!text-left">
+        <div className="mx-auto flex w-fit flex-row items-center gap-3">
+          <Avatar>
+            <AvatarImage
+              src={row.user.avatar || '/assets/default-user-avatar.webp'}
+              className="object-cover object-center"
+            />
+            <AvatarFallback>{row.user.name[0].toUpperCase()}</AvatarFallback>
+          </Avatar>
+          <span className="line-clamp-1 text-sm font-medium text-foreground">{row.user.name}</span>
         </div>
       </TableCell>
       <TableCell>
@@ -110,11 +122,21 @@ export const OwnAdvertisementsTableRows = async ({
   ))
 }
 
-export const TableRowsSkeleton = () => {
+export const ManagerTableRowsSkeleton = () => {
   return Array.from({ length: 9 }, (_, i) => (
     <TableRowRoot key={i} className="*:mx-auto">
       <TableCell className="!text-left">
         <div className="flex items-center gap-2">
+          <Avatar>
+            <AvatarFallback>
+              <Skeleton />
+            </AvatarFallback>
+          </Avatar>
+          <Skeleton className="h-5 w-28" />
+        </div>
+      </TableCell>
+      <TableCell className="!text-left">
+        <div className="mx-auto flex w-fit items-center justify-center gap-2">
           <Avatar>
             <AvatarFallback>
               <Skeleton />

@@ -21,7 +21,7 @@ export const UserProfile = async () => {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Avatar className="size-8">
+        <Avatar>
           <AvatarImage
             src={user?.avatar || '/assets/default-user-avatar.webp'}
             className="object-cover object-center"

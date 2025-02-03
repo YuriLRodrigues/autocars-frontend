@@ -52,7 +52,7 @@ export const FilterAdvertisementsForm = () => {
               <Select onValueChange={field.onChange} defaultValue={field.value?.toString()}>
                 <FormControl>
                   <SelectTrigger>
-                    <SelectValue placeholder="Ordem de exibição" />
+                    <SelectValue placeholder="Ordem de exibição (criação)" />
                   </SelectTrigger>
                 </FormControl>
                 <SelectContent>

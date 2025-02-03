@@ -6,8 +6,7 @@ import { Separator } from '@/components/ui/separator'
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet'
 
 import AutoCarsLogo from '@/assets/images/autocars.svg'
-import { isAuthenticated } from '@/auth'
-import { me } from '@/http/orval-generation/routes/user-controller/user-controller'
+import { authToken, isAuthenticated } from '@/auth'
 
 import { navbarLinks } from './links'
 import { NavLink } from './nav-link'
@@ -16,7 +15,7 @@ import { UserProfile } from './user-profile'
 export const MobileMenu = async () => {
   const userAlreadyAuthenticated = await isAuthenticated()
 
-  const { user } = await me()
+  const userData = await authToken()
 
   return (
     <Sheet>
@@ -47,17 +46,17 @@ export const MobileMenu = async () => {
           <div className="space-y-3">
             <Separator />
             <div className="flex items-center gap-2">
-              <Avatar className="size-8">
+              <Avatar>
                 <AvatarImage
-                  src={user?.avatar || '/assets/default-user-avatar.webp'}
+                  src={userData?.avatar || '/assets/default-user-avatar.webp'}
                   className="object-cover object-center"
                 />
                 <AvatarFallback>AC</AvatarFallback>
               </Avatar>
 
               <div>
-                <span className="line-clamp-1 text-sm font-medium text-foreground">{user?.name}</span>
-                <span className="text-xs font-medium text-gray-500">{user?.email}</span>
+                <span className="line-clamp-1 text-sm font-medium text-foreground">{userData?.name}</span>
+                <span className="text-xs font-medium text-gray-500">{userData?.email}</span>
               </div>
             </div>
           </div>

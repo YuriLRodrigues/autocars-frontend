@@ -2,11 +2,11 @@ import { ReactNode } from 'react'
 
 import { Table, TableHead, TableHeader as TableHeaderRoot, TableRow } from '@/components/ui/table'
 
-type TableHeaderProps = {
+type OwnTableHeaderProps = {
   children: ReactNode
 }
 
-export const TableHeader = (props: TableHeaderProps) => {
+export const OwnTableHeader = (props: OwnTableHeaderProps) => {
   const { children } = props
   return (
     <Table>

@@ -9,11 +9,13 @@ import {
   TotalSalesSkeleton,
   TotalSellers,
   TotalSellersSkeleton,
+  TotalManagersSkeleton,
+  TotalManagers,
 } from './index'
 
 export const ManagerBigNumbers = () => {
   return (
-    <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-4">
+    <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-5">
       <Suspense fallback={<TotalSalesSkeleton />}>
         <TotalSales />
       </Suspense>
@@ -25,6 +27,9 @@ export const ManagerBigNumbers = () => {
       </Suspense>
       <Suspense fallback={<TotalSellersSkeleton />}>
         <TotalSellers />
+      </Suspense>
+      <Suspense fallback={<TotalManagersSkeleton />}>
+        <TotalManagers />
       </Suspense>
     </div>
   )

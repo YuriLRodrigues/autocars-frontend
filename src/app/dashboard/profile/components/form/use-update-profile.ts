@@ -48,6 +48,7 @@ export const useUpdateProfileForm = ({ uploadedAvatar }: UseUpdateProfileFormPro
       setCookie(AUTH_COOKIE_NAME, token, { maxAge: SIGNIN_COOKIE_MAX_AGE })
 
       toast.success(`Perfil atualizado`)
+
       await wait()
       window.location.reload()
     } catch (error) {

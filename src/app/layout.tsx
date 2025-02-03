@@ -8,10 +8,12 @@ import { Providers } from '@/providers'
 
 export const poppinsFont = Poppins({
   weight: ['100', '200', '300', '400', '500', '600', '800'],
+  subsets: ['latin'],
 })
 
 export const ralewayFont = Raleway({
   weight: ['100', '200', '300', '400', '500', '600', '800'],
+  subsets: ['latin'],
 })
 
 export const metadata: Metadata = {

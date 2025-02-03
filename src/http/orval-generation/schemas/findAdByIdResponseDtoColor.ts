@@ -25,4 +25,5 @@ export const FindAdByIdResponseDtoColor = {
   Metalic: 'Metalic',
   Pink: 'Pink',
   Purple: 'Purple',
+  Brown: 'Brown',
 } as const

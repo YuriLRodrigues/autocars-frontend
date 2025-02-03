@@ -7,6 +7,7 @@
  */
 import type { ManagerAdvertisementsDtoSoldStatus } from './managerAdvertisementsDtoSoldStatus'
 import type { ManagerAdvertisementBrandDto } from './managerAdvertisementBrandDto'
+import type { ManagerAdvertisementUserDto } from './managerAdvertisementUserDto'
 
 export interface ManagerAdvertisementsDto {
   /** Creation date of the advertisement */
@@ -27,4 +28,6 @@ export interface ManagerAdvertisementsDto {
   blurHash: string
   /** Brand details of the advertisement */
   brand: ManagerAdvertisementBrandDto
+  /** User who created the advertisement */
+  user: ManagerAdvertisementUserDto
 }

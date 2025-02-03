@@ -114,7 +114,7 @@ export const mappingStepsLabel: Record<'SIGNUP' | 'ADDRESS' | 'SEND-IMAGES' | 'A
 
 export const mappingModel: Record<Model, string> = {
   [Model.SUV]: 'SUV',
-  [Model.Sedan]: 'Sedã',
+  [Model.Sedan]: 'Sedan',
   [Model.Hatch]: 'Hatch',
   [Model.Pickups]: 'Picapes',
   [Model.Crossover]: 'Crossover',
@@ -168,62 +168,67 @@ export const mappingNumberOfDoors: Record<Doors, string> = {
 export const mappingColor: Record<Color, React.ReactNode> = {
   [Color.Red]: (
     <div className="flex items-center gap-2">
-      <span className="h-4 w-4 rounded-full bg-red-500" /> Vermelho
+      <span className="h-4 w-4 rounded-full bg-[#EF4444]" /> Vermelho
     </div>
   ),
   [Color.Black]: (
     <div className="flex items-center gap-2">
-      <span className="h-4 w-4 rounded-full bg-black" /> Preto
+      <span className="h-4 w-4 rounded-full bg-[#000000]" /> Preto
     </div>
   ),
   [Color.Green]: (
     <div className="flex items-center gap-2">
-      <span className="h-4 w-4 rounded-full bg-green-500" /> Verde
+      <span className="h-4 w-4 rounded-full bg-[#22C55E]" /> Verde
     </div>
   ),
   [Color.Silver]: (
     <div className="flex items-center gap-2">
-      <span className="h-4 w-4 rounded-full bg-gray-300" /> Prata
+      <span className="h-4 w-4 rounded-full bg-[#D1D5DB]" /> Prata
     </div>
   ),
   [Color.White]: (
     <div className="flex items-center gap-2">
-      <span className="h-4 w-4 rounded-full border bg-white" /> Branco
+      <span className="h-4 w-4 rounded-full border bg-[#FFFFFF]" /> Branco
     </div>
   ),
   [Color.Blue]: (
     <div className="flex items-center gap-2">
-      <span className="h-4 w-4 rounded-full bg-blue-500" /> Azul
+      <span className="h-4 w-4 rounded-full bg-[#3B82F6]" /> Azul
     </div>
   ),
   [Color.Gray]: (
     <div className="flex items-center gap-2">
-      <span className="h-4 w-4 rounded-full bg-gray-500" /> Cinza
+      <span className="h-4 w-4 rounded-full bg-[#6B7280]" /> Cinza
     </div>
   ),
   [Color.Yellow]: (
     <div className="flex items-center gap-2">
-      <span className="h-4 w-4 rounded-full bg-yellow-500" /> Amarelo
+      <span className="h-4 w-4 rounded-full bg-[#EAB308]" /> Amarelo
     </div>
   ),
   [Color.Orange]: (
     <div className="flex items-center gap-2">
-      <span className="h-4 w-4 rounded-full bg-orange-500" /> Laranja
+      <span className="h-4 w-4 rounded-full bg-[#F97316]" /> Laranja
     </div>
   ),
   [Color.Metalic]: (
     <div className="flex items-center gap-2">
-      <span className="h-4 w-4 rounded-full bg-gray-400" /> Metálico
+      <span className="h-4 w-4 rounded-full bg-[#9CA3AF]" /> Metálico
     </div>
   ),
   [Color.Pink]: (
     <div className="flex items-center gap-2">
-      <span className="h-4 w-4 rounded-full bg-pink-500" /> Rosa
+      <span className="h-4 w-4 rounded-full bg-[#EC4899]" /> Rosa
     </div>
   ),
   [Color.Purple]: (
     <div className="flex items-center gap-2">
-      <span className="h-4 w-4 rounded-full bg-purple-500" /> Roxo
+      <span className="h-4 w-4 rounded-full bg-[#A855F7]" /> Roxo
+    </div>
+  ),
+  [Color.Brown]: (
+    <div className="flex items-center gap-2">
+      <span className="h-4 w-4 rounded-full bg-[#78350F]" /> Marrom
     </div>
   ),
 }

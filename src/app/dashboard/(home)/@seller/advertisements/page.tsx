@@ -1,19 +1,15 @@
 import { Suspense } from 'react'
 
 import { CreateAdvertisement } from '../../../components/create-advertisement/create-advertisement'
-import {
-  AdvertisementsTable,
-  OwnAdvertisementsTableRows,
-  TableRowsSkeleton,
-} from '@/app/dashboard/components/advertisements-table'
+import { OwnTable, OwnTableRows, OwnTableRowsSkeleton } from '@/app/dashboard/components/advertisements-table/own'
 import { FilterAdvertisements } from '@/app/dashboard/components/filter-advertisement'
 import { InputTitleForm } from '@/app/dashboard/components/filter-advertisement/form/input-title-form'
-import { PaginationOwnAdvertisements } from '@/app/dashboard/components/pagination-advertisements'
+import { PaginationOwn } from '@/app/dashboard/components/pagination-advertisements'
 import { Container } from '@/components/interface/container'
 
 import { SoldStatus } from '@/@types/advertisement'
 
-type AdvertisementsPageProps = {
+type SellerAdvertisementsPageProps = {
   searchParams: Promise<{
     limit?: number
     page?: number
@@ -27,7 +23,7 @@ type AdvertisementsPageProps = {
   }>
 }
 
-export default async function AdvertisementsPage({ searchParams }: AdvertisementsPageProps) {
+export default async function SellerAdvertisementsPage({ searchParams }: SellerAdvertisementsPageProps) {
   const { limit, page, createdAt, endDate, price, startDate, title, soldStatus, brandId } = await searchParams
 
   return (
@@ -48,9 +44,9 @@ export default async function AdvertisementsPage({ searchParams }: Advertisement
         <CreateAdvertisement />
       </div>
 
-      <AdvertisementsTable>
-        <Suspense fallback={<TableRowsSkeleton />}>
-          <OwnAdvertisementsTableRows
+      <OwnTable>
+        <Suspense fallback={<OwnTableRowsSkeleton />}>
+          <OwnTableRows
             limit={limit}
             page={page}
             createdAt={createdAt}
@@ -62,10 +58,10 @@ export default async function AdvertisementsPage({ searchParams }: Advertisement
             brandId={brandId}
           />
         </Suspense>
-      </AdvertisementsTable>
+      </OwnTable>
 
       <Suspense fallback={null}>
-        <PaginationOwnAdvertisements
+        <PaginationOwn
           limit={limit}
           page={page}
           createdAt={createdAt}

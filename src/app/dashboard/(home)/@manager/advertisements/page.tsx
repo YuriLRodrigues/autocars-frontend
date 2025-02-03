@@ -1,24 +1,21 @@
 import { Suspense } from 'react'
 
-import {
-  AdvertisementsTable,
-  OwnAdvertisementsTableRows,
-  TableRowsSkeleton,
-} from '../../../components/advertisements-table'
 import { FilterAdvertisements } from '../../../components/filter-advertisement/filter-advertisement'
 import { InputTitleForm } from '../../../components/filter-advertisement/form/input-title-form'
+import { PaginationManager, PaginationOwn } from '../../../components/pagination-advertisements'
+import { ManagerTable } from '@/app/dashboard/components/advertisements-table/manager/manager-table'
 import {
-  PaginationManagerAdvertisements,
-  PaginationOwnAdvertisements,
-} from '../../../components/pagination-advertisements'
-import { ManagerAdvertisementsTableRows } from '@/app/dashboard/components/advertisements-table/manager-advertisements-table-rows'
+  ManagerTableRows,
+  ManagerTableRowsSkeleton,
+} from '@/app/dashboard/components/advertisements-table/manager/manager-table-rows'
+import { OwnTable, OwnTableRows, OwnTableRowsSkeleton } from '@/app/dashboard/components/advertisements-table/own'
 import { CreateAdvertisement } from '@/app/dashboard/components/create-advertisement/create-advertisement'
 import { Container } from '@/components/interface/container'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 
 import { SoldStatus } from '@/@types/advertisement'
 
-type AdvertisementsPageProps = {
+type ManagerAdvertisementsPageProps = {
   searchParams: Promise<{
     limit?: number
     page?: number
@@ -32,7 +29,7 @@ type AdvertisementsPageProps = {
   }>
 }
 
-export default async function AdvertisementsPage({ searchParams }: AdvertisementsPageProps) {
+export default async function ManagerAdvertisementsPage({ searchParams }: ManagerAdvertisementsPageProps) {
   const { limit, page, createdAt, endDate, price, startDate, title, soldStatus, brandId } = await searchParams
 
   return (
@@ -60,9 +57,9 @@ export default async function AdvertisementsPage({ searchParams }: Advertisement
         </TabsList>
 
         <TabsContent value="manager">
-          <AdvertisementsTable>
-            <Suspense fallback={<TableRowsSkeleton />}>
-              <ManagerAdvertisementsTableRows
+          <ManagerTable>
+            <Suspense fallback={<ManagerTableRowsSkeleton />}>
+              <ManagerTableRows
                 limit={limit}
                 page={page}
                 createdAt={createdAt}
@@ -74,10 +71,10 @@ export default async function AdvertisementsPage({ searchParams }: Advertisement
                 brandId={brandId}
               />
             </Suspense>
-          </AdvertisementsTable>
+          </ManagerTable>
 
           <Suspense fallback={null}>
-            <PaginationManagerAdvertisements
+            <PaginationManager
               limit={limit}
               page={page}
               createdAt={createdAt}
@@ -92,9 +89,9 @@ export default async function AdvertisementsPage({ searchParams }: Advertisement
         </TabsContent>
 
         <TabsContent value="me">
-          <AdvertisementsTable>
-            <Suspense fallback={<TableRowsSkeleton />}>
-              <OwnAdvertisementsTableRows
+          <OwnTable>
+            <Suspense fallback={<OwnTableRowsSkeleton />}>
+              <OwnTableRows
                 limit={limit}
                 page={page}
                 createdAt={createdAt}
@@ -106,10 +103,10 @@ export default async function AdvertisementsPage({ searchParams }: Advertisement
                 brandId={brandId}
               />
             </Suspense>
-          </AdvertisementsTable>
+          </OwnTable>
 
           <Suspense fallback={null}>
-            <PaginationOwnAdvertisements
+            <PaginationOwn
               limit={limit}
               page={page}
               createdAt={createdAt}

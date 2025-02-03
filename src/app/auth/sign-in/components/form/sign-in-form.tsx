@@ -18,7 +18,18 @@ export const SignInForm = () => {
   return (
     <Form {...form}>
       <div className="relative overflow-hidden rounded-xl p-3">
-        <form onSubmit={onSubmit} className="flex flex-col space-y-6 px-2">
+        <form
+          onSubmit={onSubmit}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter') {
+              e.preventDefault()
+              if (!isSubmitting && hasInsertAllFieldsWithoutErrors) {
+                onSubmit(e)
+              }
+            }
+          }}
+          className="flex flex-col space-y-6 px-2"
+        >
           <FormField
             control={form.control}
             name="email"
@@ -54,7 +65,7 @@ export const SignInForm = () => {
             )}
           />
           <Link href="/auth/forgot-password" className="!mt-1 ml-auto text-left">
-            <Button variant="link" effect="hoverUnderline" className="p-0 text-foreground">
+            <Button variant="link" type="button" effect="hoverUnderline" className="p-0 text-foreground">
               Esqueci a minha senha
             </Button>
           </Link>

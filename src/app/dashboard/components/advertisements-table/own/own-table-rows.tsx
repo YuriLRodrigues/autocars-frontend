@@ -6,14 +6,14 @@ import { Skeleton } from '@/components/ui/skeleton'
 import { TableCell, TableRow as TableRowRoot } from '@/components/ui/table'
 
 import { SoldStatus } from '@/@types/advertisement'
-import { findAllManagerAdvertisements } from '@/http/orval-generation/routes/advertisement-controller/advertisement-controller'
+import { findAllOwnAdvertisements } from '@/http/orval-generation/routes/advertisement-controller/advertisement-controller'
 import { formatDate } from '@/utils/format-date'
 import { formatCurrencyBRL } from '@/utils/format-number'
 import { mappingAdSoldStatus } from '@/utils/mappings'
 
-import { DeleteAdvertisement } from './actions/delete/delete-advertisement'
+import { DeleteAdvertisement } from '../actions/delete/delete-advertisement'
 
-type ManagerTableRowsProps = {
+type OwnTableRowsProps = {
   limit?: number
   page?: number
   createdAt?: 'asc' | 'desc'
@@ -25,7 +25,7 @@ type ManagerTableRowsProps = {
   brandId?: string
 }
 
-export const ManagerAdvertisementsTableRows = async ({
+export const OwnTableRows = async ({
   limit,
   page,
   createdAt,
@@ -35,8 +35,8 @@ export const ManagerAdvertisementsTableRows = async ({
   title,
   soldStatus,
   brandId,
-}: ManagerTableRowsProps) => {
-  const { results } = await findAllManagerAdvertisements(
+}: OwnTableRowsProps) => {
+  const { results } = await findAllOwnAdvertisements(
     {
       limit,
       page,
@@ -50,7 +50,7 @@ export const ManagerAdvertisementsTableRows = async ({
     },
     {
       next: {
-        tags: ['findAllManagerAdvertisements'],
+        tags: ['findAllOwnAdvertisements'],
       },
     },
   )
@@ -59,7 +59,7 @@ export const ManagerAdvertisementsTableRows = async ({
     return (
       <TableRowRoot className="*:text-center">
         <TableCell className="p-6" colSpan={7}>
-          Nenhum anúncio foi publicado ainda.
+          Você não publicou nenhum anúncio atualmente.
         </TableCell>
       </TableRowRoot>
     )
@@ -110,7 +110,7 @@ export const ManagerAdvertisementsTableRows = async ({
   ))
 }
 
-export const TableRowsSkeleton = () => {
+export const OwnTableRowsSkeleton = () => {
   return Array.from({ length: 9 }, (_, i) => (
     <TableRowRoot key={i} className="*:mx-auto">
       <TableCell className="!text-left">

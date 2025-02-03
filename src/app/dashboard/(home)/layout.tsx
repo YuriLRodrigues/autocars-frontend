@@ -1,3 +1,6 @@
+import { redirect } from 'next/navigation'
+import type React from 'react'
+
 import { UserRoles } from '@/@types/user'
 import { authToken } from '@/auth'
 
@@ -13,14 +16,21 @@ export default async function DashboardLayout({
   children: React.ReactNode
 }) {
   const auth = await authToken()
-  const isManager = auth?.roles.includes(UserRoles.Manager)
-  const isSeller = auth?.roles.includes(UserRoles.Seller)
-  const isCustomer = auth?.roles.includes(UserRoles.Customer)
+  const roles = auth?.roles || []
 
-  if (isManager) return <>{manager}</>
-  if (isManager && isSeller) return <>{manager}</>
-  if (isSeller && !isManager) return <>{seller}</>
-  if (isCustomer && !isSeller && !isManager) return <>{customer}</>
+  if (!roles.length) {
+    redirect('/login')
+  }
 
-  if (!isCustomer && !isSeller && !isManager) return <>{children}</>
+  let content: React.ReactNode = children
+
+  if (roles.includes(UserRoles.Manager)) {
+    content = manager
+  } else if (roles.includes(UserRoles.Seller)) {
+    content = seller
+  } else if (roles.includes(UserRoles.Customer)) {
+    content = customer
+  }
+
+  return <>{content}</>
 }

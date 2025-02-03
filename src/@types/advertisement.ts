@@ -46,6 +46,7 @@ export enum Color {
   Metalic = 'Metalic',
   Pink = 'Pink',
   Purple = 'Purple',
+  Brown = 'Brown',
 }
 
 export enum GearBox {

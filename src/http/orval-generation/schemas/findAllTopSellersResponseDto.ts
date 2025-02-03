@@ -13,6 +13,8 @@ export interface FindAllTopSellersResponseDto {
   profileImg: string
   /** The user's full name */
   name: string
+  /** The user roles */
+  roles: string[]
   /** The total amount of sales made by the user */
   amountSold: number
   /** The total quantity of items sold by the user */

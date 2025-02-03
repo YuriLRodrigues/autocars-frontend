@@ -15,6 +15,8 @@ export interface FindAdvertisementsMetricsResponseDto {
   soldAdvertisements: number
   /** The total number of sellers */
   totalSellers: number
+  /** The number of total managers */
+  totalManagers: number
   /** The number of total advertisements */
   totalAdvertisements: number
 }

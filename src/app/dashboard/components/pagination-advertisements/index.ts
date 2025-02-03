@@ -1,2 +1,2 @@
-export { PaginationOwnAdvertisements } from './pagination-own-advertisements'
-export { PaginationManagerAdvertisements } from './pagination-manager-advertisements'
+export { PaginationOwn } from './pagination-own'
+export { PaginationManager } from './pagination-manager'

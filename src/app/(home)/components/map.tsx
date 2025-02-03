@@ -24,7 +24,7 @@ export function WorldMapSection() {
             ))}
           </span>
         </Container.Title>
-        <Container.Description className="max-w-[500px]">
+        <Container.Description className="mx-auto max-w-[500px]">
           Compre, venda e descubra carros de qualquer lugar. Seu próximo carro está a um clique de distância.
         </Container.Description>
       </div>

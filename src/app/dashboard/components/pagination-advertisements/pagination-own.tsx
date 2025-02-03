@@ -3,7 +3,7 @@ import { Pagination } from '@/components/ui/pagination'
 import { SoldStatus } from '@/@types/advertisement'
 import { findAllOwnAdvertisements } from '@/http/orval-generation/routes/advertisement-controller/advertisement-controller'
 
-type PaginationOwnAdvertisementsProps = {
+type PaginationOwnProps = {
   limit?: number
   page?: number
   createdAt?: 'asc' | 'desc'
@@ -15,7 +15,7 @@ type PaginationOwnAdvertisementsProps = {
   brandId?: string
 }
 
-export const PaginationOwnAdvertisements = async (props: PaginationOwnAdvertisementsProps) => {
+export const PaginationOwn = async (props: PaginationOwnProps) => {
   const { createdAt, endDate, limit, page, price, soldStatus, startDate, title, brandId } = props
   const { meta } = await findAllOwnAdvertisements({
     createdAt,

@@ -9,7 +9,6 @@
 export type FindAllManagerAdvertisementsSoldStatus =
   (typeof FindAllManagerAdvertisementsSoldStatus)[keyof typeof FindAllManagerAdvertisementsSoldStatus]
 
-// eslint-disable-next-line @typescript-eslint/no-redeclare
 export const FindAllManagerAdvertisementsSoldStatus = {
   Sold: 'Sold',
   Active: 'Active',

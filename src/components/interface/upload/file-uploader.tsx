@@ -10,6 +10,7 @@ import { ScrollArea } from '@/components/ui/scroll-area'
 
 import { useControllableState } from '@/hooks/use-controllable-state'
 import { cn, formatBytes } from '@/lib/utils'
+import { MAX_FILE_UPLOADED } from '@/utils/constants'
 import { FileText, Upload, X } from 'lucide-react'
 import { toast } from 'sonner'
 
@@ -118,12 +119,19 @@ export function FileUploader(props: FileUploaderProps) {
 
   const onDrop = React.useCallback(
     async (acceptedFiles: File[], rejectedFiles: FileRejection[]) => {
+      if (rejectedFiles.length > MAX_FILE_UPLOADED) {
+        toast.error(`Você pode enviar no máximo ${MAX_FILE_UPLOADED} arquivos (fotos) por anúncio`)
+        return
+      }
+
       if (rejectedFiles.length > 0) {
         rejectedFiles.forEach(({ file }) => {
           if (file.size > maxSize) {
             toast.error(`Arquivo ${file.name} excede o tamanho máximo de ${formatBytes(maxSize)}.`)
+            return
           } else {
             toast.error(`Arquivo ${file.name} foi rejeitado.`)
+            return
           }
         })
       }

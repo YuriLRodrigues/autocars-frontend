@@ -12,7 +12,6 @@
 export type MinimalAdvertisementDetailsDtoGearBox =
   (typeof MinimalAdvertisementDetailsDtoGearBox)[keyof typeof MinimalAdvertisementDetailsDtoGearBox]
 
-// eslint-disable-next-line @typescript-eslint/no-redeclare
 export const MinimalAdvertisementDetailsDtoGearBox = {
   Automatic: 'Automatic',
   Manual: 'Manual',

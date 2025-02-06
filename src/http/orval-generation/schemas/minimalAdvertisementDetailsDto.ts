@@ -5,11 +5,11 @@
  * Cars seller API
  * OpenAPI spec version: 1.0.0
  */
+import type { LikeEntity } from './likeEntity'
 import type { MinimalAdvertisementDetailsDtoCapacity } from './minimalAdvertisementDetailsDtoCapacity'
 import type { MinimalAdvertisementDetailsDtoDoors } from './minimalAdvertisementDetailsDtoDoors'
 import type { MinimalAdvertisementDetailsDtoFuel } from './minimalAdvertisementDetailsDtoFuel'
 import type { MinimalAdvertisementDetailsDtoGearBox } from './minimalAdvertisementDetailsDtoGearBox'
-import type { LikeEntity } from './likeEntity'
 
 export interface MinimalAdvertisementDetailsDto {
   /** URL da imagem da marca */

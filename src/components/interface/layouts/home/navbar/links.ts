@@ -1,3 +1,4 @@
+import { UserRoles } from '@/@types/user'
 import { icons } from 'lucide-react'
 
 export type NavbarLinksProps = {
@@ -6,6 +7,7 @@ export type NavbarLinksProps = {
   label: string
   highlight?: boolean
   isAuthOnly?: boolean
+  permissionRoles?: UserRoles[]
 }
 
 export const navbarLinks: NavbarLinksProps[] = [
@@ -30,18 +32,33 @@ export const navbarLinks: NavbarLinksProps[] = [
 
 export const profileLinks: NavbarLinksProps[] = [
   {
-    href: '/dashboard',
+    href: '/dashboard/manager',
     label: 'Painel',
     iconName: 'LayoutDashboard',
+    permissionRoles: [UserRoles.Manager],
   },
   {
-    href: 'dashboard/profile',
+    href: '/dashboard/seller',
+    label: 'Painel',
+    iconName: 'LayoutDashboard',
+    permissionRoles: [UserRoles.Seller],
+  },
+  {
+    href: '/dashboard/customer',
+    label: 'Painel',
+    iconName: 'LayoutDashboard',
+    permissionRoles: [UserRoles.Customer],
+  },
+  {
+    href: '/dashboard/profile',
     label: 'Perfil',
     iconName: 'User',
+    permissionRoles: [UserRoles.Customer, UserRoles.Manager, UserRoles.Seller],
   },
   {
-    href: 'dashboard/profile/address',
+    href: '/dashboard/profile/address',
     label: 'Endereço',
     iconName: 'MapPinHouse',
+    permissionRoles: [UserRoles.Customer, UserRoles.Manager, UserRoles.Seller],
   },
 ]

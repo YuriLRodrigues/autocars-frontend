@@ -11,7 +11,6 @@
  */
 export type UpdateAdDTODoors = (typeof UpdateAdDTODoors)[keyof typeof UpdateAdDTODoors]
 
-// eslint-disable-next-line @typescript-eslint/no-redeclare
 export const UpdateAdDTODoors = {
   Two: 'Two',
   Three: 'Three',

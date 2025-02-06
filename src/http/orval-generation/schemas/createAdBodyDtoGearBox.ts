@@ -11,7 +11,6 @@
  */
 export type CreateAdBodyDtoGearBox = (typeof CreateAdBodyDtoGearBox)[keyof typeof CreateAdBodyDtoGearBox]
 
-// eslint-disable-next-line @typescript-eslint/no-redeclare
 export const CreateAdBodyDtoGearBox = {
   Automatic: 'Automatic',
   Manual: 'Manual',

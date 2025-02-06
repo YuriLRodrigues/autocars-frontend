@@ -11,7 +11,6 @@
  */
 export type UpdateAdDTOFuel = (typeof UpdateAdDTOFuel)[keyof typeof UpdateAdDTOFuel]
 
-// eslint-disable-next-line @typescript-eslint/no-redeclare
 export const UpdateAdDTOFuel = {
   Gasoline: 'Gasoline',
   Flex: 'Flex',

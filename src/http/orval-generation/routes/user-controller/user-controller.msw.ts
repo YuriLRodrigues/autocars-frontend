@@ -5,14 +5,9 @@
  * Cars seller API
  * OpenAPI spec version: 1.0.0
  */
-import {
-  faker
-} from '@faker-js/faker'
-import {
-  HttpResponse,
-  delay,
-  http
-} from 'msw'
+import { faker } from '@faker-js/faker'
+import { HttpResponse, delay, http } from 'msw'
+
 import type {
   DeleteOwnUserResponseDto,
   DeleteUserResponseDto,
@@ -24,161 +19,343 @@ import type {
   NewPasswordResponseDto,
   SignInResponseDto,
   SignUpResponseDto,
-  UpdateOwnUserResponseDto
+  UpdateOwnUserResponseDto,
 } from '../../schemas'
 
-export const getHandleActiveUserResponseMock = (overrideResponse: Partial< HandleActiveUserResponseDto > = {}): HandleActiveUserResponseDto => ({message: faker.string.alpha(20), ...overrideResponse})
+export const getHandleActiveUserResponseMock = (
+  overrideResponse: Partial<HandleActiveUserResponseDto> = {},
+): HandleActiveUserResponseDto => ({ message: faker.string.alpha(20), ...overrideResponse })
 
-export const getDeleteOwnUserResponseMock = (overrideResponse: Partial< DeleteOwnUserResponseDto > = {}): DeleteOwnUserResponseDto => ({message: faker.string.alpha(20), ...overrideResponse})
+export const getDeleteOwnUserResponseMock = (
+  overrideResponse: Partial<DeleteOwnUserResponseDto> = {},
+): DeleteOwnUserResponseDto => ({ message: faker.string.alpha(20), ...overrideResponse })
 
-export const getDeleteUserResponseMock = (overrideResponse: Partial< DeleteUserResponseDto > = {}): DeleteUserResponseDto => ({message: faker.string.alpha(20), ...overrideResponse})
+export const getDeleteUserResponseMock = (
+  overrideResponse: Partial<DeleteUserResponseDto> = {},
+): DeleteUserResponseDto => ({ message: faker.string.alpha(20), ...overrideResponse })
 
-export const getFindAllTopSellersResponseMock = (): FindAllTopSellersResponseDto[] => (Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() => ({id: faker.string.alpha(20), profileImg: faker.string.alpha(20), name: faker.string.alpha(20), roles: Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() => (faker.string.alpha(20))), amountSold: faker.number.int({min: undefined, max: undefined}), quantitySold: faker.number.int({min: undefined, max: undefined})})))
+export const getFindAllTopSellersResponseMock = (): FindAllTopSellersResponseDto[] =>
+  Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() => ({
+    id: faker.string.alpha(20),
+    profileImg: faker.string.alpha(20),
+    name: faker.string.alpha(20),
+    roles: Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() =>
+      faker.string.alpha(20),
+    ),
+    amountSold: faker.number.int({ min: undefined, max: undefined }),
+    quantitySold: faker.number.int({ min: undefined, max: undefined }),
+  }))
 
-export const getFindAllUsersResponseMock = (): FindAllUsers200 => ({meta: {page: faker.number.int({min: undefined, max: undefined}), perPage: faker.number.int({min: undefined, max: undefined}), totalCount: faker.number.int({min: undefined, max: undefined}), totalPages: faker.number.int({min: undefined, max: undefined})},...results: faker.helpers.arrayElement([Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() => ({name: faker.string.alpha(20), username: faker.string.alpha(20), avatar: faker.string.alpha(20), email: faker.string.alpha(20), password: faker.string.alpha(20), roles: Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() => (faker.string.alpha(20))), disabled: `${faker.date.past().toISOString().split('.')[0]}Z`, createdAt: `${faker.date.past().toISOString().split('.')[0]}Z`, updatedAt: `${faker.date.past().toISOString().split('.')[0]}Z`, id: faker.string.alpha(20)})), undefined])})
+export const getFindAllUsersResponseMock = (): FindAllUsers200 => ({
+  meta: {
+    page: faker.number.int({ min: undefined, max: undefined }),
+    perPage: faker.number.int({ min: undefined, max: undefined }),
+    totalCount: faker.number.int({ min: undefined, max: undefined }),
+    totalPages: faker.number.int({ min: undefined, max: undefined }),
+  },
+  results: faker.helpers.arrayElement([
+    Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() => ({
+      name: faker.string.alpha(20),
+      username: faker.string.alpha(20),
+      avatar: faker.string.alpha(20),
+      email: faker.string.alpha(20),
+      password: faker.string.alpha(20),
+      roles: Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() =>
+        faker.string.alpha(20),
+      ),
+      disabled: `${faker.date.past().toISOString().split('.')[0]}Z`,
+      createdAt: `${faker.date.past().toISOString().split('.')[0]}Z`,
+      updatedAt: `${faker.date.past().toISOString().split('.')[0]}Z`,
+      id: faker.string.alpha(20),
+    })),
+    undefined,
+  ]),
+})
 
-export const getForgotPasswordResponseMock = (overrideResponse: Partial< ForgotResponseDto > = {}): ForgotResponseDto => ({message: faker.string.alpha(20), ...overrideResponse})
+export const getForgotPasswordResponseMock = (
+  overrideResponse: Partial<ForgotResponseDto> = {},
+): ForgotResponseDto => ({ message: faker.string.alpha(20), ...overrideResponse })
 
-export const getNewPasswordResponseMock = (overrideResponse: Partial< NewPasswordResponseDto > = {}): NewPasswordResponseDto => ({message: faker.string.alpha(20), ...overrideResponse})
+export const getNewPasswordResponseMock = (
+  overrideResponse: Partial<NewPasswordResponseDto> = {},
+): NewPasswordResponseDto => ({ message: faker.string.alpha(20), ...overrideResponse })
 
-export const getSignInResponseMock = (overrideResponse: Partial< SignInResponseDto > = {}): SignInResponseDto => ({token: faker.string.alpha(20), ...overrideResponse})
+export const getSignInResponseMock = (overrideResponse: Partial<SignInResponseDto> = {}): SignInResponseDto => ({
+  token: faker.string.alpha(20),
+  ...overrideResponse,
+})
 
-export const getSignUpResponseMock = (overrideResponse: Partial< SignUpResponseDto > = {}): SignUpResponseDto => ({message: faker.string.alpha(20), ...overrideResponse})
+export const getSignUpResponseMock = (overrideResponse: Partial<SignUpResponseDto> = {}): SignUpResponseDto => ({
+  message: faker.string.alpha(20),
+  ...overrideResponse,
+})
 
-export const getMeResponseMock = (overrideResponse: Partial< MeDto > = {}): MeDto => ({user: {id: faker.string.alpha(20), roles: Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() => (faker.string.alpha(20))), name: faker.string.alpha(20), blurHash: faker.helpers.arrayElement([faker.string.alpha(20), undefined]), avatar: faker.helpers.arrayElement([faker.string.alpha(20), undefined]), email: faker.string.alpha(20), username: faker.string.alpha(20)}, address: {id: faker.string.alpha(20), street: faker.string.alpha(20), city: faker.string.alpha(20), state: faker.string.alpha(20), zipCode: faker.number.int({min: undefined, max: undefined}), country: faker.string.alpha(20), neighborhood: faker.string.alpha(20)}, ...overrideResponse})
+export const getMeResponseMock = (overrideResponse: Partial<MeDto> = {}): MeDto => ({
+  user: {
+    id: faker.string.alpha(20),
+    roles: Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() =>
+      faker.string.alpha(20),
+    ),
+    name: faker.string.alpha(20),
+    blurHash: faker.helpers.arrayElement([faker.string.alpha(20), undefined]),
+    avatar: faker.helpers.arrayElement([faker.string.alpha(20), undefined]),
+    email: faker.string.alpha(20),
+    username: faker.string.alpha(20),
+  },
+  address: {
+    id: faker.string.alpha(20),
+    street: faker.string.alpha(20),
+    city: faker.string.alpha(20),
+    state: faker.string.alpha(20),
+    zipCode: faker.number.int({ min: undefined, max: undefined }),
+    country: faker.string.alpha(20),
+    neighborhood: faker.string.alpha(20),
+  },
+  ...overrideResponse,
+})
 
-export const getUpdateOwnUserResponseMock = (overrideResponse: Partial< UpdateOwnUserResponseDto > = {}): UpdateOwnUserResponseDto => ({token: faker.string.alpha(20), ...overrideResponse})
+export const getUpdateOwnUserResponseMock = (
+  overrideResponse: Partial<UpdateOwnUserResponseDto> = {},
+): UpdateOwnUserResponseDto => ({ token: faker.string.alpha(20), ...overrideResponse })
 
+export const getHandleActiveUserMockHandler = (
+  overrideResponse?:
+    | HandleActiveUserResponseDto
+    | ((
+        info: Parameters<Parameters<typeof http.patch>[1]>[0],
+      ) => Promise<HandleActiveUserResponseDto> | HandleActiveUserResponseDto),
+) => {
+  return http.patch('*/user/handle-active/:id', async (info) => {
+    await delay(1000)
 
-export const getHandleActiveUserMockHandler = (overrideResponse?: HandleActiveUserResponseDto | ((info: Parameters<Parameters<typeof http.patch>[1]>[0]) => Promise<HandleActiveUserResponseDto> | HandleActiveUserResponseDto)) => {
-  return http.patch('*/user/handle-active/:id', async (info) => {await delay(1000);
-  
-    return new HttpResponse(JSON.stringify(overrideResponse !== undefined 
-            ? (typeof overrideResponse === "function" ? await overrideResponse(info) : overrideResponse) 
-            : getHandleActiveUserResponseMock()),
-      { status: 200,
-        headers: { 'Content-Type': 'application/json' }
-      })
+    return new HttpResponse(
+      JSON.stringify(
+        overrideResponse !== undefined
+          ? typeof overrideResponse === 'function'
+            ? await overrideResponse(info)
+            : overrideResponse
+          : getHandleActiveUserResponseMock(),
+      ),
+      { status: 200, headers: { 'Content-Type': 'application/json' } },
+    )
   })
 }
 
-export const getDeleteOwnUserMockHandler = (overrideResponse?: DeleteOwnUserResponseDto | ((info: Parameters<Parameters<typeof http.delete>[1]>[0]) => Promise<DeleteOwnUserResponseDto> | DeleteOwnUserResponseDto)) => {
-  return http.delete('*/user/own', async (info) => {await delay(1000);
-  
-    return new HttpResponse(JSON.stringify(overrideResponse !== undefined 
-            ? (typeof overrideResponse === "function" ? await overrideResponse(info) : overrideResponse) 
-            : getDeleteOwnUserResponseMock()),
-      { status: 200,
-        headers: { 'Content-Type': 'application/json' }
-      })
+export const getDeleteOwnUserMockHandler = (
+  overrideResponse?:
+    | DeleteOwnUserResponseDto
+    | ((
+        info: Parameters<Parameters<typeof http.delete>[1]>[0],
+      ) => Promise<DeleteOwnUserResponseDto> | DeleteOwnUserResponseDto),
+) => {
+  return http.delete('*/user/own', async (info) => {
+    await delay(1000)
+
+    return new HttpResponse(
+      JSON.stringify(
+        overrideResponse !== undefined
+          ? typeof overrideResponse === 'function'
+            ? await overrideResponse(info)
+            : overrideResponse
+          : getDeleteOwnUserResponseMock(),
+      ),
+      { status: 200, headers: { 'Content-Type': 'application/json' } },
+    )
   })
 }
 
-export const getDeleteUserMockHandler = (overrideResponse?: DeleteUserResponseDto | ((info: Parameters<Parameters<typeof http.delete>[1]>[0]) => Promise<DeleteUserResponseDto> | DeleteUserResponseDto)) => {
-  return http.delete('*/user/manage/:id', async (info) => {await delay(1000);
-  
-    return new HttpResponse(JSON.stringify(overrideResponse !== undefined 
-            ? (typeof overrideResponse === "function" ? await overrideResponse(info) : overrideResponse) 
-            : getDeleteUserResponseMock()),
-      { status: 200,
-        headers: { 'Content-Type': 'application/json' }
-      })
+export const getDeleteUserMockHandler = (
+  overrideResponse?:
+    | DeleteUserResponseDto
+    | ((
+        info: Parameters<Parameters<typeof http.delete>[1]>[0],
+      ) => Promise<DeleteUserResponseDto> | DeleteUserResponseDto),
+) => {
+  return http.delete('*/user/manage/:id', async (info) => {
+    await delay(1000)
+
+    return new HttpResponse(
+      JSON.stringify(
+        overrideResponse !== undefined
+          ? typeof overrideResponse === 'function'
+            ? await overrideResponse(info)
+            : overrideResponse
+          : getDeleteUserResponseMock(),
+      ),
+      { status: 200, headers: { 'Content-Type': 'application/json' } },
+    )
   })
 }
 
-export const getFindAllTopSellersMockHandler = (overrideResponse?: FindAllTopSellersResponseDto[] | ((info: Parameters<Parameters<typeof http.get>[1]>[0]) => Promise<FindAllTopSellersResponseDto[]> | FindAllTopSellersResponseDto[])) => {
-  return http.get('*/user/top-sellers', async (info) => {await delay(1000);
-  
-    return new HttpResponse(JSON.stringify(overrideResponse !== undefined 
-            ? (typeof overrideResponse === "function" ? await overrideResponse(info) : overrideResponse) 
-            : getFindAllTopSellersResponseMock()),
-      { status: 200,
-        headers: { 'Content-Type': 'application/json' }
-      })
+export const getFindAllTopSellersMockHandler = (
+  overrideResponse?:
+    | FindAllTopSellersResponseDto[]
+    | ((
+        info: Parameters<Parameters<typeof http.get>[1]>[0],
+      ) => Promise<FindAllTopSellersResponseDto[]> | FindAllTopSellersResponseDto[]),
+) => {
+  return http.get('*/user/top-sellers', async (info) => {
+    await delay(1000)
+
+    return new HttpResponse(
+      JSON.stringify(
+        overrideResponse !== undefined
+          ? typeof overrideResponse === 'function'
+            ? await overrideResponse(info)
+            : overrideResponse
+          : getFindAllTopSellersResponseMock(),
+      ),
+      { status: 200, headers: { 'Content-Type': 'application/json' } },
+    )
   })
 }
 
-export const getFindAllUsersMockHandler = (overrideResponse?: FindAllUsers200 | ((info: Parameters<Parameters<typeof http.get>[1]>[0]) => Promise<FindAllUsers200> | FindAllUsers200)) => {
-  return http.get('*/user/find-all', async (info) => {await delay(1000);
-  
-    return new HttpResponse(JSON.stringify(overrideResponse !== undefined 
-            ? (typeof overrideResponse === "function" ? await overrideResponse(info) : overrideResponse) 
-            : getFindAllUsersResponseMock()),
-      { status: 200,
-        headers: { 'Content-Type': 'application/json' }
-      })
+export const getFindAllUsersMockHandler = (
+  overrideResponse?:
+    | FindAllUsers200
+    | ((info: Parameters<Parameters<typeof http.get>[1]>[0]) => Promise<FindAllUsers200> | FindAllUsers200),
+) => {
+  return http.get('*/user/find-all', async (info) => {
+    await delay(1000)
+
+    return new HttpResponse(
+      JSON.stringify(
+        overrideResponse !== undefined
+          ? typeof overrideResponse === 'function'
+            ? await overrideResponse(info)
+            : overrideResponse
+          : getFindAllUsersResponseMock(),
+      ),
+      { status: 200, headers: { 'Content-Type': 'application/json' } },
+    )
   })
 }
 
-export const getForgotPasswordMockHandler = (overrideResponse?: ForgotResponseDto | ((info: Parameters<Parameters<typeof http.post>[1]>[0]) => Promise<ForgotResponseDto> | ForgotResponseDto)) => {
-  return http.post('*/user/forgot-password', async (info) => {await delay(1000);
-  
-    return new HttpResponse(JSON.stringify(overrideResponse !== undefined 
-            ? (typeof overrideResponse === "function" ? await overrideResponse(info) : overrideResponse) 
-            : getForgotPasswordResponseMock()),
-      { status: 200,
-        headers: { 'Content-Type': 'application/json' }
-      })
+export const getForgotPasswordMockHandler = (
+  overrideResponse?:
+    | ForgotResponseDto
+    | ((info: Parameters<Parameters<typeof http.post>[1]>[0]) => Promise<ForgotResponseDto> | ForgotResponseDto),
+) => {
+  return http.post('*/user/forgot-password', async (info) => {
+    await delay(1000)
+
+    return new HttpResponse(
+      JSON.stringify(
+        overrideResponse !== undefined
+          ? typeof overrideResponse === 'function'
+            ? await overrideResponse(info)
+            : overrideResponse
+          : getForgotPasswordResponseMock(),
+      ),
+      { status: 200, headers: { 'Content-Type': 'application/json' } },
+    )
   })
 }
 
-export const getNewPasswordMockHandler = (overrideResponse?: NewPasswordResponseDto | ((info: Parameters<Parameters<typeof http.patch>[1]>[0]) => Promise<NewPasswordResponseDto> | NewPasswordResponseDto)) => {
-  return http.patch('*/user/new-password', async (info) => {await delay(1000);
-  
-    return new HttpResponse(JSON.stringify(overrideResponse !== undefined 
-            ? (typeof overrideResponse === "function" ? await overrideResponse(info) : overrideResponse) 
-            : getNewPasswordResponseMock()),
-      { status: 200,
-        headers: { 'Content-Type': 'application/json' }
-      })
+export const getNewPasswordMockHandler = (
+  overrideResponse?:
+    | NewPasswordResponseDto
+    | ((
+        info: Parameters<Parameters<typeof http.patch>[1]>[0],
+      ) => Promise<NewPasswordResponseDto> | NewPasswordResponseDto),
+) => {
+  return http.patch('*/user/new-password', async (info) => {
+    await delay(1000)
+
+    return new HttpResponse(
+      JSON.stringify(
+        overrideResponse !== undefined
+          ? typeof overrideResponse === 'function'
+            ? await overrideResponse(info)
+            : overrideResponse
+          : getNewPasswordResponseMock(),
+      ),
+      { status: 200, headers: { 'Content-Type': 'application/json' } },
+    )
   })
 }
 
-export const getSignInMockHandler = (overrideResponse?: SignInResponseDto | ((info: Parameters<Parameters<typeof http.post>[1]>[0]) => Promise<SignInResponseDto> | SignInResponseDto)) => {
-  return http.post('*/user/sign-in', async (info) => {await delay(1000);
-  
-    return new HttpResponse(JSON.stringify(overrideResponse !== undefined 
-            ? (typeof overrideResponse === "function" ? await overrideResponse(info) : overrideResponse) 
-            : getSignInResponseMock()),
-      { status: 200,
-        headers: { 'Content-Type': 'application/json' }
-      })
+export const getSignInMockHandler = (
+  overrideResponse?:
+    | SignInResponseDto
+    | ((info: Parameters<Parameters<typeof http.post>[1]>[0]) => Promise<SignInResponseDto> | SignInResponseDto),
+) => {
+  return http.post('*/user/sign-in', async (info) => {
+    await delay(1000)
+
+    return new HttpResponse(
+      JSON.stringify(
+        overrideResponse !== undefined
+          ? typeof overrideResponse === 'function'
+            ? await overrideResponse(info)
+            : overrideResponse
+          : getSignInResponseMock(),
+      ),
+      { status: 200, headers: { 'Content-Type': 'application/json' } },
+    )
   })
 }
 
-export const getSignUpMockHandler = (overrideResponse?: SignUpResponseDto | ((info: Parameters<Parameters<typeof http.post>[1]>[0]) => Promise<SignUpResponseDto> | SignUpResponseDto)) => {
-  return http.post('*/user/sign-up', async (info) => {await delay(1000);
-  
-    return new HttpResponse(JSON.stringify(overrideResponse !== undefined 
-            ? (typeof overrideResponse === "function" ? await overrideResponse(info) : overrideResponse) 
-            : getSignUpResponseMock()),
-      { status: 201,
-        headers: { 'Content-Type': 'application/json' }
-      })
+export const getSignUpMockHandler = (
+  overrideResponse?:
+    | SignUpResponseDto
+    | ((info: Parameters<Parameters<typeof http.post>[1]>[0]) => Promise<SignUpResponseDto> | SignUpResponseDto),
+) => {
+  return http.post('*/user/sign-up', async (info) => {
+    await delay(1000)
+
+    return new HttpResponse(
+      JSON.stringify(
+        overrideResponse !== undefined
+          ? typeof overrideResponse === 'function'
+            ? await overrideResponse(info)
+            : overrideResponse
+          : getSignUpResponseMock(),
+      ),
+      { status: 201, headers: { 'Content-Type': 'application/json' } },
+    )
   })
 }
 
-export const getMeMockHandler = (overrideResponse?: MeDto | ((info: Parameters<Parameters<typeof http.get>[1]>[0]) => Promise<MeDto> | MeDto)) => {
-  return http.get('*/user/me', async (info) => {await delay(1000);
-  
-    return new HttpResponse(JSON.stringify(overrideResponse !== undefined 
-            ? (typeof overrideResponse === "function" ? await overrideResponse(info) : overrideResponse) 
-            : getMeResponseMock()),
-      { status: 200,
-        headers: { 'Content-Type': 'application/json' }
-      })
+export const getMeMockHandler = (
+  overrideResponse?: MeDto | ((info: Parameters<Parameters<typeof http.get>[1]>[0]) => Promise<MeDto> | MeDto),
+) => {
+  return http.get('*/user/me', async (info) => {
+    await delay(1000)
+
+    return new HttpResponse(
+      JSON.stringify(
+        overrideResponse !== undefined
+          ? typeof overrideResponse === 'function'
+            ? await overrideResponse(info)
+            : overrideResponse
+          : getMeResponseMock(),
+      ),
+      { status: 200, headers: { 'Content-Type': 'application/json' } },
+    )
   })
 }
 
-export const getUpdateOwnUserMockHandler = (overrideResponse?: UpdateOwnUserResponseDto | ((info: Parameters<Parameters<typeof http.patch>[1]>[0]) => Promise<UpdateOwnUserResponseDto> | UpdateOwnUserResponseDto)) => {
-  return http.patch('*/user/update-own', async (info) => {await delay(1000);
-  
-    return new HttpResponse(JSON.stringify(overrideResponse !== undefined 
-            ? (typeof overrideResponse === "function" ? await overrideResponse(info) : overrideResponse) 
-            : getUpdateOwnUserResponseMock()),
-      { status: 200,
-        headers: { 'Content-Type': 'application/json' }
-      })
+export const getUpdateOwnUserMockHandler = (
+  overrideResponse?:
+    | UpdateOwnUserResponseDto
+    | ((
+        info: Parameters<Parameters<typeof http.patch>[1]>[0],
+      ) => Promise<UpdateOwnUserResponseDto> | UpdateOwnUserResponseDto),
+) => {
+  return http.patch('*/user/update-own', async (info) => {
+    await delay(1000)
+
+    return new HttpResponse(
+      JSON.stringify(
+        overrideResponse !== undefined
+          ? typeof overrideResponse === 'function'
+            ? await overrideResponse(info)
+            : overrideResponse
+          : getUpdateOwnUserResponseMock(),
+      ),
+      { status: 200, headers: { 'Content-Type': 'application/json' } },
+    )
   })
 }
 export const getUserControllerMock = () => [
@@ -192,5 +369,5 @@ export const getUserControllerMock = () => [
   getSignInMockHandler(),
   getSignUpMockHandler(),
   getMeMockHandler(),
-  getUpdateOwnUserMockHandler()
+  getUpdateOwnUserMockHandler(),
 ]

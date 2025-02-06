@@ -11,7 +11,6 @@
  */
 export type AdvertisementDtoSoldStatus = (typeof AdvertisementDtoSoldStatus)[keyof typeof AdvertisementDtoSoldStatus]
 
-// eslint-disable-next-line @typescript-eslint/no-redeclare
 export const AdvertisementDtoSoldStatus = {
   Sold: 'Sold',
   Active: 'Active',

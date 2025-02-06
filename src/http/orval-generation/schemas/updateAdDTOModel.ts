@@ -11,7 +11,6 @@
  */
 export type UpdateAdDTOModel = (typeof UpdateAdDTOModel)[keyof typeof UpdateAdDTOModel]
 
-// eslint-disable-next-line @typescript-eslint/no-redeclare
 export const UpdateAdDTOModel = {
   SUV: 'SUV',
   Sedan: 'Sedan',

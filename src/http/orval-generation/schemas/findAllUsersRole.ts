@@ -8,7 +8,6 @@
 
 export type FindAllUsersRole = (typeof FindAllUsersRole)[keyof typeof FindAllUsersRole]
 
-// eslint-disable-next-line @typescript-eslint/no-redeclare
 export const FindAllUsersRole = {
   Manager: 'Manager',
   Seller: 'Seller',

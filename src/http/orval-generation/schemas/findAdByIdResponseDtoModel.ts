@@ -11,7 +11,6 @@
  */
 export type FindAdByIdResponseDtoModel = (typeof FindAdByIdResponseDtoModel)[keyof typeof FindAdByIdResponseDtoModel]
 
-// eslint-disable-next-line @typescript-eslint/no-redeclare
 export const FindAdByIdResponseDtoModel = {
   SUV: 'SUV',
   Sedan: 'Sedan',

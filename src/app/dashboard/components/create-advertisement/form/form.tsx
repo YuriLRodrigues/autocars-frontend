@@ -18,6 +18,7 @@ import { VisibleChieldComponent } from '@/components/ui/visible-chield-component
 
 import { Capacity, Color, Doors, Fuel, GearBox, Model } from '@/@types/advertisement'
 import { useFindAllBrands } from '@/http/orval-generation/routes/brand-controller/brand-controller'
+import { MAX_FILE_UPLOADED } from '@/utils/constants'
 import { formatCurrencyBRL, formatKilometers } from '@/utils/format-number'
 import {
   mappingCapacity,
@@ -75,7 +76,7 @@ export const CreateAdvertisementForm = () => {
           <div className="flex flex-col gap-6 md:col-span-2">
             <FileUploader
               multiple={true}
-              maxFileCount={4}
+              maxFileCount={MAX_FILE_UPLOADED}
               maxSize={4 * 1024 * 1024}
               progresses={progresses}
               onUpload={onUpload}

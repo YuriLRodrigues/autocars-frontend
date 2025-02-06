@@ -5,8 +5,8 @@
  * Cars seller API
  * OpenAPI spec version: 1.0.0
  */
-import type { OwnAdvertisementsDtoSoldStatus } from './ownAdvertisementsDtoSoldStatus'
 import type { OwnAdvertisementBrandDto } from './ownAdvertisementBrandDto'
+import type { OwnAdvertisementsDtoSoldStatus } from './ownAdvertisementsDtoSoldStatus'
 
 export interface OwnAdvertisementsDto {
   /** Creation date of the advertisement */

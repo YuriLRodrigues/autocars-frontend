@@ -3,7 +3,6 @@ import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 
 import { useUserPayloadStore } from '@/hooks/use-user-details'
-import { signIn } from '@/http/orval-generation/routes/user-controller/user-controller'
 import { AUTH_COOKIE_NAME } from '@/utils/constants'
 import { SIGNIN_COOKIE_MAX_AGE } from '@/utils/cookie-max-age'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -11,6 +10,7 @@ import { setCookie } from 'cookies-next/client'
 import { toast } from 'sonner'
 
 import { signInSchema, SignInSchemaProps } from './schema'
+import { SignInActions } from './sign-in.actions'
 
 type useSignInProps = {
   defaultValues?: Partial<SignInSchemaProps>
@@ -39,26 +39,18 @@ export const useSignIn = ({ defaultValues }: useSignInProps = {}) => {
     !form.formState.errors.password
 
   const onSubmit = async (data: SignInSchemaProps) => {
-    try {
-      const { token } = await signIn({
-        email: data.email,
-        password: data.password,
-      })
+    const response = await SignInActions({ email: data.email, password: data.password })
 
-      await setCookie(AUTH_COOKIE_NAME, token, { maxAge: SIGNIN_COOKIE_MAX_AGE })
+    if (!response.error) {
+      await setCookie(AUTH_COOKIE_NAME, response.data, { maxAge: SIGNIN_COOKIE_MAX_AGE })
 
       addUserPayload()
 
       toast.success('Usuário conectado ao sistema, seja bem vindo!')
 
       router.replace('/')
-    } catch (error) {
-      const _error = error as Error
-
-      switch (_error.message) {
-        case 'Resource already exists':
-          toast.error('E-mail ou nome de usuário já em uso.')
-          break
+    } else {
+      switch (response.error) {
         case 'Invalid credentials':
           toast.error('Credenciais inválidas.')
           break
@@ -66,7 +58,7 @@ export const useSignIn = ({ defaultValues }: useSignInProps = {}) => {
           toast.error('Usuário não encontrado.')
           break
         default:
-          toast.error(`Falha ao cadastrar novo usuário: ${_error.message || _error.cause}`)
+          toast.error(`Falha ao accesar o usuário: ${response.error}`)
       }
     }
   }

@@ -11,7 +11,6 @@
  */
 export type CreateAdBodyDtoDoors = (typeof CreateAdBodyDtoDoors)[keyof typeof CreateAdBodyDtoDoors]
 
-// eslint-disable-next-line @typescript-eslint/no-redeclare
 export const CreateAdBodyDtoDoors = {
   Two: 'Two',
   Three: 'Three',

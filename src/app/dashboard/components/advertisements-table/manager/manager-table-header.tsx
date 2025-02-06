@@ -13,8 +13,8 @@ export const ManagerTableHeader = (props: ManagerTableHeaderProps) => {
       <TableHeaderRoot>
         <TableRow className="*:text-center">
           <TableHead className="!text-left">Anúncio</TableHead>
-          <TableHead>Usuário</TableHead>
-          <TableHead>Marca</TableHead>
+          <TableHead className="!text-left">Usuário</TableHead>
+          <TableHead className="!text-left">Marca</TableHead>
           <TableHead>Data de publicação</TableHead>
           <TableHead>Preço/Promo</TableHead>
           <TableHead>Status</TableHead>

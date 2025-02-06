@@ -12,7 +12,6 @@
 export type FindAdByIdResponseDtoGearBox =
   (typeof FindAdByIdResponseDtoGearBox)[keyof typeof FindAdByIdResponseDtoGearBox]
 
-// eslint-disable-next-line @typescript-eslint/no-redeclare
 export const FindAdByIdResponseDtoGearBox = {
   Automatic: 'Automatic',
   Manual: 'Manual',

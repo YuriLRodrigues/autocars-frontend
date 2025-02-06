@@ -9,7 +9,6 @@
 export type FindAllManagerAdvertisementsCreatedAt =
   (typeof FindAllManagerAdvertisementsCreatedAt)[keyof typeof FindAllManagerAdvertisementsCreatedAt]
 
-// eslint-disable-next-line @typescript-eslint/no-redeclare
 export const FindAllManagerAdvertisementsCreatedAt = {
   asc: 'asc',
   desc: 'desc',

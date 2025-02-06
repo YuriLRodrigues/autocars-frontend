@@ -8,7 +8,6 @@
 
 export type FindAllUsersStatus = (typeof FindAllUsersStatus)[keyof typeof FindAllUsersStatus]
 
-// eslint-disable-next-line @typescript-eslint/no-redeclare
 export const FindAllUsersStatus = {
   ACTIVE: 'ACTIVE',
   INACTIVE: 'INACTIVE',

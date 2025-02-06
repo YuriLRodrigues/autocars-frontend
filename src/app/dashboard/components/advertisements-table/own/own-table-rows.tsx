@@ -77,7 +77,7 @@ export const OwnTableRows = async ({
         </div>
       </TableCell>
       <TableCell>
-        <span className="mx-auto flex w-fit flex-row items-center gap-3">
+        <span className="mx-auto flex flex-row items-center gap-3">
           <Image
             src={row.brand.logoUrl}
             alt={`logo-${row.brand.name}`}

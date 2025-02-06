@@ -5,7 +5,7 @@
  * Cars seller API
  * OpenAPI spec version: 1.0.0
  */
-import type { PaginatedDto } from './paginatedDto'
 import type { FindAllFavoritesByUserId200AllOf } from './findAllFavoritesByUserId200AllOf'
+import type { PaginatedDto } from './paginatedDto'
 
 export type FindAllFavoritesByUserId200 = PaginatedDto & FindAllFavoritesByUserId200AllOf

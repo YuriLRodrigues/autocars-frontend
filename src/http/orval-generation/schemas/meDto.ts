@@ -5,8 +5,8 @@
  * Cars seller API
  * OpenAPI spec version: 1.0.0
  */
-import type { MeUserDto } from './meUserDto'
 import type { MeAddressDto } from './meAddressDto'
+import type { MeUserDto } from './meUserDto'
 
 export interface MeDto {
   /** Informações do usuário */

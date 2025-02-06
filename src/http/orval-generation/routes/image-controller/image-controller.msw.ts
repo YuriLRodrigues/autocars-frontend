@@ -5,80 +5,141 @@
  * Cars seller API
  * OpenAPI spec version: 1.0.0
  */
-import {
-  faker
-} from '@faker-js/faker'
-import {
-  HttpResponse,
-  delay,
-  http
-} from 'msw'
-import type {
-  DeleteImageResponseDto,
-  FindAllImages200,
-  FindImageMetricsResponseDto,
-  Upload
-} from '../../schemas'
+import { faker } from '@faker-js/faker'
+import { HttpResponse, delay, http } from 'msw'
 
-export const getDeleteImageResponseMock = (overrideResponse: Partial< DeleteImageResponseDto > = {}): DeleteImageResponseDto => ({message: faker.string.alpha(20), ...overrideResponse})
+import type { DeleteImageResponseDto, FindAllImages200, FindImageMetricsResponseDto, Upload } from '../../schemas'
 
-export const getFindAllImagesResponseMock = (): FindAllImages200 => ({meta: {page: faker.number.int({min: undefined, max: undefined}), perPage: faker.number.int({min: undefined, max: undefined}), totalCount: faker.number.int({min: undefined, max: undefined}), totalPages: faker.number.int({min: undefined, max: undefined})},...results: faker.helpers.arrayElement([Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() => ({id: faker.string.alpha(20), url: faker.string.alpha(20), createdAt: `${faker.date.past().toISOString().split('.')[0]}Z`, updatedAt: `${faker.date.past().toISOString().split('.')[0]}Z`})), undefined])})
+export const getDeleteImageResponseMock = (
+  overrideResponse: Partial<DeleteImageResponseDto> = {},
+): DeleteImageResponseDto => ({ message: faker.string.alpha(20), ...overrideResponse })
 
-export const getFindImageMetricsResponseMock = (overrideResponse: Partial< FindImageMetricsResponseDto > = {}): FindImageMetricsResponseDto => ({totalCount: faker.number.int({min: undefined, max: undefined}), totalInAdvertisements: faker.number.int({min: undefined, max: undefined}), totalThumbnails: faker.number.int({min: undefined, max: undefined}), totalUnused: faker.number.int({min: undefined, max: undefined}), ...overrideResponse})
+export const getFindAllImagesResponseMock = (): FindAllImages200 => ({
+  meta: {
+    page: faker.number.int({ min: undefined, max: undefined }),
+    perPage: faker.number.int({ min: undefined, max: undefined }),
+    totalCount: faker.number.int({ min: undefined, max: undefined }),
+    totalPages: faker.number.int({ min: undefined, max: undefined }),
+  },
+  results: faker.helpers.arrayElement([
+    Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() => ({
+      id: faker.string.alpha(20),
+      url: faker.string.alpha(20),
+      createdAt: `${faker.date.past().toISOString().split('.')[0]}Z`,
+      updatedAt: `${faker.date.past().toISOString().split('.')[0]}Z`,
+    })),
+    undefined,
+  ]),
+})
 
-export const getUploadImagesResponseMock = (): Upload[] => (Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() => ({id: faker.string.alpha(20), url: faker.string.alpha(20), createdAt: `${faker.date.past().toISOString().split('.')[0]}Z`, updatedAt: `${faker.date.past().toISOString().split('.')[0]}Z`})))
+export const getFindImageMetricsResponseMock = (
+  overrideResponse: Partial<FindImageMetricsResponseDto> = {},
+): FindImageMetricsResponseDto => ({
+  totalCount: faker.number.int({ min: undefined, max: undefined }),
+  totalInAdvertisements: faker.number.int({ min: undefined, max: undefined }),
+  totalThumbnails: faker.number.int({ min: undefined, max: undefined }),
+  totalUnused: faker.number.int({ min: undefined, max: undefined }),
+  ...overrideResponse,
+})
 
+export const getUploadImagesResponseMock = (): Upload[] =>
+  Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() => ({
+    id: faker.string.alpha(20),
+    url: faker.string.alpha(20),
+    createdAt: `${faker.date.past().toISOString().split('.')[0]}Z`,
+    updatedAt: `${faker.date.past().toISOString().split('.')[0]}Z`,
+  }))
 
-export const getDeleteImageMockHandler = (overrideResponse?: DeleteImageResponseDto | ((info: Parameters<Parameters<typeof http.delete>[1]>[0]) => Promise<DeleteImageResponseDto> | DeleteImageResponseDto)) => {
-  return http.delete('*/image/:id', async (info) => {await delay(1000);
-  
-    return new HttpResponse(JSON.stringify(overrideResponse !== undefined 
-            ? (typeof overrideResponse === "function" ? await overrideResponse(info) : overrideResponse) 
-            : getDeleteImageResponseMock()),
-      { status: 200,
-        headers: { 'Content-Type': 'application/json' }
-      })
+export const getDeleteImageMockHandler = (
+  overrideResponse?:
+    | DeleteImageResponseDto
+    | ((
+        info: Parameters<Parameters<typeof http.delete>[1]>[0],
+      ) => Promise<DeleteImageResponseDto> | DeleteImageResponseDto),
+) => {
+  return http.delete('*/image/:id', async (info) => {
+    await delay(1000)
+
+    return new HttpResponse(
+      JSON.stringify(
+        overrideResponse !== undefined
+          ? typeof overrideResponse === 'function'
+            ? await overrideResponse(info)
+            : overrideResponse
+          : getDeleteImageResponseMock(),
+      ),
+      { status: 200, headers: { 'Content-Type': 'application/json' } },
+    )
   })
 }
 
-export const getFindAllImagesMockHandler = (overrideResponse?: FindAllImages200 | ((info: Parameters<Parameters<typeof http.get>[1]>[0]) => Promise<FindAllImages200> | FindAllImages200)) => {
-  return http.get('*/image/all', async (info) => {await delay(1000);
-  
-    return new HttpResponse(JSON.stringify(overrideResponse !== undefined 
-            ? (typeof overrideResponse === "function" ? await overrideResponse(info) : overrideResponse) 
-            : getFindAllImagesResponseMock()),
-      { status: 200,
-        headers: { 'Content-Type': 'application/json' }
-      })
+export const getFindAllImagesMockHandler = (
+  overrideResponse?:
+    | FindAllImages200
+    | ((info: Parameters<Parameters<typeof http.get>[1]>[0]) => Promise<FindAllImages200> | FindAllImages200),
+) => {
+  return http.get('*/image/all', async (info) => {
+    await delay(1000)
+
+    return new HttpResponse(
+      JSON.stringify(
+        overrideResponse !== undefined
+          ? typeof overrideResponse === 'function'
+            ? await overrideResponse(info)
+            : overrideResponse
+          : getFindAllImagesResponseMock(),
+      ),
+      { status: 200, headers: { 'Content-Type': 'application/json' } },
+    )
   })
 }
 
-export const getFindImageMetricsMockHandler = (overrideResponse?: FindImageMetricsResponseDto | ((info: Parameters<Parameters<typeof http.delete>[1]>[0]) => Promise<FindImageMetricsResponseDto> | FindImageMetricsResponseDto)) => {
-  return http.delete('*/image/metrics', async (info) => {await delay(1000);
-  
-    return new HttpResponse(JSON.stringify(overrideResponse !== undefined 
-            ? (typeof overrideResponse === "function" ? await overrideResponse(info) : overrideResponse) 
-            : getFindImageMetricsResponseMock()),
-      { status: 200,
-        headers: { 'Content-Type': 'application/json' }
-      })
+export const getFindImageMetricsMockHandler = (
+  overrideResponse?:
+    | FindImageMetricsResponseDto
+    | ((
+        info: Parameters<Parameters<typeof http.delete>[1]>[0],
+      ) => Promise<FindImageMetricsResponseDto> | FindImageMetricsResponseDto),
+) => {
+  return http.delete('*/image/metrics', async (info) => {
+    await delay(1000)
+
+    return new HttpResponse(
+      JSON.stringify(
+        overrideResponse !== undefined
+          ? typeof overrideResponse === 'function'
+            ? await overrideResponse(info)
+            : overrideResponse
+          : getFindImageMetricsResponseMock(),
+      ),
+      { status: 200, headers: { 'Content-Type': 'application/json' } },
+    )
   })
 }
 
-export const getUploadImagesMockHandler = (overrideResponse?: Upload[] | ((info: Parameters<Parameters<typeof http.post>[1]>[0]) => Promise<Upload[]> | Upload[])) => {
-  return http.post('*/image/upload', async (info) => {await delay(1000);
-  
-    return new HttpResponse(JSON.stringify(overrideResponse !== undefined 
-            ? (typeof overrideResponse === "function" ? await overrideResponse(info) : overrideResponse) 
-            : getUploadImagesResponseMock()),
-      { status: 201,
-        headers: { 'Content-Type': 'application/json' }
-      })
+export const getUploadImagesMockHandler = (
+  overrideResponse?:
+    | Upload[]
+    | ((info: Parameters<Parameters<typeof http.post>[1]>[0]) => Promise<Upload[]> | Upload[]),
+) => {
+  return http.post('*/image/upload', async (info) => {
+    await delay(1000)
+
+    return new HttpResponse(
+      JSON.stringify(
+        overrideResponse !== undefined
+          ? typeof overrideResponse === 'function'
+            ? await overrideResponse(info)
+            : overrideResponse
+          : getUploadImagesResponseMock(),
+      ),
+      { status: 201, headers: { 'Content-Type': 'application/json' } },
+    )
   })
 }
 export const getImageControllerMock = () => [
   getDeleteImageMockHandler(),
   getFindAllImagesMockHandler(),
   getFindImageMetricsMockHandler(),
-  getUploadImagesMockHandler()
+  getUploadImagesMockHandler(),
 ]

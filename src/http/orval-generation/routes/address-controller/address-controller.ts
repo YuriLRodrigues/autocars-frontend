@@ -7,13 +7,14 @@
  */
 import { useMutation } from '@tanstack/react-query'
 import type { MutationFunction, UseMutationOptions, UseMutationResult } from '@tanstack/react-query'
+
+import { customFetch } from '../../../custom-instance-fetch'
 import type {
   SwaggerBadRequestDto,
   SwaggerResourceNotFoundDto,
   UpdateAddressBodyDto,
   UpdateAddressResponseDto,
 } from '../../schemas'
-import { customFetch } from '../../../custom-instance-fetch'
 
 type SecondParameter<T extends (...args: any) => any> = Parameters<T>[1]
 

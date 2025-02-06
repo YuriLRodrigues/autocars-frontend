@@ -7,7 +7,7 @@ import { decode } from 'jsonwebtoken'
 import { create } from 'zustand'
 
 type ActionsProps = {
-  addUserPayload: VoidFunction
+  addUserPayload: (userPayload?: Partial<TokenPayload>) => void
   updateUserAvatar: (avatarUrl: string) => void
   deleteUserPayload: VoidFunction
   getUserPayload: () => TokenPayload
@@ -29,7 +29,14 @@ export const useUserPayloadStore = create<UserPayloadProps>((set, get) => ({
   },
 
   actions: {
-    addUserPayload: () => {
+    addUserPayload: (userPayload?: Partial<TokenPayload>) => {
+      if (userPayload) {
+        set((state) => ({
+          user: { ...state.user, ...userPayload },
+        }))
+        return
+      }
+
       const token = getCookie(AUTH_COOKIE_NAME)
 
       if (!token) return null

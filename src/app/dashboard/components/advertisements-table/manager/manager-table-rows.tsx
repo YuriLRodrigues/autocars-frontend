@@ -77,7 +77,7 @@ export const ManagerTableRows = async ({
         </div>
       </TableCell>
       <TableCell className="!text-left">
-        <div className="mx-auto flex w-fit flex-row items-center gap-3">
+        <div className="mx-auto flex flex-row items-center gap-3">
           <Avatar>
             <AvatarImage
               src={row.user.avatar || '/assets/default-user-avatar.webp'}
@@ -89,7 +89,7 @@ export const ManagerTableRows = async ({
         </div>
       </TableCell>
       <TableCell>
-        <span className="mx-auto flex w-fit flex-row items-center gap-3">
+        <span className="mx-auto flex flex-row items-center gap-3">
           <Image
             src={row.brand.logoUrl}
             alt={`logo-${row.brand.name}`}
@@ -136,7 +136,17 @@ export const ManagerTableRowsSkeleton = () => {
         </div>
       </TableCell>
       <TableCell className="!text-left">
-        <div className="mx-auto flex w-fit items-center justify-center gap-2">
+        <div className="mr-auto flex w-fit items-center justify-center gap-2">
+          <Avatar>
+            <AvatarFallback>
+              <Skeleton />
+            </AvatarFallback>
+          </Avatar>
+          <Skeleton className="h-5 w-28" />
+        </div>
+      </TableCell>
+      <TableCell className="!text-left">
+        <div className="mr-auto flex w-fit items-center justify-center gap-2">
           <Avatar>
             <AvatarFallback>
               <Skeleton />
@@ -155,12 +165,9 @@ export const ManagerTableRowsSkeleton = () => {
         <Skeleton className="mx-auto h-5 w-28" />
       </TableCell>
       <TableCell>
-        <Skeleton className="mx-auto h-5 w-28" />
-      </TableCell>
-      <TableCell>
         <div className="mx-auto flex w-fit items-center gap-3">
           <Skeleton className="mx-auto h-5 w-20" />
-          <Skeleton className="mx-auto h-5 w-20" />
+          {/* <Skeleton className="mx-auto h-5 w-20" /> */}
         </div>
       </TableCell>
     </TableRowRoot>

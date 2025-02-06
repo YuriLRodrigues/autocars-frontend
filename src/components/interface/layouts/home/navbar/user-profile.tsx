@@ -9,14 +9,21 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
+import { Skeleton } from '@/components/ui/skeleton'
 
+import { UserRoles } from '@/@types/user'
 import { me } from '@/http/orval-generation/routes/user-controller/user-controller'
 
 import { profileLinks } from './links'
 import { LogoutButton } from './logout-button'
 
 export const UserProfile = async () => {
-  const { user } = await me()
+  const { user } = await me({
+    next: {
+      tags: ['me'],
+    },
+  })
+  const userRoles: UserRoles[] = (user.roles as UserRoles[]) || []
 
   return (
     <DropdownMenu>
@@ -32,11 +39,22 @@ export const UserProfile = async () => {
       <DropdownMenuContent className="space-y-2">
         <DropdownMenuLabel>Minha conta</DropdownMenuLabel>
         <DropdownMenuSeparator />
-        {profileLinks.map((link) => (
-          <DropdownMenuItem asChild key={link.href}>
-            <Link href={link.href}>{link.label}</Link>
-          </DropdownMenuItem>
-        ))}
+        {profileLinks.map((link) => {
+          const userRole =
+            userRoles.find(
+              (role) => role === UserRoles.Manager || role === UserRoles.Seller || role === UserRoles.Customer,
+            ) ?? null
+
+          const isValidToUserAccess =
+            !link.permissionRoles || (userRole ? link.permissionRoles.includes(userRole) : false)
+
+          if (!isValidToUserAccess) return null
+          return (
+            <DropdownMenuItem asChild key={link.href}>
+              <Link href={link.href}>{link.label}</Link>
+            </DropdownMenuItem>
+          )
+        })}
         <LogoutButton className="h-7" />
       </DropdownMenuContent>
     </DropdownMenu>
@@ -48,7 +66,9 @@ export const UserProfileSkeleton = () => {
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Avatar className="size-8">
-          <AvatarFallback>AC</AvatarFallback>
+          <AvatarFallback>
+            <Skeleton className="h-full w-full" />
+          </AvatarFallback>
         </Avatar>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="space-y-2">

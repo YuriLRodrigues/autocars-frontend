@@ -48,8 +48,8 @@ export const NavLink = ({
     >
       <Link href={href} {...props}>
         <li className="flex items-center justify-center gap-2">
-          <Icon name={iconName} />
-          {!isSkeleton ? label : <Skeleton className="h-3 w-10" />}
+          <Icon name={iconName} className={cn(isSkeleton && 'animate-spin')} />
+          {!isSkeleton ? label : <Skeleton className="h-4 w-12" />}
         </li>
       </Link>
     </Button>

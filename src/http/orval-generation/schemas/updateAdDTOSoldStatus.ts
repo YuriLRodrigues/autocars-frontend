@@ -11,7 +11,6 @@
  */
 export type UpdateAdDTOSoldStatus = (typeof UpdateAdDTOSoldStatus)[keyof typeof UpdateAdDTOSoldStatus]
 
-// eslint-disable-next-line @typescript-eslint/no-redeclare
 export const UpdateAdDTOSoldStatus = {
   Sold: 'Sold',
   Active: 'Active',

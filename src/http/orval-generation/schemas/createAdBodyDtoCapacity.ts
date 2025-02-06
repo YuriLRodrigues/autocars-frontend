@@ -11,7 +11,6 @@
  */
 export type CreateAdBodyDtoCapacity = (typeof CreateAdBodyDtoCapacity)[keyof typeof CreateAdBodyDtoCapacity]
 
-// eslint-disable-next-line @typescript-eslint/no-redeclare
 export const CreateAdBodyDtoCapacity = {
   Two: 'Two',
   Four: 'Four',

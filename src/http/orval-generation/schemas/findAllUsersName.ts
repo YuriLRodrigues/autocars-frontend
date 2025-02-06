@@ -8,7 +8,6 @@
 
 export type FindAllUsersName = (typeof FindAllUsersName)[keyof typeof FindAllUsersName]
 
-// eslint-disable-next-line @typescript-eslint/no-redeclare
 export const FindAllUsersName = {
   asc: 'asc',
   desc: 'desc',

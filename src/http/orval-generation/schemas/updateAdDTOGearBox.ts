@@ -11,7 +11,6 @@
  */
 export type UpdateAdDTOGearBox = (typeof UpdateAdDTOGearBox)[keyof typeof UpdateAdDTOGearBox]
 
-// eslint-disable-next-line @typescript-eslint/no-redeclare
 export const UpdateAdDTOGearBox = {
   Automatic: 'Automatic',
   Manual: 'Manual',

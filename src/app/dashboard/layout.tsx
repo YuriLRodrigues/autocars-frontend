@@ -1,4 +1,3 @@
-import type React from 'react'
 import { Suspense } from 'react'
 
 import { DashboardBreadCrumb } from './components/dashboard-breadcrumb'
@@ -7,39 +6,7 @@ import { DashboardSidebar, DashboardSidebarSkeleton } from '@/components/interfa
 import { Separator } from '@/components/ui/separator'
 import { SidebarInset, SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar'
 
-import { UserRoles } from '@/@types/user'
-import { authToken } from '@/auth'
-
-export default async function DashboardLayout({
-  manager,
-  seller,
-  customer,
-  children,
-}: {
-  manager?: React.ReactNode
-  seller?: React.ReactNode
-  customer?: React.ReactNode
-  children?: React.ReactNode
-}) {
-  const auth = await authToken()
-  const roles = auth?.roles || []
-
-  if (roles.includes(UserRoles.Manager) && manager) {
-    return <DefaultDashboardSidebar>{manager}</DefaultDashboardSidebar>
-  }
-
-  if (roles.includes(UserRoles.Seller) && seller) {
-    return <DefaultDashboardSidebar>{seller}</DefaultDashboardSidebar>
-  }
-
-  if (roles.includes(UserRoles.Customer) && customer) {
-    return <DefaultDashboardSidebar>{customer}</DefaultDashboardSidebar>
-  }
-
-  return <>{children}</>
-}
-
-function DefaultDashboardSidebar({ children }: { children: React.ReactNode }) {
+export default function DashboardLayout({ children }: { children: React.ReactNode }) {
   return (
     <SidebarProvider>
       <Suspense fallback={<DashboardSidebarSkeleton />}>

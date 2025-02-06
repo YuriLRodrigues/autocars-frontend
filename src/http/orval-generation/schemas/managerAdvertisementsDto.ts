@@ -5,8 +5,8 @@
  * Cars seller API
  * OpenAPI spec version: 1.0.0
  */
-import type { ManagerAdvertisementsDtoSoldStatus } from './managerAdvertisementsDtoSoldStatus'
 import type { ManagerAdvertisementBrandDto } from './managerAdvertisementBrandDto'
+import type { ManagerAdvertisementsDtoSoldStatus } from './managerAdvertisementsDtoSoldStatus'
 import type { ManagerAdvertisementUserDto } from './managerAdvertisementUserDto'
 
 export interface ManagerAdvertisementsDto {

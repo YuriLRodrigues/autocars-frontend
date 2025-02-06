@@ -5,12 +5,12 @@
  * Cars seller API
  * OpenAPI spec version: 1.0.0
  */
-import type { CreateAdBodyDtoDoors } from './createAdBodyDtoDoors'
-import type { CreateAdBodyDtoModel } from './createAdBodyDtoModel'
-import type { CreateAdBodyDtoColor } from './createAdBodyDtoColor'
-import type { CreateAdBodyDtoGearBox } from './createAdBodyDtoGearBox'
-import type { CreateAdBodyDtoFuel } from './createAdBodyDtoFuel'
 import type { CreateAdBodyDtoCapacity } from './createAdBodyDtoCapacity'
+import type { CreateAdBodyDtoColor } from './createAdBodyDtoColor'
+import type { CreateAdBodyDtoDoors } from './createAdBodyDtoDoors'
+import type { CreateAdBodyDtoFuel } from './createAdBodyDtoFuel'
+import type { CreateAdBodyDtoGearBox } from './createAdBodyDtoGearBox'
+import type { CreateAdBodyDtoModel } from './createAdBodyDtoModel'
 
 export interface CreateAdBodyDto {
   /** The IDs of the advertisement images */

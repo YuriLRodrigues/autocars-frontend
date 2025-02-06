@@ -1,4 +1,5 @@
 'use client'
+
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 
@@ -30,7 +31,9 @@ export const SidebarMain = ({ userRoles }: SidebarMainProps) => {
           {dashboardLinks.map((link) => {
             const isLinkActive = link.href === pathName
             const isValidToUserAccess = userRoles.some((role) => link.permissionRoles.includes(role))
+
             if (!isValidToUserAccess) return null
+
             return (
               <SidebarMenuItem key={link.label}>
                 <SidebarMenuButton
@@ -59,7 +62,7 @@ export const SidebarMainSkeleton = () => {
         <SidebarMenu>
           {[...Array(5)].map((_, index) => (
             <SidebarMenuItem key={index}>
-              <SidebarMenuButton asChild>
+              <SidebarMenuButton>
                 <Icon name="Loader" className="size-5 animate-spin" />
                 <span>Loading...</span>
               </SidebarMenuButton>

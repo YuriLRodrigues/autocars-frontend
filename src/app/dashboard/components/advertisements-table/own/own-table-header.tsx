@@ -13,7 +13,7 @@ export const OwnTableHeader = (props: OwnTableHeaderProps) => {
       <TableHeaderRoot>
         <TableRow className="*:text-center">
           <TableHead className="!text-left">Anúncio</TableHead>
-          <TableHead>Marca</TableHead>
+          <TableHead className="!text-left">Marca</TableHead>
           <TableHead>Data de publicação</TableHead>
           <TableHead>Preço/Promo</TableHead>
           <TableHead>Status</TableHead>

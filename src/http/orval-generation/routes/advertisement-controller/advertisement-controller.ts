@@ -23,6 +23,8 @@ import type {
   UseQueryOptions,
   UseQueryResult,
 } from '@tanstack/react-query'
+
+import { customFetch } from '../../../custom-instance-fetch'
 import type {
   CreateAdBodyDto,
   CreateAdResponseDto,
@@ -46,7 +48,6 @@ import type {
   SwaggerResourceNotFoundDto,
   UpdateAdDTO,
 } from '../../schemas'
-import { customFetch } from '../../../custom-instance-fetch'
 
 type SecondParameter<T extends (...args: any) => any> = Parameters<T>[1]
 

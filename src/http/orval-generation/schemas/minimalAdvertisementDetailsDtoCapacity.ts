@@ -12,7 +12,6 @@
 export type MinimalAdvertisementDetailsDtoCapacity =
   (typeof MinimalAdvertisementDetailsDtoCapacity)[keyof typeof MinimalAdvertisementDetailsDtoCapacity]
 
-// eslint-disable-next-line @typescript-eslint/no-redeclare
 export const MinimalAdvertisementDetailsDtoCapacity = {
   Two: 'Two',
   Four: 'Four',

@@ -5,8 +5,8 @@
  * Cars seller API
  * OpenAPI spec version: 1.0.0
  */
-import type { FindAllManagerAdvertisementsSoldStatus } from './findAllManagerAdvertisementsSoldStatus'
 import type { FindAllManagerAdvertisementsCreatedAt } from './findAllManagerAdvertisementsCreatedAt'
+import type { FindAllManagerAdvertisementsSoldStatus } from './findAllManagerAdvertisementsSoldStatus'
 
 export type FindAllManagerAdvertisementsParams = {
   /**

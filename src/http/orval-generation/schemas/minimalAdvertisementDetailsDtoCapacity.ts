@@ -7,7 +7,7 @@
  */
 
 /**
- * Capacidade do veículo
+ * Vehicle capacity
  */
 export type MinimalAdvertisementDetailsDtoCapacity =
   (typeof MinimalAdvertisementDetailsDtoCapacity)[keyof typeof MinimalAdvertisementDetailsDtoCapacity]

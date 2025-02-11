@@ -11,7 +11,9 @@ export default function FavoritesPage() {
           um novo favorito ou &quot;remover&quot; para remover um favorito.
         </Container.Description>
       </Container.Header>
-      <FavoritesList />
+      <section className="min-h-[calc(100vh-330px)]">
+        <FavoritesList />
+      </section>
     </Container.Content>
   )
 }

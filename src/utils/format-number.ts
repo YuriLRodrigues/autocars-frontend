@@ -25,3 +25,21 @@ export const formatKilometers = (value: number): string => {
 
   return `${formattedValue} km`
 }
+
+export function formatPhoneNumber(phone: string): string {
+  phone = phone.replace(/\D/g, '')
+
+  let countryCode = ''
+  if (phone.startsWith('55') && phone.length > 11) {
+    countryCode = '+55 '
+    phone = phone.slice(2)
+  }
+
+  if (phone.length === 11) {
+    return `${countryCode}(${phone.slice(0, 2)}) ${phone.slice(2, 7)}-${phone.slice(7)}`
+  } else if (phone.length === 10) {
+    return `${countryCode}(${phone.slice(0, 2)}) ${phone.slice(2, 6)}-${phone.slice(6)}`
+  }
+
+  return countryCode + phone
+}

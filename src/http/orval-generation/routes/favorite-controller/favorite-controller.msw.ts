@@ -26,12 +26,14 @@ export const getFindAllFavoritesByUserIdResponseMock = (): FindAllFavoritesByUse
         thumbnailUrl: faker.string.alpha(20),
         blurHash: faker.string.alpha(20),
         price: faker.number.int({ min: undefined, max: undefined }),
+        salePrice: faker.number.int({ min: undefined, max: undefined }),
         km: faker.number.int({ min: undefined, max: undefined }),
         doors: faker.string.alpha(20),
         gearBox: faker.string.alpha(20),
         fuel: faker.string.alpha(20),
         capacity: faker.string.alpha(20),
         soldStatus: faker.string.alpha(20),
+        model: faker.string.alpha(20),
       },
     })),
     undefined,
@@ -59,6 +61,7 @@ export const getFindAllFavoritesResponseMock = (): FindAllFavorites200 => ({
       },
       user: {
         name: faker.string.alpha(20),
+        avatar: faker.string.alpha(20),
         id: faker.string.alpha(20),
         address: {
           street: faker.string.alpha(20),

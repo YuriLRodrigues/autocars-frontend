@@ -5,44 +5,13 @@
  * Cars seller API
  * OpenAPI spec version: 1.0.0
  */
+import type { FindAllAdvertisementsColor } from './findAllAdvertisementsColor'
+import type { FindAllAdvertisementsCreatedAt } from './findAllAdvertisementsCreatedAt'
+import type { FindAllAdvertisementsFuel } from './findAllAdvertisementsFuel'
+import type { FindAllAdvertisementsModel } from './findAllAdvertisementsModel'
+import type { FindAllAdvertisementsSoldStatus } from './findAllAdvertisementsSoldStatus'
 
 export type FindAllAdvertisementsParams = {
-  /**
-   * The model/type of the vehicle
-   */
-  model: unknown
-  /**
-   * The type of fuel of the vehicle
-   */
-  fuel: unknown
-  /**
-   * The maximum desired mileage
-   */
-  km: number
-  /**
-   * The brand of the vehicle
-   */
-  brand: string
-  /**
-   * The color of the vehicle
-   */
-  color: unknown
-  /**
-   * The year of the vehicle
-   */
-  year: number
-  /**
-   * The maximum desired price
-   */
-  price: number
-  /**
-   * The order of advertisements by date
-   */
-  date: unknown
-  /**
-   * The order of advertisements by likes
-   */
-  likes: unknown
   /**
    * Page for pagination
    */
@@ -51,4 +20,44 @@ export type FindAllAdvertisementsParams = {
    * Limit for pagination
    */
   limit?: number
+  /**
+   * Filter advertisements by title
+   */
+  title?: string
+  /**
+   * Filter advertisements by sold status
+   */
+  soldStatus?: FindAllAdvertisementsSoldStatus
+  /**
+   * Filter advertisements by fuel type
+   */
+  fuel?: FindAllAdvertisementsFuel
+  /**
+   * Filter advertisements by color
+   */
+  color?: FindAllAdvertisementsColor
+  /**
+   * Filter advertisements by model
+   */
+  model?: FindAllAdvertisementsModel
+  /**
+   * Filter advertisements by price
+   */
+  price?: number
+  /**
+   * Filter advertisements by max year
+   */
+  year?: number
+  /**
+   * Sort advertisements by creation date in ascending or descending order
+   */
+  createdAt?: FindAllAdvertisementsCreatedAt
+  /**
+   * Filter advertisements by brand ID
+   */
+  brandId?: string
+  /**
+   * Filter advertisements by max km
+   */
+  km?: number
 }

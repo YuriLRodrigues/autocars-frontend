@@ -9,4 +9,6 @@
 export interface ImageDto {
   /** The URL of the image */
   url: string
+  /** BlurHash for the image, used for low-quality image preview */
+  blurHash: string
 }

@@ -7,7 +7,7 @@
  */
 
 /**
- * Tipo de combustível
+ * Fuel type
  */
 export type MinimalAdvertisementDetailsDtoFuel =
   (typeof MinimalAdvertisementDetailsDtoFuel)[keyof typeof MinimalAdvertisementDetailsDtoFuel]

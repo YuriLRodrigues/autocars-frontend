@@ -1,4 +1,4 @@
-import { useRouter, useSearchParams } from 'next/navigation'
+import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import { useState } from 'react'
 import { DateRange } from 'react-day-picker'
 import { useForm } from 'react-hook-form'
@@ -14,6 +14,7 @@ import { FilterAdvertisementsSchemaProps, filterAdvertisementsSchema } from './s
 export const useFilterAdvertisementsForm = () => {
   const searchParams = useSearchParams()
   const router = useRouter()
+  const pathname = usePathname()
   const { toggle } = useToggle()
 
   const form = useForm<FilterAdvertisementsSchemaProps>({
@@ -40,7 +41,8 @@ export const useFilterAdvertisementsForm = () => {
   const [price, setPrice] = useState<number[]>([searchParamsPriceValue, 1000000000])
 
   const onSubmit = async (values: FilterAdvertisementsSchemaProps) => {
-    const url = QueryParams.baseUrl('/dashboard/advertisements')
+    const currentPathname = pathname.split('?')[0]
+    const url = QueryParams.baseUrl(currentPathname)
 
     if (values.createdAt !== undefined || values.createdAt !== '') {
       url.query({

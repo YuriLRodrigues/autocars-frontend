@@ -52,7 +52,7 @@ export const BrandsListSkeleton = () => {
       {[...Array(15)].map((_, index) => (
         <Card key={index} className="flex h-40 w-36 flex-col items-center justify-center gap-y-3 overflow-hidden pb-2">
           <Skeleton className="aspect-square h-full w-full object-cover object-center" />
-          <CardContent className="py-0">
+          <CardContent>
             <CardTitle>
               <Skeleton className="h-4 w-32" />
             </CardTitle>

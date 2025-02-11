@@ -15,9 +15,9 @@ import type { UpdateAdDTOSoldStatus } from './updateAdDTOSoldStatus'
 
 export interface UpdateAdDTO {
   /** The IDs of the advertisement images */
-  newImagesIds: string[]
+  newImagesIds?: string[]
   /** The IDs of the advertisement images */
-  removedImagesIds: string[]
+  removedImagesIds?: string[]
   /** The vehicle’s mileage */
   km?: number
   /** The location of the advertisement */

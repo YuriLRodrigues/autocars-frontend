@@ -1,4 +1,4 @@
-import { useSearchParams } from 'next/navigation'
+import { usePathname, useSearchParams } from 'next/navigation'
 import { useForm } from 'react-hook-form'
 
 import { mappingMonthReference } from '@/utils/mappings'
@@ -10,6 +10,9 @@ import { toast } from 'sonner'
 import { selectreferenceDateSchema, SelectreferenceDateSchemaProps } from './schema'
 
 export const useSelectreferenceDate = () => {
+  const pathname = usePathname()
+  const currentPathname = pathname.split('?')[0]
+
   const referenceDate = Number(useSearchParams().get('referenceDate')) || 1
 
   const form = useForm<SelectreferenceDateSchemaProps>({
@@ -21,7 +24,7 @@ export const useSelectreferenceDate = () => {
   })
 
   const onSubmit = async (values: SelectreferenceDateSchemaProps) => {
-    const url = QueryParams.baseUrl('/dashboard')
+    const url = QueryParams.baseUrl(currentPathname)
 
     if (values.referenceDate !== undefined) {
       url.query({

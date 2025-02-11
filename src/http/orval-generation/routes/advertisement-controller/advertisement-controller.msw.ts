@@ -78,10 +78,12 @@ export const getFindAdByIdResponseMock = (
   capacity: faker.helpers.arrayElement(['Two', 'Four', 'Five', 'Six'] as const),
   images: Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() => ({
     url: faker.string.alpha(20),
+    blurHash: faker.string.alpha(20),
   })),
   brand: { brandId: faker.string.alpha(20), name: faker.string.alpha(20), logoUrl: faker.string.alpha(20) },
   user: {
     name: faker.string.alpha(20),
+    avatar: faker.string.alpha(20),
     id: faker.string.alpha(20),
     address: {
       street: faker.string.alpha(20),
@@ -105,6 +107,7 @@ export const getFindAllAdvertisementsByUserIdResponseMock = (): FindAllAdvertise
     Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() => ({
       user: {
         name: faker.string.alpha(20),
+        avatar: faker.string.alpha(20),
         id: faker.string.alpha(20),
         address: {
           street: faker.string.alpha(20),
@@ -214,14 +217,28 @@ export const getFindAllAdvertisementsResponseMock = (): FindAllAdvertisements200
       brandId: faker.string.alpha(20),
       km: faker.number.int({ min: undefined, max: undefined }),
       price: faker.number.int({ min: undefined, max: undefined }),
+      salePrice: faker.number.int({ min: undefined, max: undefined }),
       title: faker.string.alpha(20),
       advertisementId: faker.string.alpha(20),
       thumbnailUrl: faker.string.alpha(20),
       blurHash: faker.string.alpha(20),
       capacity: faker.helpers.arrayElement(['Two', 'Four', 'Five', 'Six'] as const),
       doors: faker.helpers.arrayElement(['Two', 'Three', 'Four'] as const),
+      soldStatus: faker.helpers.arrayElement(['Sold', 'Active', 'Reserved'] as const),
       fuel: faker.helpers.arrayElement(['Gasoline', 'Flex', 'Ethanol', 'Diesel', 'GNV', 'Eletric'] as const),
       gearBox: faker.helpers.arrayElement(['Automatic', 'Manual'] as const),
+      model: faker.helpers.arrayElement([
+        'SUV',
+        'Sedan',
+        'Hatch',
+        'Pickups',
+        'Crossover',
+        'Stilt',
+        'Minivan',
+        'Sport',
+        'Van',
+        'Coupe',
+      ] as const),
       likes: faker.helpers.arrayElement([
         Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() => ({})),
         undefined,
@@ -235,6 +252,7 @@ export const getFindAllSoldAdsResponseMock = (
   overrideResponse: Partial<FindAllSoldAdsResponseDto> = {},
 ): FindAllSoldAdsResponseDto => ({
   results: Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() => ({
+    salePrice: faker.helpers.arrayElement([faker.number.int({ min: undefined, max: undefined }), undefined]),
     price: faker.number.int({ min: undefined, max: undefined }),
     updatedAt: `${faker.date.past().toISOString().split('.')[0]}Z`,
   })),
@@ -249,14 +267,28 @@ export const getUpdateAdvertisementResponseMock = (
   brandId: faker.string.alpha(20),
   km: faker.number.int({ min: undefined, max: undefined }),
   price: faker.number.int({ min: undefined, max: undefined }),
+  salePrice: faker.number.int({ min: undefined, max: undefined }),
   title: faker.string.alpha(20),
   advertisementId: faker.string.alpha(20),
   thumbnailUrl: faker.string.alpha(20),
   blurHash: faker.string.alpha(20),
   capacity: faker.helpers.arrayElement(['Two', 'Four', 'Five', 'Six'] as const),
   doors: faker.helpers.arrayElement(['Two', 'Three', 'Four'] as const),
+  soldStatus: faker.helpers.arrayElement(['Sold', 'Active', 'Reserved'] as const),
   fuel: faker.helpers.arrayElement(['Gasoline', 'Flex', 'Ethanol', 'Diesel', 'GNV', 'Eletric'] as const),
   gearBox: faker.helpers.arrayElement(['Automatic', 'Manual'] as const),
+  model: faker.helpers.arrayElement([
+    'SUV',
+    'Sedan',
+    'Hatch',
+    'Pickups',
+    'Crossover',
+    'Stilt',
+    'Minivan',
+    'Sport',
+    'Van',
+    'Coupe',
+  ] as const),
   likes: faker.helpers.arrayElement([
     Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() => ({})),
     undefined,

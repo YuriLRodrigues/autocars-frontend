@@ -1,4 +1,4 @@
-import { useRouter, useSearchParams } from 'next/navigation'
+import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import { useForm } from 'react-hook-form'
 
 import { UserRoles } from '@/@types/user'
@@ -11,6 +11,7 @@ import { FilterUsersSchemaProps, filterUsersSchema } from './schema'
 export const useFilterUsersForm = () => {
   const searchParams = useSearchParams()
   const router = useRouter()
+  const pathname = usePathname()
 
   const form = useForm<FilterUsersSchemaProps>({
     resolver: zodResolver(filterUsersSchema),
@@ -25,7 +26,8 @@ export const useFilterUsersForm = () => {
   })
 
   const onSubmit = async (values: FilterUsersSchemaProps) => {
-    const url = QueryParams.baseUrl('/dashboard/users')
+    const currentPathname = pathname.split('?')[0]
+    const url = QueryParams.baseUrl(currentPathname)
 
     if (values.createdAt !== undefined || values.createdAt !== '') {
       url.query({

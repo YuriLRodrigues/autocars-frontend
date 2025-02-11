@@ -16,7 +16,7 @@ import { formatCurrencyBRL } from '@/utils/format-number'
 import { useFilterAdvertisementsForm } from './use-filter-advertisements'
 
 export const FilterAdvertisementsForm = () => {
-  const { data } = useFindAllBrands()
+  const { data } = useFindAllBrands({ limit: 1000 })
   const { form, handleSubmit, date, setDate, price, setPrice, clear } = useFilterAdvertisementsForm()
 
   return (

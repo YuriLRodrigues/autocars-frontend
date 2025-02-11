@@ -7,7 +7,7 @@
  */
 
 /**
- * Tipo de câmbio
+ * Gearbox type
  */
 export type MinimalAdvertisementDetailsDtoGearBox =
   (typeof MinimalAdvertisementDetailsDtoGearBox)[keyof typeof MinimalAdvertisementDetailsDtoGearBox]

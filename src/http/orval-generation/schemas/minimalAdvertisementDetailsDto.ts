@@ -10,34 +10,42 @@ import type { MinimalAdvertisementDetailsDtoCapacity } from './minimalAdvertisem
 import type { MinimalAdvertisementDetailsDtoDoors } from './minimalAdvertisementDetailsDtoDoors'
 import type { MinimalAdvertisementDetailsDtoFuel } from './minimalAdvertisementDetailsDtoFuel'
 import type { MinimalAdvertisementDetailsDtoGearBox } from './minimalAdvertisementDetailsDtoGearBox'
+import type { MinimalAdvertisementDetailsDtoModel } from './minimalAdvertisementDetailsDtoModel'
+import type { MinimalAdvertisementDetailsDtoSoldStatus } from './minimalAdvertisementDetailsDtoSoldStatus'
 
 export interface MinimalAdvertisementDetailsDto {
-  /** URL da imagem da marca */
+  /** Brand logo URL */
   logoUrl: string
-  /** Nome da marca */
+  /** Brand name */
   name: string
-  /** ID único da marca */
+  /** Unique brand ID */
   brandId: string
-  /** Kilometragem do veículo */
+  /** Vehicle mileage */
   km: number
-  /** Preço do veículo */
+  /** Vehicle price */
   price: number
-  /** Título do anúncio */
+  /** Vehicle sale price */
+  salePrice: number
+  /** Advertisement title */
   title: string
-  /** ID único do anúncio */
+  /** Unique advertisement ID */
   advertisementId: string
-  /** URL da miniatura do anúncio */
+  /** Advertisement thumbnail URL */
   thumbnailUrl: string
   /** BlurHash for the image, used for low-quality image preview */
   blurHash: string
-  /** Capacidade do veículo */
+  /** Vehicle capacity */
   capacity: MinimalAdvertisementDetailsDtoCapacity
-  /** Número de portas do veículo */
+  /** Number of doors */
   doors: MinimalAdvertisementDetailsDtoDoors
-  /** Tipo de combustível */
+  /** Status of advertisement */
+  soldStatus: MinimalAdvertisementDetailsDtoSoldStatus
+  /** Fuel type */
   fuel: MinimalAdvertisementDetailsDtoFuel
-  /** Tipo de câmbio */
+  /** Gearbox type */
   gearBox: MinimalAdvertisementDetailsDtoGearBox
-  /** Curtidas no anúncio */
+  /** Model type */
+  model: MinimalAdvertisementDetailsDtoModel
+  /** Advertisement likes */
   likes?: LikeEntity[]
 }

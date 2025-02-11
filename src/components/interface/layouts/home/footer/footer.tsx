@@ -8,7 +8,7 @@ export const Footer = () => {
   const currentYear = new Date().getUTCFullYear()
 
   return (
-    <footer className="flex flex-wrap items-center justify-center gap-3 p-5 py-10 text-center">
+    <footer className="flex flex-wrap items-center justify-center gap-3 border-t border-primary-foreground p-5 py-3 text-center dark:border-primary-foreground/40">
       <div className="flex w-fit flex-wrap items-center justify-center gap-3 p-3">
         <Image src={AutoCarsLogo} alt="Auto Cars Logo" className="h-auto w-8" width={80} height={80} />
         <p>© {currentYear} - Todos os direitos reservados a Auto Cars.</p>

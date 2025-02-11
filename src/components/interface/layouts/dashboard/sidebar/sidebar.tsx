@@ -17,7 +17,7 @@ export async function DashboardSidebar() {
       <SidebarHeader>
         <Link href="/" className="flex w-full items-center justify-center gap-2 group-data-[state=collapsed]:gap-0">
           <Image
-            src={AutoCarsLogo || '/placeholder.svg'}
+            src={AutoCarsLogo || 'assets/placeholder.svg'}
             alt="Auto Cars Logo"
             className="h-auto w-8 group-data-[state=collapsed]:w-6"
             width={80}

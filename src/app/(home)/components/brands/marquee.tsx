@@ -41,7 +41,7 @@ const ReviewCard = ({ logoUrl, name, isSkeleton }: ReviewCardProps) => {
 }
 
 export async function BrandsMarquee() {
-  const { results: brands } = await findAllBrands({}, { next: { tags: ['findAllBrands'] } })
+  const { results: brands } = await findAllBrands({ limit: 1000 }, { next: { tags: ['findAllBrands'] } })
 
   if (!brands || brands.length === 0) return null
 

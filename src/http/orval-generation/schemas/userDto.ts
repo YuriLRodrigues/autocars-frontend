@@ -10,6 +10,8 @@ import type { AddressDto } from './addressDto'
 export interface UserDto {
   /** The name of the user */
   name: string
+  /** The user avatar */
+  avatar: string
   /** The unique identifier of the user */
   id: string
   /** The address of the user */

@@ -19,6 +19,7 @@ import { VisibleChieldComponent } from '@/components/ui/visible-chield-component
 import { Capacity, Color, Doors, Fuel, GearBox, Model } from '@/@types/advertisement'
 import { useFindAllBrands } from '@/http/orval-generation/routes/brand-controller/brand-controller'
 import { Upload } from '@/http/orval-generation/schemas'
+import { MAX_FILE_SIZE, MAX_FILE_UPLOADED } from '@/utils/constants'
 import { formatCurrencyBRL, formatKilometers } from '@/utils/format-number'
 import {
   mappingCapacity,
@@ -41,7 +42,7 @@ type EditAdvertisementFormProps = {
 }
 
 export const EditAdvertisementForm = ({ adId, defaultValues, oldImages }: EditAdvertisementFormProps) => {
-  const { data, isLoading } = useFindAllBrands({}, { query: { queryKey: ['findAllBrands'] } })
+  const { data, isLoading } = useFindAllBrands({ limit: 1000 }, { query: { queryKey: ['findAllBrands'] } })
   const { isUploading, onUpload, uploadedFiles, progresses } = useUploadFile()
 
   const {
@@ -84,8 +85,8 @@ export const EditAdvertisementForm = ({ adId, defaultValues, oldImages }: EditAd
           <div className="flex flex-col gap-6 md:col-span-2">
             <FileUploader
               multiple={true}
-              maxFileCount={4}
-              maxSize={4 * 1024 * 1024}
+              maxFileCount={MAX_FILE_UPLOADED}
+              maxSize={MAX_FILE_SIZE}
               progresses={progresses}
               onUpload={onUpload}
               disabled={isUploading}

@@ -5,7 +5,7 @@ import { ChartConfig, ChartContainer, ChartTooltip, ChartTooltipContent } from '
 
 import { abbreviateTime } from '@/utils/abbreviate-time'
 import { formatDate } from '@/utils/format-date'
-import { formatDistance, subDays } from 'date-fns'
+import { formatDistance } from 'date-fns'
 import { ptBR } from 'date-fns/locale'
 import { Area, AreaChart, CartesianGrid, XAxis } from 'recharts'
 
@@ -18,6 +18,7 @@ const chartConfig = {
 
 type SallesChartProps = {
   chartData: Array<{
+    salePrice?: number
     updatedAt: string
     price: number
   }>
@@ -36,6 +37,7 @@ export function SallesChart({ chartData }: SallesChartProps) {
             accessibilityLayer
             data={chartData}
             margin={{
+              top: 12,
               left: 12,
               right: 12,
             }}
@@ -46,7 +48,7 @@ export function SallesChart({ chartData }: SallesChartProps) {
               tickLine={false}
               axisLine={false}
               tickMargin={8}
-              tickFormatter={(value) => abbreviateTime(formatDistance(subDays(value, 3), new Date(), { locale: ptBR }))}
+              tickFormatter={(value) => abbreviateTime(formatDistance(value, new Date(), { locale: ptBR }))}
               name="Data da venda: "
             />
             <ChartTooltip
@@ -55,7 +57,7 @@ export function SallesChart({ chartData }: SallesChartProps) {
               labelFormatter={(label) => formatDate(label)}
             />
             <Area
-              dataKey="price"
+              dataKey={(data) => data.salePrice ?? data.price}
               type="natural"
               fill="hsl(var(--chart-1))"
               fillOpacity={0.4}

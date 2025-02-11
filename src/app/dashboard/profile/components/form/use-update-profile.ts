@@ -45,7 +45,7 @@ export const useUpdateProfileForm = ({ uploadedAvatar }: UseUpdateProfileFormPro
 
     try {
       const { token } = await updateOwnUser({ avatar: uploadedAvatar, email, name, username })
-      setCookie(AUTH_COOKIE_NAME, token, { maxAge: SIGNIN_COOKIE_MAX_AGE })
+      setCookie(AUTH_COOKIE_NAME, token, { maxAge: SIGNIN_COOKIE_MAX_AGE, httpOnly: true })
 
       toast.success(`Perfil atualizado`)
 

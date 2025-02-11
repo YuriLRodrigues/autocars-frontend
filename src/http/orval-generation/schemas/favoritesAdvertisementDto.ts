@@ -17,6 +17,8 @@ export interface FavoritesAdvertisementDto {
   blurHash: string
   /** Price of the advertisement */
   price: number
+  /** Sale price of the advertisement */
+  salePrice: number
   /** Kilometers driven */
   km: number
   /** Number of doors */
@@ -29,4 +31,6 @@ export interface FavoritesAdvertisementDto {
   capacity: string
   /** Status of the advertisement */
   soldStatus: string
+  /** Model of the advertisement */
+  model: string
 }

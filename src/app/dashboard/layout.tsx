@@ -1,6 +1,6 @@
 import { Suspense } from 'react'
 
-import { DashboardBreadCrumb } from './components/dashboard-breadcrumb'
+import { CustomBreadCrumb } from '../../components/ui/custom-breadcrumb'
 import { Container } from '@/components/interface/container'
 import { DashboardSidebar, DashboardSidebarSkeleton } from '@/components/interface/layouts/dashboard/sidebar/sidebar'
 import { Separator } from '@/components/ui/separator'
@@ -17,7 +17,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
           <div className="flex items-center gap-2 px-4">
             <SidebarTrigger className="-ml-1" />
             <Separator orientation="vertical" className="mr-2 h-4" />
-            <DashboardBreadCrumb />
+            <CustomBreadCrumb />
           </div>
         </header>
         <Container.Root className="px-4 pt-0 sm:pt-0">{children}</Container.Root>

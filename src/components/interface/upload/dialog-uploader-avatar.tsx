@@ -16,6 +16,7 @@ import {
 
 import { useUserPayloadStore } from '@/hooks/use-user-details'
 import { Upload } from '@/http/orval-generation/schemas'
+import { MAX_FILE_SIZE } from '@/utils/constants'
 
 type DialogUploaderAvatarProps = {
   files: Upload[] | undefined
@@ -53,7 +54,7 @@ export function DialogUploaderAvatar({ files, onUpload }: DialogUploaderAvatarPr
           <DialogTitle>Envio de imagem</DialogTitle>
           <DialogDescription>Arraste e solte ou clique para escolher um arquivo.</DialogDescription>
         </DialogHeader>
-        <FileUploader maxSize={5 * 1024 * 1024} maxFileCount={1} multiple={false} onUpload={onUpload} />
+        <FileUploader maxSize={MAX_FILE_SIZE} maxFileCount={1} multiple={false} onUpload={onUpload} />
       </DialogContent>
     </Dialog>
   )

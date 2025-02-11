@@ -69,24 +69,19 @@ export const AnimatedWrapper: React.FC<AnimatedWrapperProps> = ({
   duration = 0.8,
   delay = 0,
   custom,
-  threshold = 0.1,
+  threshold = 0.3,
 }) => {
   const controls = useAnimation()
   const ref = useRef<HTMLDivElement>(null)
-  const [isVisible, setIsVisible] = useState(false)
-
-  // ✅ Garante que a animação inicializa corretamente
-  useEffect(() => {
-    controls.start('hidden')
-  }, [controls])
+  const [hasBeenVisible, setHasBeenVisible] = useState(false)
 
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
-          setIsVisible(true)
+          setHasBeenVisible(true)
         } else {
-          setIsVisible(false)
+          setHasBeenVisible(false)
         }
       },
       { threshold },
@@ -103,14 +98,13 @@ export const AnimatedWrapper: React.FC<AnimatedWrapperProps> = ({
     }
   }, [threshold])
 
-  // ✅ Chama `controls.start()` APENAS após a montagem do componente
   useEffect(() => {
-    if (isVisible) {
+    if (hasBeenVisible) {
       controls.start('visible')
     } else {
       controls.start('hidden')
     }
-  }, [isVisible, controls])
+  }, [hasBeenVisible, controls])
 
   const variants = custom || createVariants(type, direction)
 

@@ -7,6 +7,8 @@
  */
 
 export interface SoldAds {
+  /** Sale price of ad */
+  salePrice?: number
   /** Price of ad */
   price: number
   /** Updated time of ad */

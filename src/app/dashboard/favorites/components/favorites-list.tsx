@@ -16,11 +16,13 @@ export const FavoritesList = async () => {
   }
 
   return (
-    <section className="flex flex-wrap items-center gap-6">
+    <section className="flex flex-wrap gap-6">
       {results.map((fav, index) => (
         <AnimatedWrapper key={fav.id} delay={0.25 * index}>
           <AdvertisementCard
             advertisementId={fav.advertisement.id}
+            model={fav.advertisement.model}
+            soldStatus={fav.advertisement.soldStatus}
             capacity={fav.advertisement.capacity}
             doors={fav.advertisement.doors}
             fuel={fav.advertisement.fuel}
@@ -30,6 +32,7 @@ export const FavoritesList = async () => {
             thumbnailUrl={fav.advertisement.thumbnailUrl}
             blurHash={fav.advertisement.blurHash}
             title={fav.advertisement.title}
+            salePrice={fav.advertisement.salePrice}
           />
         </AnimatedWrapper>
       ))}

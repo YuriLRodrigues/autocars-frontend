@@ -4,7 +4,6 @@ import Image from 'next/image'
 import { useEffect } from 'react'
 
 import { Steps } from '@/components/interface/form/steps'
-import { MinimalTiptapEditor } from '@/components/interface/minimal-tiptap'
 import { FileUploader } from '@/components/interface/upload/file-uploader'
 import { Button } from '@/components/ui/button'
 import { Form, FormControl, FormField, FormItem, FormMessage } from '@/components/ui/form'
@@ -18,7 +17,7 @@ import { VisibleChieldComponent } from '@/components/ui/visible-chield-component
 
 import { Capacity, Color, Doors, Fuel, GearBox, Model } from '@/@types/advertisement'
 import { useFindAllBrands } from '@/http/orval-generation/routes/brand-controller/brand-controller'
-import { MAX_FILE_UPLOADED } from '@/utils/constants'
+import { MAX_FILE_SIZE, MAX_FILE_UPLOADED } from '@/utils/constants'
 import { formatCurrencyBRL, formatKilometers } from '@/utils/format-number'
 import {
   mappingCapacity,
@@ -35,7 +34,7 @@ import { useCreateAdvertisementsForm } from './use-create-advertisements'
 import { useUploadFile } from './use-upload-images'
 
 export const CreateAdvertisementForm = () => {
-  const { data, isLoading } = useFindAllBrands({}, { query: { queryKey: ['findAllBrands'] } })
+  const { data, isLoading } = useFindAllBrands({ limit: 100000 }, { query: { queryKey: ['findAllBrands'] } })
   const { isUploading, onUpload, uploadedFiles, progresses } = useUploadFile()
 
   const {
@@ -43,8 +42,6 @@ export const CreateAdvertisementForm = () => {
     isSubmitting,
     handleSubmit,
     progressByStep,
-    details,
-    setDetails,
     thumbnailImageId,
     setThumbnailImageId,
     isAdDataStep,
@@ -74,14 +71,16 @@ export const CreateAdvertisementForm = () => {
 
         <VisibleChieldComponent visible={isImagesStep}>
           <div className="flex flex-col gap-6 md:col-span-2">
-            <FileUploader
-              multiple={true}
-              maxFileCount={MAX_FILE_UPLOADED}
-              maxSize={4 * 1024 * 1024}
-              progresses={progresses}
-              onUpload={onUpload}
-              disabled={isUploading}
-            />
+            {(uploadedFiles ?? []).length < 6 && (
+              <FileUploader
+                multiple={true}
+                maxFileCount={MAX_FILE_UPLOADED}
+                maxSize={MAX_FILE_SIZE}
+                progresses={progresses}
+                onUpload={onUpload}
+                disabled={isUploading}
+              />
+            )}
             <UploadedFilesCard
               uploadedFiles={uploadedFiles ?? []}
               setThumbnailImageId={setThumbnailImageId}
@@ -409,20 +408,20 @@ export const CreateAdvertisementForm = () => {
         </VisibleChieldComponent>
 
         {/* STEP 3  */}
-        <VisibleChieldComponent visible={isAdDetailsStep}>
+        {/* <VisibleChieldComponent visible={isAdDetailsStep}>
           <MinimalTiptapEditor
-            immediatelyRender={false}
             value={details}
             onChange={setDetails}
-            className="h-5 max-h-20 min-h-40 w-full md:col-span-2"
-            editorContentClassName="p-5 "
-            output="text"
-            placeholder="Detalhes do carro..."
+            className="min-h-40 w-full md:col-span-2"
+            editorContentClassName="p-5"
+            output="html"
+            placeholder="Enter your description..."
             autofocus={true}
             editable={true}
-            editorClassName="focus:outline-none "
+            editorClassName="focus:outline-none"
+            immediatelyRender={false}
           />
-        </VisibleChieldComponent>
+        </VisibleChieldComponent> */}
 
         <div className="flex flex-wrap items-center justify-end gap-4 p-4 md:col-span-2">
           {isAdDataStep && (
@@ -469,19 +468,19 @@ export const CreateAdvertisementForm = () => {
 
           {isAdDataStep && (
             <Button
-              type="button"
+              type="submit"
               icon={<Icon name="Check" />}
               iconPlacement="right"
               effect="shine"
               className="h-8"
-              onClick={() => form.setValue('step', 'AD-DETAILS')}
-              disabled={isUploading || !validateStepFields('AD-DATA')}
+              // onClick={() => form.setValue('step', 'AD-DETAILS')}
+              disabled={!validateStepFields('AD-DATA') || isSubmitting}
             >
-              Próximo passo
+              Criar anúncio
             </Button>
           )}
 
-          {isAdDetailsStep && (
+          {/* {isAdDetailsStep && (
             <Button
               type="submit"
               icon={<Icon name="Check" />}
@@ -492,7 +491,7 @@ export const CreateAdvertisementForm = () => {
             >
               Criar anúncio
             </Button>
-          )}
+          )} */}
         </div>
       </form>
     </Form>

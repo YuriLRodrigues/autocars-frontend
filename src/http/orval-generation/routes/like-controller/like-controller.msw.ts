@@ -26,6 +26,8 @@ export const getHandleFeedbackLikeResponseMock = (
 
 export const getFindAllFeedbackLikesResponseMock = (): number => faker.number.int()
 
+export const getFindAdIsFavoritedResponseMock = (): boolean => faker.datatype.boolean()
+
 export const getFindAdIsLikedMockHandler = (
   overrideResponse?: boolean | ((info: Parameters<Parameters<typeof http.get>[1]>[0]) => Promise<boolean> | boolean),
 ) => {
@@ -147,6 +149,25 @@ export const getFindAllFeedbackLikesMockHandler = (
     )
   })
 }
+
+export const getFindAdIsFavoritedMockHandler = (
+  overrideResponse?: boolean | ((info: Parameters<Parameters<typeof http.get>[1]>[0]) => Promise<boolean> | boolean),
+) => {
+  return http.get('*/favorite/is-favorited/:id', async (info) => {
+    await delay(1000)
+
+    return new HttpResponse(
+      JSON.stringify(
+        overrideResponse !== undefined
+          ? typeof overrideResponse === 'function'
+            ? await overrideResponse(info)
+            : overrideResponse
+          : getFindAdIsFavoritedResponseMock(),
+      ),
+      { status: 200, headers: { 'Content-Type': 'application/json' } },
+    )
+  })
+}
 export const getLikeControllerMock = () => [
   getFindAdIsLikedMockHandler(),
   getHandleAdvertisementLikeMockHandler(),
@@ -154,4 +175,5 @@ export const getLikeControllerMock = () => [
   getFindFeedbackIsLikedMockHandler(),
   getHandleFeedbackLikeMockHandler(),
   getFindAllFeedbackLikesMockHandler(),
+  getFindAdIsFavoritedMockHandler(),
 ]

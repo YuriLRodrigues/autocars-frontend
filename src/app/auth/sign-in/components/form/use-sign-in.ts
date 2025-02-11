@@ -42,7 +42,7 @@ export const useSignIn = ({ defaultValues }: useSignInProps = {}) => {
     const response = await SignInActions({ email: data.email, password: data.password })
 
     if (!response.error) {
-      await setCookie(AUTH_COOKIE_NAME, response.data, { maxAge: SIGNIN_COOKIE_MAX_AGE })
+      await setCookie(AUTH_COOKIE_NAME, response.data, { maxAge: SIGNIN_COOKIE_MAX_AGE, httpOnly: true })
 
       addUserPayload()
 

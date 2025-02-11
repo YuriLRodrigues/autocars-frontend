@@ -1281,7 +1281,7 @@ export function useFindAdvertisementsMetrics<
   return query
 }
 
-export const getFindAllAdvertisementsUrl = (params: FindAllAdvertisementsParams) => {
+export const getFindAllAdvertisementsUrl = (params?: FindAllAdvertisementsParams) => {
   const normalizedParams = new URLSearchParams()
 
   Object.entries(params || {}).forEach(([key, value]) => {
@@ -1296,7 +1296,7 @@ export const getFindAllAdvertisementsUrl = (params: FindAllAdvertisementsParams)
 }
 
 export const findAllAdvertisements = async (
-  params: FindAllAdvertisementsParams,
+  params?: FindAllAdvertisementsParams,
   options?: RequestInit,
 ): Promise<FindAllAdvertisements200> => {
   return customFetch<FindAllAdvertisements200>(getFindAllAdvertisementsUrl(params), {
@@ -1305,7 +1305,7 @@ export const findAllAdvertisements = async (
   })
 }
 
-export const getFindAllAdvertisementsQueryKey = (params: FindAllAdvertisementsParams) => {
+export const getFindAllAdvertisementsQueryKey = (params?: FindAllAdvertisementsParams) => {
   return [`http://localhost:3333/advertisement/all`, ...(params ? [params] : [])] as const
 }
 
@@ -1313,7 +1313,7 @@ export const getFindAllAdvertisementsInfiniteQueryOptions = <
   TData = InfiniteData<Awaited<ReturnType<typeof findAllAdvertisements>>>,
   TError = SwaggerBadRequestDto,
 >(
-  params: FindAllAdvertisementsParams,
+  params?: FindAllAdvertisementsParams,
   options?: {
     query?: Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof findAllAdvertisements>>, TError, TData>>
     request?: SecondParameter<typeof customFetch>
@@ -1340,7 +1340,7 @@ export function useFindAllAdvertisementsInfinite<
   TData = InfiniteData<Awaited<ReturnType<typeof findAllAdvertisements>>>,
   TError = SwaggerBadRequestDto,
 >(
-  params: FindAllAdvertisementsParams,
+  params: undefined | FindAllAdvertisementsParams,
   options: {
     query: Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof findAllAdvertisements>>, TError, TData>> &
       Pick<DefinedInitialDataOptions<Awaited<ReturnType<typeof findAllAdvertisements>>, TError, TData>, 'initialData'>
@@ -1351,7 +1351,7 @@ export function useFindAllAdvertisementsInfinite<
   TData = InfiniteData<Awaited<ReturnType<typeof findAllAdvertisements>>>,
   TError = SwaggerBadRequestDto,
 >(
-  params: FindAllAdvertisementsParams,
+  params?: FindAllAdvertisementsParams,
   options?: {
     query?: Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof findAllAdvertisements>>, TError, TData>> &
       Pick<UndefinedInitialDataOptions<Awaited<ReturnType<typeof findAllAdvertisements>>, TError, TData>, 'initialData'>
@@ -1362,7 +1362,7 @@ export function useFindAllAdvertisementsInfinite<
   TData = InfiniteData<Awaited<ReturnType<typeof findAllAdvertisements>>>,
   TError = SwaggerBadRequestDto,
 >(
-  params: FindAllAdvertisementsParams,
+  params?: FindAllAdvertisementsParams,
   options?: {
     query?: Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof findAllAdvertisements>>, TError, TData>>
     request?: SecondParameter<typeof customFetch>
@@ -1373,7 +1373,7 @@ export function useFindAllAdvertisementsInfinite<
   TData = InfiniteData<Awaited<ReturnType<typeof findAllAdvertisements>>>,
   TError = SwaggerBadRequestDto,
 >(
-  params: FindAllAdvertisementsParams,
+  params?: FindAllAdvertisementsParams,
   options?: {
     query?: Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof findAllAdvertisements>>, TError, TData>>
     request?: SecondParameter<typeof customFetch>
@@ -1394,7 +1394,7 @@ export const getFindAllAdvertisementsQueryOptions = <
   TData = Awaited<ReturnType<typeof findAllAdvertisements>>,
   TError = SwaggerBadRequestDto,
 >(
-  params: FindAllAdvertisementsParams,
+  params?: FindAllAdvertisementsParams,
   options?: {
     query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof findAllAdvertisements>>, TError, TData>>
     request?: SecondParameter<typeof customFetch>
@@ -1421,7 +1421,7 @@ export function useFindAllAdvertisements<
   TData = Awaited<ReturnType<typeof findAllAdvertisements>>,
   TError = SwaggerBadRequestDto,
 >(
-  params: FindAllAdvertisementsParams,
+  params: undefined | FindAllAdvertisementsParams,
   options: {
     query: Partial<UseQueryOptions<Awaited<ReturnType<typeof findAllAdvertisements>>, TError, TData>> &
       Pick<DefinedInitialDataOptions<Awaited<ReturnType<typeof findAllAdvertisements>>, TError, TData>, 'initialData'>
@@ -1432,7 +1432,7 @@ export function useFindAllAdvertisements<
   TData = Awaited<ReturnType<typeof findAllAdvertisements>>,
   TError = SwaggerBadRequestDto,
 >(
-  params: FindAllAdvertisementsParams,
+  params?: FindAllAdvertisementsParams,
   options?: {
     query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof findAllAdvertisements>>, TError, TData>> &
       Pick<UndefinedInitialDataOptions<Awaited<ReturnType<typeof findAllAdvertisements>>, TError, TData>, 'initialData'>
@@ -1443,7 +1443,7 @@ export function useFindAllAdvertisements<
   TData = Awaited<ReturnType<typeof findAllAdvertisements>>,
   TError = SwaggerBadRequestDto,
 >(
-  params: FindAllAdvertisementsParams,
+  params?: FindAllAdvertisementsParams,
   options?: {
     query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof findAllAdvertisements>>, TError, TData>>
     request?: SecondParameter<typeof customFetch>
@@ -1454,7 +1454,7 @@ export function useFindAllAdvertisements<
   TData = Awaited<ReturnType<typeof findAllAdvertisements>>,
   TError = SwaggerBadRequestDto,
 >(
-  params: FindAllAdvertisementsParams,
+  params?: FindAllAdvertisementsParams,
   options?: {
     query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof findAllAdvertisements>>, TError, TData>>
     request?: SecondParameter<typeof customFetch>

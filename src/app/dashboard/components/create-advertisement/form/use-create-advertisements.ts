@@ -1,12 +1,13 @@
+import { usePathname } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 
-import { createAdvertisement } from '@/http/orval-generation/routes/advertisement-controller/advertisement-controller'
-import { wait } from '@/utils/wait'
+import { useToggle } from '@/hooks/use-toggle'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Content } from '@tiptap/react'
 import { toast } from 'sonner'
 
+import { createAdvertisementActions } from './create-advertisement.actions'
 import { CreateAdvertisementSchemaProps, createAdvertisementSchema } from './schema'
 
 type useCreateAdvertisementsFormProps = {
@@ -14,6 +15,8 @@ type useCreateAdvertisementsFormProps = {
 }
 
 export const useCreateAdvertisementsForm = ({ uploadedImagesIds }: useCreateAdvertisementsFormProps) => {
+  const currentPathname = usePathname()
+  const { toggle } = useToggle()
   const [details, setDetails] = useState<Content>('')
   const [thumbnailImageId, setThumbnailImageId] = useState<string | undefined>(undefined)
 
@@ -61,7 +64,7 @@ export const useCreateAdvertisementsForm = ({ uploadedImagesIds }: useCreateAdve
       'phone',
       'localization',
     ],
-    'AD-DETAILS': ['details'],
+    // 'AD-DETAILS': ['details'],
   }
 
   const [progressByStep, setProgressByStep] = useState<Record<string, number>>({})
@@ -89,58 +92,17 @@ export const useCreateAdvertisementsForm = ({ uploadedImagesIds }: useCreateAdve
   }, [form, form.watch()])
 
   const onSubmit = async (values: CreateAdvertisementSchemaProps) => {
-    const {
-      brandId,
-      capacity,
-      color,
-      description,
-      doors,
-      fuel,
-      gearBox,
-      imagesIds,
-      km,
-      localization,
-      model,
-      phone,
-      price,
-      thumbnailImageId,
-      title,
-      year,
-      details,
-    } = values
+    const response = await createAdvertisementActions({ currentPathname, ...values })
 
-    try {
-      await createAdvertisement({
-        brandId,
-        capacity,
-        color,
-        description,
-        doors,
-        fuel,
-        gearBox,
-        imagesIds,
-        km,
-        localization,
-        model,
-        phone,
-        price,
-        thumbnailImageId,
-        title,
-        year,
-        details: details ?? [],
-      })
-
+    if (!response.error) {
       toast.success(`Anúncio criado com sucesso`)
-      await wait()
-      window.location.reload()
-    } catch (error) {
-      const _error = error as Error
-      switch (_error.message) {
+    } else {
+      switch (response.error) {
         case 'Not allowed':
           toast.error('Você não possui permissão para realizar esta ação')
           break
         case 'Resource not found':
-          toast.error('Algum valor de referência para a criação não foi encontrado')
+          toast.error('Algum valor de referência para a criação do anúncio não foi encontrado')
           break
         default:
           toast.error('Erro ao criar anúncio', {
@@ -151,6 +113,8 @@ export const useCreateAdvertisementsForm = ({ uploadedImagesIds }: useCreateAdve
           })
       }
     }
+
+    toggle(false)
   }
 
   const validateStepFields = (step: string) => {

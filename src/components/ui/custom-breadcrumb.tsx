@@ -10,7 +10,7 @@ import {
   BreadcrumbSeparator,
 } from '@/components/ui/breadcrumb'
 
-export const DashboardBreadCrumb = () => {
+export const CustomBreadCrumb = () => {
   const pathname = usePathname()
   const paths = pathname.split('/').filter(Boolean)
 

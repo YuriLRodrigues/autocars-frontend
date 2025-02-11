@@ -1,4 +1,4 @@
-import { ReactNode } from 'react'
+import { Fragment, ReactNode } from 'react'
 
 import { Badge } from '@/components/ui/badge'
 
@@ -104,6 +104,30 @@ export const mappingAdSoldStatus: Record<'Sold' | 'Active' | 'Reserved', ReactNo
   ),
 }
 
+export const mappingAdCardSoldStatus: Record<'Sold' | 'Active' | 'Reserved', ReactNode> = {
+  Active: (
+    <div className="rounded-lg bg-green-500 p-1.5 text-center text-xs font-semibold transition-all duration-200 hover:bg-green-700">
+      Disponível
+    </div>
+  ),
+  Sold: (
+    <div className="rounded-lg bg-red-500 p-1.5 text-center text-xs font-semibold transition-all duration-200 hover:bg-red-700">
+      Vendido
+    </div>
+  ),
+  Reserved: (
+    <div className="rounded-lg bg-yellow-500 p-1.5 text-center text-xs font-semibold transition-all duration-200 hover:bg-yellow-700">
+      Reservado
+    </div>
+  ),
+}
+
+export const mappingAdStatus: Record<'Sold' | 'Active' | 'Reserved', string> = {
+  Active: 'Disponível',
+  Sold: 'Vendido',
+  Reserved: 'Reservado',
+}
+
 export const mappingStepsLabel: Record<'SIGNUP' | 'ADDRESS' | 'SEND-IMAGES' | 'AD-DATA' | 'AD-DETAILS', string> = {
   SIGNUP: 'Cadastro',
   ADDRESS: 'Endereço',
@@ -167,68 +191,68 @@ export const mappingNumberOfDoors: Record<Doors, string> = {
 
 export const mappingColor: Record<Color, React.ReactNode> = {
   [Color.Red]: (
-    <div className="flex items-center gap-2">
-      <span className="h-4 w-4 rounded-full bg-[#EF4444]" /> Vermelho
-    </div>
+    <Fragment>
+      <span className="size-4 h-4 w-4 rounded-full bg-[#EF4444]" /> Vermelho
+    </Fragment>
   ),
   [Color.Black]: (
-    <div className="flex items-center gap-2">
-      <span className="h-4 w-4 rounded-full bg-[#000000]" /> Preto
-    </div>
+    <Fragment>
+      <span className="size-4 h-4 w-4 rounded-full bg-[#000000]" /> Preto
+    </Fragment>
   ),
   [Color.Green]: (
-    <div className="flex items-center gap-2">
-      <span className="h-4 w-4 rounded-full bg-[#22C55E]" /> Verde
-    </div>
+    <Fragment>
+      <span className="size-4 h-4 w-4 rounded-full bg-[#22C55E]" /> Verde
+    </Fragment>
   ),
   [Color.Silver]: (
-    <div className="flex items-center gap-2">
-      <span className="h-4 w-4 rounded-full bg-[#D1D5DB]" /> Prata
-    </div>
+    <Fragment>
+      <span className="size-4 h-4 w-4 rounded-full bg-[#D1D5DB]" /> Prata
+    </Fragment>
   ),
   [Color.White]: (
-    <div className="flex items-center gap-2">
-      <span className="h-4 w-4 rounded-full border bg-[#FFFFFF]" /> Branco
-    </div>
+    <Fragment>
+      <span className="size-4 h-4 w-4 rounded-full border bg-[#FFFFFF]" /> Branco
+    </Fragment>
   ),
   [Color.Blue]: (
-    <div className="flex items-center gap-2">
-      <span className="h-4 w-4 rounded-full bg-[#3B82F6]" /> Azul
-    </div>
+    <Fragment>
+      <span className="size-4 h-4 w-4 rounded-full bg-[#3B82F6]" /> Azul
+    </Fragment>
   ),
   [Color.Gray]: (
-    <div className="flex items-center gap-2">
-      <span className="h-4 w-4 rounded-full bg-[#6B7280]" /> Cinza
-    </div>
+    <Fragment>
+      <span className="size-4 h-4 w-4 rounded-full bg-[#6B7280]" /> Cinza
+    </Fragment>
   ),
   [Color.Yellow]: (
-    <div className="flex items-center gap-2">
-      <span className="h-4 w-4 rounded-full bg-[#EAB308]" /> Amarelo
-    </div>
+    <Fragment>
+      <span className="size-4 h-4 w-4 rounded-full bg-[#EAB308]" /> Amarelo
+    </Fragment>
   ),
   [Color.Orange]: (
-    <div className="flex items-center gap-2">
-      <span className="h-4 w-4 rounded-full bg-[#F97316]" /> Laranja
-    </div>
+    <Fragment>
+      <span className="size-4 h-4 w-4 rounded-full bg-[#F97316] text-[#F97316]" /> Laranja
+    </Fragment>
   ),
   [Color.Metalic]: (
-    <div className="flex items-center gap-2">
-      <span className="h-4 w-4 rounded-full bg-[#9CA3AF]" /> Metálico
-    </div>
+    <Fragment>
+      <span className="size-4 h-4 w-4 rounded-full bg-[#9CA3AF]" /> Metálico
+    </Fragment>
   ),
   [Color.Pink]: (
-    <div className="flex items-center gap-2">
-      <span className="h-4 w-4 rounded-full bg-[#EC4899]" /> Rosa
-    </div>
+    <Fragment>
+      <span className="size-4 h-4 w-4 rounded-full bg-[#EC4899]" /> Rosa
+    </Fragment>
   ),
   [Color.Purple]: (
-    <div className="flex items-center gap-2">
-      <span className="h-4 w-4 rounded-full bg-[#A855F7]" /> Roxo
-    </div>
+    <Fragment>
+      <span className="size-4 h-4 w-4 rounded-full bg-[#A855F7]" /> Roxo
+    </Fragment>
   ),
   [Color.Brown]: (
-    <div className="flex items-center gap-2">
-      <span className="h-4 w-4 rounded-full bg-[#78350F]" /> Marrom
-    </div>
+    <Fragment>
+      <span className="size-4 h-4 w-4 rounded-full bg-[#78350F]" /> Marrom
+    </Fragment>
   ),
 }

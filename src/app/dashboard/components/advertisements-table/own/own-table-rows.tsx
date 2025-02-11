@@ -11,7 +11,7 @@ import { formatDate } from '@/utils/format-date'
 import { formatCurrencyBRL } from '@/utils/format-number'
 import { mappingAdSoldStatus } from '@/utils/mappings'
 
-import { DeleteAdvertisement } from '../actions/delete/delete-advertisement'
+import { DeleteAdvertisement } from '../actions/delete'
 
 type OwnTableRowsProps = {
   limit?: number
@@ -68,12 +68,12 @@ export const OwnTableRows = async ({
   return results.map((row) => (
     <TableRowRoot key={row.id} className="*:text-center">
       <TableCell className="!text-left">
-        <div className="flex items-center gap-2">
+        <div className="line-clamp-1 flex items-center gap-2">
           <Avatar>
             <AvatarImage src={row.thumbnailUrl} className="object-cover object-center" />
             <AvatarFallback>AC</AvatarFallback>
           </Avatar>
-          <span className="text-sm font-medium text-foreground">{row.title}</span>
+          <p className="max-w-60 text-nowrap text-sm font-medium text-foreground">{row.title}</p>
         </div>
       </TableCell>
       <TableCell>

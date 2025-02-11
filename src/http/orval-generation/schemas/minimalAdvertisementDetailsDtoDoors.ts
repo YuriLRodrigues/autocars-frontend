@@ -7,7 +7,7 @@
  */
 
 /**
- * Número de portas do veículo
+ * Number of doors
  */
 export type MinimalAdvertisementDetailsDtoDoors =
   (typeof MinimalAdvertisementDetailsDtoDoors)[keyof typeof MinimalAdvertisementDetailsDtoDoors]

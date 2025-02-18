@@ -31,10 +31,10 @@ export const EditAdvertisement = ({ children }: EditAdvertisementProps) => {
       <Dialog>
         <DialogTrigger asChild className="hidden sm:flex">
           <Button
-            className="flex h-auto items-center gap-2 p-1"
+            className="flex h-auto items-center gap-2 p-1 sm:min-w-24"
             variant="secondary"
             effect="shine"
-            icon={<Icon name="Pencil" />}
+            icon={<Icon name="Cog" />}
             iconPlacement="left"
           >
             Editar
@@ -57,12 +57,14 @@ export const EditAdvertisement = ({ children }: EditAdvertisementProps) => {
       <Drawer>
         <DrawerTrigger asChild className="block sm:hidden">
           <Button
-            className="flex items-center gap-2"
+            className="flex h-auto items-center gap-2 p-1 px-2 sm:min-w-24"
             variant="secondary"
             effect="shine"
-            icon={<Icon name="Pencil" />}
+            icon={<Icon name="Cog" />}
             iconPlacement="left"
-          />
+          >
+            Editar
+          </Button>
         </DrawerTrigger>
         <DrawerContent>
           <DrawerHeader>

@@ -1,8 +1,7 @@
-import { Capacity, Color, Doors, Fuel, GearBox, Model } from '@/@types/advertisement'
 import { z } from 'zod'
 
 export const editAdvertisementSchema = z.object({
-  step: z.enum(['SEND-IMAGES', 'AD-DATA', 'AD-DETAILS'], {
+  step: z.enum(['SEND-IMAGES', 'AD-DATA'], {
     errorMap: () => ({ message: 'Etapa inválida', code: 'invalid_enum_value' }),
   }),
   brandId: z.string().optional(),
@@ -21,41 +20,17 @@ export const editAdvertisementSchema = z.object({
       errorMap: () => ({ message: 'Ano deve ser um número válido', code: 'invalid_type' }),
     })
     .optional(),
-  doors: z
-    .nativeEnum(Doors, {
-      errorMap: () => ({ message: 'Número de portas inválido', code: 'invalid_enum_value' }),
-    })
-    .optional(),
-  model: z
-    .nativeEnum(Model, {
-      errorMap: () => ({ message: 'Modelo inválido', code: 'invalid_enum_value' }),
-    })
-    .optional(),
-  color: z
-    .nativeEnum(Color, {
-      errorMap: () => ({ message: 'Cor inválida', code: 'invalid_enum_value' }),
-    })
-    .optional(),
+  doors: z.string().min(1, { message: 'Número de portas inválido' }).optional(),
+  model: z.string().min(1, { message: 'Modelo inválido' }).optional(),
+  color: z.string().min(1, { message: 'Cor inválida' }).optional(),
   price: z
     .number({
       errorMap: () => ({ message: 'Preço deve ser um número', code: 'invalid_type' }),
     })
     .optional(),
-  gearBox: z
-    .nativeEnum(GearBox, {
-      errorMap: () => ({ message: 'Tipo de câmbio inválido', code: 'invalid_enum_value' }),
-    })
-    .optional(),
-  fuel: z
-    .nativeEnum(Fuel, {
-      errorMap: () => ({ message: 'Tipo de combustível inválido', code: 'invalid_enum_value' }),
-    })
-    .optional(),
-  capacity: z
-    .nativeEnum(Capacity, {
-      errorMap: () => ({ message: 'Capacidade de assentos inválida', code: 'invalid_enum_value' }),
-    })
-    .optional(),
+  gearBox: z.string().min(1, { message: 'Tipo de câmbio inválido' }).optional(),
+  fuel: z.string().min(1, { message: 'Tipo de combustível inválido' }).optional(),
+  capacity: z.string().min(1, { message: 'Capacidade de assentos inválida' }).optional(),
   details: z.array(z.string()).optional(),
   phone: z
     .string({

@@ -12,6 +12,8 @@ import { formatCurrencyBRL } from '@/utils/format-number'
 import { mappingAdSoldStatus } from '@/utils/mappings'
 
 import { DeleteAdvertisement } from '../actions/delete'
+import { EditAdvertisement } from '../actions/edit/edit-advertisement'
+import { EditAdvertisementForm } from '../actions/edit/form'
 import { HandleStatus } from '../actions/handle-status'
 
 type ManagerTableRowsProps = {
@@ -117,6 +119,9 @@ export const ManagerTableRows = async ({
       <TableCell>
         <div className="mx-auto flex w-fit items-center gap-3">
           <DeleteAdvertisement advertisementId={row.id} />
+          <EditAdvertisement>
+            <EditAdvertisementForm advertisementId={row.id} />
+          </EditAdvertisement>
           <HandleStatus advertisementId={row.id} />
         </div>
       </TableCell>
@@ -168,6 +173,7 @@ export const ManagerTableRowsSkeleton = () => {
       </TableCell>
       <TableCell>
         <div className="mx-auto flex w-fit items-center gap-3">
+          <Skeleton className="mx-auto h-5 w-20" />
           <Skeleton className="mx-auto h-5 w-20" />
           <Skeleton className="mx-auto h-5 w-20" />
         </div>

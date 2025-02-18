@@ -3,8 +3,8 @@
 import Image from 'next/image'
 import { useEffect } from 'react'
 
+import { UploadedFilesCardSkeleton } from '@/app/dashboard/components/create-advertisement/form/upload-files-card'
 import { Steps } from '@/components/interface/form/steps'
-import { MinimalTiptapEditor } from '@/components/interface/minimal-tiptap'
 import { FileUploader } from '@/components/interface/upload/file-uploader'
 import { Button } from '@/components/ui/button'
 import { Form, FormControl, FormField, FormItem, FormMessage } from '@/components/ui/form'
@@ -18,7 +18,6 @@ import { VisibleChieldComponent } from '@/components/ui/visible-chield-component
 
 import { Capacity, Color, Doors, Fuel, GearBox, Model } from '@/@types/advertisement'
 import { useFindAllBrands } from '@/http/orval-generation/routes/brand-controller/brand-controller'
-import { Upload } from '@/http/orval-generation/schemas'
 import { MAX_FILE_SIZE, MAX_FILE_UPLOADED } from '@/utils/constants'
 import { formatCurrencyBRL, formatKilometers } from '@/utils/format-number'
 import {
@@ -30,19 +29,18 @@ import {
   mappingModel,
 } from '@/utils/mappings'
 
-import { EditAdvertisementSchemaProps, formSteps } from './schema'
+import { formSteps } from './schema'
 import { UploadedFilesCard } from './upload-files-card'
 import { useEditAdvertisementsForm } from './use-edit-advertisements'
 import { useUploadFile } from './use-upload-images'
 
 type EditAdvertisementFormProps = {
-  adId: string
-  defaultValues?: Partial<EditAdvertisementSchemaProps>
-  oldImages?: Upload[]
+  advertisementId: string
 }
 
-export const EditAdvertisementForm = ({ adId, defaultValues, oldImages }: EditAdvertisementFormProps) => {
+export const EditAdvertisementForm = ({ advertisementId }: EditAdvertisementFormProps) => {
   const { data, isLoading } = useFindAllBrands({ limit: 1000 }, { query: { queryKey: ['findAllBrands'] } })
+
   const { isUploading, onUpload, uploadedFiles, progresses } = useUploadFile()
 
   const {
@@ -50,15 +48,17 @@ export const EditAdvertisementForm = ({ adId, defaultValues, oldImages }: EditAd
     isSubmitting,
     handleSubmit,
     progressByStep,
-    details,
-    setDetails,
     thumbnailImageId,
     setThumbnailImageId,
     isAdDataStep,
-    isAdDetailsStep,
     isImagesStep,
     validateStepFields,
-  } = useEditAdvertisementsForm({ uploadedImagesIds: uploadedFiles?.map((img) => img.id) ?? [], defaultValues, adId })
+    allImagesByAdvertisement,
+    setRemovedImagesIds,
+  } = useEditAdvertisementsForm({
+    uploadedFiles: uploadedFiles ?? [],
+    advertisementId,
+  })
 
   useEffect(() => {
     if (uploadedFiles) {
@@ -73,8 +73,6 @@ export const EditAdvertisementForm = ({ adId, defaultValues, oldImages }: EditAd
 
   if (isLoading) return <EditAdvertisementFormSkeleton />
 
-  const uploadedImages = oldImages?.concat(uploadedFiles || [])
-
   return (
     <Form {...form}>
       <Steps currentStep={form.getValues('step')} progress={progressByStep} steps={formSteps} />
@@ -85,13 +83,18 @@ export const EditAdvertisementForm = ({ adId, defaultValues, oldImages }: EditAd
           <div className="flex flex-col gap-6 md:col-span-2">
             <FileUploader
               multiple={true}
-              maxFileCount={MAX_FILE_UPLOADED}
+              maxFileCount={MAX_FILE_UPLOADED - allImagesByAdvertisement.length}
               maxSize={MAX_FILE_SIZE}
               progresses={progresses}
               onUpload={onUpload}
-              disabled={isUploading}
+              disabled={isUploading || MAX_FILE_UPLOADED - allImagesByAdvertisement.length === 0}
             />
-            <UploadedFilesCard uploadedFiles={uploadedImages ?? []} setThumbnailId={setThumbnailImageId} />
+            <UploadedFilesCard
+              uploadedFiles={allImagesByAdvertisement ?? []}
+              setThumbnailId={setThumbnailImageId}
+              setRemovedImagesIds={setRemovedImagesIds}
+              thumbnailImageId={thumbnailImageId}
+            />
           </div>
         </VisibleChieldComponent>
 
@@ -115,7 +118,7 @@ export const EditAdvertisementForm = ({ adId, defaultValues, oldImages }: EditAd
             render={({ field }) => (
               <FormItem>
                 <FormControl>
-                  <Textarea placeholder="Descrição" className="h-10 min-h-10 resize-y" {...field} />
+                  <Textarea placeholder="Descrição" className="h-10 min-h-20 resize-y sm:min-h-10" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -413,22 +416,6 @@ export const EditAdvertisementForm = ({ adId, defaultValues, oldImages }: EditAd
           />
         </VisibleChieldComponent>
 
-        {/* STEP 3  */}
-        <VisibleChieldComponent visible={isAdDetailsStep}>
-          <MinimalTiptapEditor
-            immediatelyRender={false}
-            value={details}
-            onChange={setDetails}
-            className="h-5 max-h-20 min-h-40 w-full md:col-span-2"
-            editorContentClassName="p-5 "
-            output="text"
-            placeholder="Detalhes do carro..."
-            autofocus={true}
-            editable={true}
-            editorClassName="focus:outline-none "
-          />
-        </VisibleChieldComponent>
-
         <div className="flex flex-wrap items-center justify-end gap-4 p-4 md:col-span-2">
           {isAdDataStep && (
             <Button
@@ -444,20 +431,6 @@ export const EditAdvertisementForm = ({ adId, defaultValues, oldImages }: EditAd
             </Button>
           )}
 
-          {isAdDetailsStep && (
-            <Button
-              variant="outline"
-              type="button"
-              icon={<Icon name="ArrowLeft" />}
-              effect="ringHover"
-              className="h-8"
-              iconPlacement="left"
-              onClick={() => form.setValue('step', 'AD-DATA')}
-            >
-              Voltar para o passo anterior
-            </Button>
-          )}
-
           {isImagesStep && (
             <Button
               type="button"
@@ -466,7 +439,7 @@ export const EditAdvertisementForm = ({ adId, defaultValues, oldImages }: EditAd
               effect="shine"
               className="h-8"
               onClick={() => form.setValue('step', 'AD-DATA')}
-              disabled={isUploading || !validateStepFields('SEND-IMAGES')}
+              disabled={isUploading || allImagesByAdvertisement.length === 0 || !validateStepFields('SEND-IMAGES')}
             >
               Próximo passo
             </Button>
@@ -474,28 +447,14 @@ export const EditAdvertisementForm = ({ adId, defaultValues, oldImages }: EditAd
 
           {isAdDataStep && (
             <Button
-              type="button"
-              icon={<Icon name="Check" />}
-              iconPlacement="right"
-              effect="shine"
-              className="h-8"
-              onClick={() => form.setValue('step', 'AD-DETAILS')}
-              disabled={isUploading || !validateStepFields('AD-DATA')}
-            >
-              Próximo passo
-            </Button>
-          )}
-
-          {isAdDetailsStep && (
-            <Button
               type="submit"
               icon={<Icon name="Check" />}
               iconPlacement="right"
               effect="shine"
               className="h-8"
-              disabled={isSubmitting}
+              disabled={isSubmitting || !validateStepFields('AD-DATA')}
             >
-              Criar anúncio
+              Salvar anúncio
             </Button>
           )}
         </div>
@@ -506,10 +465,19 @@ export const EditAdvertisementForm = ({ adId, defaultValues, oldImages }: EditAd
 
 export const EditAdvertisementFormSkeleton = () => {
   return (
-    <form className="grid gap-x-3 gap-y-3 p-1 sm:grid-cols-2">
-      {Array.from({ length: 10 }).map((_, i) => (
-        <Skeleton className="h-10 w-full" key={i} />
-      ))}
-    </form>
+    <section className="space-y-6">
+      <div className="w-full rounded-lg border-2 border-dashed p-0.5">
+        <div className="group relative h-full min-h-48 cursor-pointer rounded-lg bg-secondary outline-dashed outline-transparent transition-all duration-300 hover:outline-primary">
+          <div className="flex h-48 flex-col items-center justify-center gap-y-3">
+            <Icon name="Upload" className="h-10 w-10 transition-all duration-300 group-hover:scale-110" />
+            <div className="flex flex-col items-center justify-center gap-y-2">
+              <Skeleton className="h-3 w-72 sm:w-96" />
+              <Skeleton className="h-3 w-32 sm:w-60" />
+            </div>
+          </div>
+        </div>
+      </div>
+      <UploadedFilesCardSkeleton />
+    </section>
   )
 }

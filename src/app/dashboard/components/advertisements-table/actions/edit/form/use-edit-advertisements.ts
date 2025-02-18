@@ -1,57 +1,93 @@
 import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 
-import { updateAdvertisement } from '@/http/orval-generation/routes/advertisement-controller/advertisement-controller'
+import { Capacity, Color, Doors, Fuel, GearBox, Model } from '@/@types/advertisement'
+import {
+  updateAdvertisement,
+  useFindAdById,
+} from '@/http/orval-generation/routes/advertisement-controller/advertisement-controller'
 import { wait } from '@/utils/wait'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { Content } from '@tiptap/react'
 import { toast } from 'sonner'
 
 import { EditAdvertisementSchemaProps, editAdvertisementSchema } from './schema'
 
 type useEditAdvertisementsFormProps = {
-  uploadedImagesIds: string[]
-  defaultValues?: Partial<EditAdvertisementSchemaProps>
-  adId: string
+  uploadedFiles: Array<{ id: string; url: string }>
+  advertisementId: string
 }
 
-export const useEditAdvertisementsForm = ({
-  uploadedImagesIds,
-  adId,
-  defaultValues,
-}: useEditAdvertisementsFormProps) => {
-  const [details, setDetails] = useState<Content>('')
+export const useEditAdvertisementsForm = ({ uploadedFiles, advertisementId }: useEditAdvertisementsFormProps) => {
+  const { data: advertisementDetails } = useFindAdById(advertisementId)
+
+  const oldImages = advertisementDetails?.images || []
+
+  const uploadedImagesIds = uploadedFiles.map((file) => file.id)
+
   const [thumbnailImageId, setThumbnailImageId] = useState<string | undefined>(undefined)
   const [removedImagesIds, setRemovedImagesIds] = useState<string[]>([])
+
+  const allImagesByAdvertisement = [
+    ...(oldImages || []),
+    ...(uploadedFiles?.map((file) => ({ id: file.id, url: file.url })) || []),
+  ].filter((img) => !removedImagesIds.includes(img.id))
 
   const form = useForm<EditAdvertisementSchemaProps>({
     resolver: zodResolver(editAdvertisementSchema),
     mode: 'all',
     reValidateMode: 'onBlur',
     defaultValues: {
-      brandId: defaultValues?.brandId || undefined,
-      doors: defaultValues?.doors || undefined,
-      model: defaultValues?.model || undefined,
-      color: defaultValues?.color || undefined,
-      fuel: defaultValues?.fuel || undefined,
-      capacity: defaultValues?.capacity || undefined,
-      gearBox: defaultValues?.gearBox || undefined,
-      km: defaultValues?.km || 0,
-      localization: defaultValues?.localization || '',
-      price: defaultValues?.price || 0,
-      title: defaultValues?.title || '',
-      year: defaultValues?.year || 0,
-      description: defaultValues?.description || '',
-      details: defaultValues?.details || [details?.toString()],
-      newImagesIds: defaultValues?.newImagesIds || uploadedImagesIds || [],
-      phone: defaultValues?.brandId || undefined,
+      brandId: undefined,
+      doors: undefined,
+      model: undefined,
+      color: undefined,
+      fuel: undefined,
+      capacity: undefined,
+      gearBox: undefined,
+      km: 0,
+      localization: '',
+      price: 0,
+      title: '',
+      year: 0,
+      description: '',
+      newImagesIds: uploadedImagesIds || [],
+      phone: undefined,
       step: 'SEND-IMAGES',
-      thumbnailImageId: defaultValues?.brandId || thumbnailImageId,
+      thumbnailImageId: undefined,
     },
   })
 
+  useEffect(() => {
+    if (advertisementDetails) {
+      form.reset({
+        brandId: advertisementDetails.brand?.id || undefined,
+        doors: advertisementDetails.doors || undefined,
+        model: advertisementDetails.model || undefined,
+        color: advertisementDetails.color || undefined,
+        fuel: advertisementDetails.fuel || undefined,
+        capacity: advertisementDetails.capacity || undefined,
+        gearBox: advertisementDetails.gearBox || undefined,
+        km: advertisementDetails.km || 0,
+        localization: advertisementDetails.localization || '',
+        price: advertisementDetails.price || 0,
+        title: advertisementDetails.title || '',
+        year: advertisementDetails.year || 0,
+        description: advertisementDetails.description || '',
+        newImagesIds: uploadedImagesIds || [],
+        phone: advertisementDetails.phone || undefined,
+        step: 'SEND-IMAGES',
+        thumbnailImageId:
+          thumbnailImageId || advertisementDetails.images.find((img) => img.isThumbnail)?.id || undefined,
+      })
+      if (!thumbnailImageId) {
+        setThumbnailImageId(advertisementDetails.images.find((img) => img.isThumbnail)?.id || undefined)
+      }
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [advertisementDetails, form.reset, thumbnailImageId])
+
   const stepFields: Record<string, (keyof EditAdvertisementSchemaProps)[]> = {
-    'SEND-IMAGES': ['newImagesIds', 'thumbnailImageId'],
+    'SEND-IMAGES': ['thumbnailImageId'],
     'AD-DATA': [
       'title',
       'description',
@@ -68,7 +104,6 @@ export const useEditAdvertisementsForm = ({
       'phone',
       'localization',
     ],
-    'AD-DETAILS': ['details'],
   }
 
   const [progressByStep, setProgressByStep] = useState<Record<string, number>>({})
@@ -117,19 +152,19 @@ export const useEditAdvertisementsForm = ({
     } = values
 
     try {
-      await updateAdvertisement(adId, {
+      await updateAdvertisement(advertisementId, {
         brandId,
-        capacity,
-        color,
+        capacity: capacity as Capacity,
+        color: color as Color,
         description,
-        doors,
-        fuel,
-        gearBox,
+        doors: doors as Doors,
+        fuel: fuel as Fuel,
+        gearBox: gearBox as GearBox,
+        model: model as Model,
         newImagesIds: newImagesIds || [],
         removedImagesIds,
         km,
         localization,
-        model,
         phone,
         price,
         thumbnailImageId,
@@ -177,21 +212,18 @@ export const useEditAdvertisementsForm = ({
 
   const isImagesStep = form.watch('step') === 'SEND-IMAGES'
   const isAdDataStep = form.watch('step') === 'AD-DATA'
-  const isAdDetailsStep = form.watch('step') === 'AD-DETAILS'
 
   return {
     form,
     handleSubmit: form.handleSubmit(onSubmit),
     progressByStep,
     isSubmitting: form.formState.isSubmitting,
-    details,
-    setDetails,
     thumbnailImageId,
     setThumbnailImageId,
     isImagesStep,
     isAdDataStep,
-    isAdDetailsStep,
     validateStepFields,
     setRemovedImagesIds,
+    allImagesByAdvertisement,
   }
 }

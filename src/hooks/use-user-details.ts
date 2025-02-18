@@ -1,71 +1,116 @@
 'use client'
 
+import { UserRoles } from '@/@types/user'
 import { TokenPayload } from '@/auth'
 import { AUTH_COOKIE_NAME } from '@/utils/constants'
 import { deleteCookie, getCookie } from 'cookies-next/client'
 import { decode } from 'jsonwebtoken'
 import { create } from 'zustand'
+import { persist, createJSONStorage } from 'zustand/middleware'
+
+// Payload padrão para evitar valores indefinidos
+const defaultUserPayload: TokenPayload = {
+  email: '',
+  name: '',
+  sub: '',
+  avatar: '',
+  roles: [] as UserRoles[],
+  username: '',
+  exp: 0,
+}
+
+type UserPayload = typeof defaultUserPayload
 
 type ActionsProps = {
   addUserPayload: (userPayload?: Partial<TokenPayload>) => void
   updateUserAvatar: (avatarUrl: string) => void
   deleteUserPayload: VoidFunction
   getUserPayload: () => TokenPayload
+  isAuthenticated: () => boolean
 }
 
-type UserPayloadProps = {
-  user: TokenPayload
+const decodeToken = (): TokenPayload | null => {
+  const token = getCookie(AUTH_COOKIE_NAME)
+  if (!token) return null
+
+  return decode(token) as TokenPayload
+}
+
+type UserPayloadStore = {
+  user: UserPayload
   actions: ActionsProps
 }
 
-export const useUserPayloadStore = create<UserPayloadProps>((set, get) => ({
-  user: {
-    email: '',
-    name: '',
-    sub: '',
-    avatar: '',
-    roles: [],
-    username: '',
-  },
+export const useUserPayloadStore = create<UserPayloadStore>()(
+  persist(
+    (set, get) => ({
+      user: defaultUserPayload,
 
-  actions: {
-    addUserPayload: (userPayload?: Partial<TokenPayload>) => {
-      if (userPayload) {
-        set((state) => ({
-          user: { ...state.user, ...userPayload },
-        }))
-        return
-      }
+      actions: {
+        addUserPayload: (userPayload?: Partial<TokenPayload>) => {
+          if (userPayload) {
+            set((state) => ({
+              user: { ...state.user, ...userPayload },
+            }))
+            return
+          }
 
-      const token = getCookie(AUTH_COOKIE_NAME)
+          const payloadDecoded = decodeToken()
+          if (!payloadDecoded) return
 
-      if (!token) return null
-
-      const payloadDecored = decode(token) as TokenPayload
-
-      set(() => ({
-        user: {
-          email: payloadDecored?.email ?? '',
-          name: payloadDecored?.name ?? '',
-          sub: payloadDecored?.sub ?? '',
-          avatar: payloadDecored?.avatar ?? '',
-          roles: payloadDecored?.roles ?? [],
-          username: payloadDecored?.username ?? '',
+          set(() => ({
+            user: {
+              email: payloadDecoded.email ?? '',
+              name: payloadDecoded.name ?? '',
+              sub: payloadDecoded.sub ?? '',
+              avatar: payloadDecoded.avatar ?? '',
+              roles: payloadDecoded.roles ?? [],
+              username: payloadDecoded.username ?? '',
+              exp: payloadDecoded.exp ?? 0,
+            },
+          }))
         },
-      }))
-    },
 
-    getUserPayload: () => get().user,
+        isAuthenticated: () => {
+          const { email, name, sub, roles, username } = get().user
 
-    updateUserAvatar: (avatarUrl: string) => {
-      set((state) => ({
-        user: { ...state.user, avatar: avatarUrl },
-      }))
-    },
+          if (!(email && name && sub && roles.length > 0 && username)) {
+            return false
+          }
 
-    deleteUserPayload: () => {
-      deleteCookie(AUTH_COOKIE_NAME)
-      set({ user: undefined })
+          const payloadDecoded = decodeToken()
+
+          if (!payloadDecoded || payloadDecoded.exp * 1000 < Date.now()) {
+            get().actions.deleteUserPayload()
+            return false
+          }
+
+          return true
+        },
+
+        getUserPayload: () => get().user,
+
+        updateUserAvatar: (avatarUrl: string) => {
+          set((state) => ({
+            user: { ...state.user, avatar: avatarUrl },
+          }))
+        },
+
+        deleteUserPayload: () => {
+          deleteCookie(AUTH_COOKIE_NAME)
+          set({ user: defaultUserPayload })
+        },
+      },
+    }),
+    {
+      name: 'user-storage',
+      storage: createJSONStorage(() => localStorage),
+      partialize: (state) => ({ user: state.user }) as Partial<UserPayloadStore>,
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      merge: (persistedState: any, currentState) => ({
+        ...currentState,
+        user: persistedState?.user ?? defaultUserPayload,
+      }),
     },
-  },
-}))
+  ),
+)

@@ -1,13 +1,10 @@
+import * as TailwindContainer from '@tailwindcss/container-queries'
 import type { Config } from 'tailwindcss'
 import * as TailwindAnimated from 'tailwindcss-animate'
 
 export default {
   darkMode: ['class'],
-  content: [
-    './src/pages/**/*.{js,ts,jsx,tsx,mdx}',
-    './src/components/**/*.{js,ts,jsx,tsx,mdx}',
-    './src/app/**/*.{js,ts,jsx,tsx,mdx}',
-  ],
+  content: ['app/**/*.{ts,tsx}', 'components/**/*.{ts,tsx}', './src/**/*.{js,ts,jsx,tsx,mdx}', '*.{js,ts,jsx,tsx,mdx}'],
   theme: {
     extend: {
       colors: {
@@ -120,5 +117,5 @@ export default {
       },
     },
   },
-  plugins: [TailwindAnimated],
+  plugins: [TailwindAnimated, TailwindContainer],
 } satisfies Config

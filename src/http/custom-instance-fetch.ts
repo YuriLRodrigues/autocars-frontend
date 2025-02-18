@@ -53,6 +53,10 @@ export async function customFetch<T>(path: string, options: RequestInit): Promis
   const request = new Request(url, {
     ...options,
     headers,
+    // cache: 'force-cache',
+    // next: {
+    //   revalidate: 120,
+    // },
   })
 
   try {

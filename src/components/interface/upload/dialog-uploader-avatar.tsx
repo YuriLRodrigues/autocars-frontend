@@ -15,11 +15,10 @@ import {
 } from '@/components/ui/dialog'
 
 import { useUserPayloadStore } from '@/hooks/use-user-details'
-import { Upload } from '@/http/orval-generation/schemas'
 import { MAX_FILE_SIZE } from '@/utils/constants'
 
 type DialogUploaderAvatarProps = {
-  files: Upload[] | undefined
+  files: Array<{ url: string; id: string }> | undefined
   onUpload: (files: File[]) => Promise<void>
 }
 

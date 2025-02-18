@@ -1,6 +1,7 @@
-import { Fragment, ReactNode } from 'react'
+import { ReactNode } from 'react'
 
 import { Badge } from '@/components/ui/badge'
+import { Icon } from '@/components/ui/icon'
 
 import { Capacity, Color, Doors, Fuel, GearBox, Model } from '@/@types/advertisement'
 import { UserRoles } from '@/@types/user'
@@ -191,68 +192,82 @@ export const mappingNumberOfDoors: Record<Doors, string> = {
 
 export const mappingColor: Record<Color, React.ReactNode> = {
   [Color.Red]: (
-    <Fragment>
+    <div className="flex items-center gap-2">
       <span className="size-4 h-4 w-4 rounded-full bg-[#EF4444]" /> Vermelho
-    </Fragment>
+    </div>
   ),
   [Color.Black]: (
-    <Fragment>
+    <div className="flex items-center gap-2">
       <span className="size-4 h-4 w-4 rounded-full bg-[#000000]" /> Preto
-    </Fragment>
+    </div>
   ),
   [Color.Green]: (
-    <Fragment>
+    <div className="flex items-center gap-2">
       <span className="size-4 h-4 w-4 rounded-full bg-[#22C55E]" /> Verde
-    </Fragment>
+    </div>
   ),
   [Color.Silver]: (
-    <Fragment>
+    <div className="flex items-center gap-2">
       <span className="size-4 h-4 w-4 rounded-full bg-[#D1D5DB]" /> Prata
-    </Fragment>
+    </div>
   ),
   [Color.White]: (
-    <Fragment>
+    <div className="flex items-center gap-2">
       <span className="size-4 h-4 w-4 rounded-full border bg-[#FFFFFF]" /> Branco
-    </Fragment>
+    </div>
   ),
   [Color.Blue]: (
-    <Fragment>
+    <div className="flex items-center gap-2">
       <span className="size-4 h-4 w-4 rounded-full bg-[#3B82F6]" /> Azul
-    </Fragment>
+    </div>
   ),
   [Color.Gray]: (
-    <Fragment>
+    <div className="flex items-center gap-2">
       <span className="size-4 h-4 w-4 rounded-full bg-[#6B7280]" /> Cinza
-    </Fragment>
+    </div>
   ),
   [Color.Yellow]: (
-    <Fragment>
+    <div className="flex items-center gap-2">
       <span className="size-4 h-4 w-4 rounded-full bg-[#EAB308]" /> Amarelo
-    </Fragment>
+    </div>
   ),
   [Color.Orange]: (
-    <Fragment>
+    <div className="flex items-center gap-2">
       <span className="size-4 h-4 w-4 rounded-full bg-[#F97316] text-[#F97316]" /> Laranja
-    </Fragment>
+    </div>
   ),
   [Color.Metalic]: (
-    <Fragment>
+    <div className="flex items-center gap-2">
       <span className="size-4 h-4 w-4 rounded-full bg-[#9CA3AF]" /> Metálico
-    </Fragment>
+    </div>
   ),
   [Color.Pink]: (
-    <Fragment>
+    <div className="flex items-center gap-2">
       <span className="size-4 h-4 w-4 rounded-full bg-[#EC4899]" /> Rosa
-    </Fragment>
+    </div>
   ),
   [Color.Purple]: (
-    <Fragment>
+    <div className="flex items-center gap-2">
       <span className="size-4 h-4 w-4 rounded-full bg-[#A855F7]" /> Roxo
-    </Fragment>
+    </div>
   ),
   [Color.Brown]: (
-    <Fragment>
+    <div className="flex items-center gap-2">
       <span className="size-4 h-4 w-4 rounded-full bg-[#78350F]" /> Marrom
-    </Fragment>
+    </div>
   ),
+}
+
+export const mappingStarsQuantity: Record<number, ReactNode> = {
+  ...[...Array(6)]
+    .map((_, index) => ({
+      [index]: (
+        <div className="!mt-3 flex items-center gap-1 text-yellow-500">
+          {[...Array(index)].map((_, i) => (
+            <Icon name="Star" key={i} fill="currentColor" className="size-6" />
+          ))}
+        </div>
+      ),
+    }))
+    .reduce((acc, cur) => ({ ...acc, ...cur }), {}),
 }

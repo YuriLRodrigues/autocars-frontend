@@ -86,6 +86,7 @@
     "@eslint/eslintrc": "^3.2.0",
     "@eslint/js": "^9.17.0",
     "@faker-js/faker": "^9.3.0",
+    "@tailwindcss/container-queries": "^0.1.1",
     "@types/jsonwebtoken": "^9.0.7",
     "@types/mochawesome": "^6.2.4",
     "@types/node": "^20.17.10",

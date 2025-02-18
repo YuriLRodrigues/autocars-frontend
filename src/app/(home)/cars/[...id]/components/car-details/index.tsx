@@ -1,1 +1,1 @@
-export { CarDetails } from './card-details'
+export { CarDetails, CarDetailsSkeleton } from './card-details'

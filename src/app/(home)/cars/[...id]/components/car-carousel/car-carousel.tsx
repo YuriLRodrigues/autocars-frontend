@@ -1,28 +1,42 @@
 'use client'
 import Image from 'next/image'
-import { useEffect, useState, useMemo } from 'react'
+import { useEffect, useState, useMemo, useCallback } from 'react'
 
 import { BlurImage } from '@/components/ui/blur-image'
 import { Card } from '@/components/ui/card'
-import { Carousel, CarouselApi, CarouselContent, CarouselItem } from '@/components/ui/carousel'
+import { Carousel, type CarouselApi, CarouselContent, CarouselItem } from '@/components/ui/carousel'
+import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area'
+import { Skeleton } from '@/components/ui/skeleton'
 
+import { useFindAdById } from '@/http/orval-generation/routes/advertisement-controller/advertisement-controller'
 import { cn } from '@/lib/utils'
 
 import { ViewImageFullscreenDialog } from './view-image-details'
 
-type ImageProps = {
-  url: string
-  blurHash: string
+type CarCarouselProps = {
+  advertisementId: string
 }
 
-type CarCarousel = {
-  images: ImageProps[]
-}
+export const CarCarousel = ({ advertisementId }: CarCarouselProps) => {
+  const { data, isLoading } = useFindAdById(advertisementId)
 
-export const CarCarousel = ({ images }: CarCarousel) => {
+  const images = useMemo(() => data?.images || [], [data])
+
   const [mainApi, setMainApi] = useState<CarouselApi>()
   const [thumbnailApi, setThumbnailApi] = useState<CarouselApi>()
   const [current, setCurrent] = useState(0)
+
+  const handleClick = useCallback(
+    (index: number) => {
+      if (!mainApi || !thumbnailApi) {
+        return
+      }
+      thumbnailApi.scrollTo(index)
+      mainApi.scrollTo(index)
+      setCurrent(index)
+    },
+    [mainApi, thumbnailApi],
+  )
 
   const mainImage = useMemo(
     () =>
@@ -70,8 +84,7 @@ export const CarCarousel = ({ images }: CarCarousel) => {
         ))}
       </CarouselItem>
     ),
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [images, current],
+    [images, current, handleClick],
   )
 
   useEffect(() => {
@@ -100,14 +113,7 @@ export const CarCarousel = ({ images }: CarCarousel) => {
     }
   }, [mainApi, thumbnailApi])
 
-  const handleClick = (index: number) => {
-    if (!mainApi || !thumbnailApi) {
-      return
-    }
-    thumbnailApi.scrollTo(index)
-    mainApi.scrollTo(index)
-    setCurrent(index)
-  }
+  if (isLoading) return <CarCarouselSkeleton />
 
   return (
     <Card className="mx-auto flex max-h-fit w-full flex-col justify-between space-y-4 overflow-hidden p-4">
@@ -115,7 +121,7 @@ export const CarCarousel = ({ images }: CarCarousel) => {
         <CarouselContent>{mainImage}</CarouselContent>
         <ViewImageFullscreenDialog>
           <Image
-            src={images[current].url}
+            src={images[current].url || '/placeholder.svg'}
             alt={`dialog-image-details-${current}`}
             width={1920}
             height={1080}
@@ -126,6 +132,31 @@ export const CarCarousel = ({ images }: CarCarousel) => {
       <Carousel setApi={setThumbnailApi}>
         <CarouselContent>{thumbnailImages}</CarouselContent>
       </Carousel>
+    </Card>
+  )
+}
+
+export const CarCarouselSkeleton = () => {
+  return (
+    <Card className="mx-auto flex max-h-fit w-full flex-col justify-between space-y-4 overflow-hidden p-4">
+      <div className="relative aspect-video max-h-[310px] min-h-[150px] w-full max-w-full sm:min-h-[250px]">
+        <Skeleton className="min-h-full w-full" />
+      </div>
+      <div className="grid">
+        <ScrollArea>
+          <div className="flex gap-4 p-1 py-3">
+            {[...Array(4)].map((_, index) => (
+              <div
+                className="relative min-w-0 flex-[0_0_35%] cursor-pointer rounded-lg ring-offset-background transition-all hover:opacity-100 sm:flex-[0_0_20%] lg:flex-[0_0_26%] xl:flex-[0_0_20%] 2xl:flex-[0_0_17%]"
+                key={index}
+              >
+                <Skeleton className="aspect-video rounded-lg object-cover sm:flex-[0_0_20%] lg:flex-[0_0_26%] xl:flex-[0_0_20%] 2xl:flex-[0_0_17%]" />
+              </div>
+            ))}
+            <ScrollBar orientation="horizontal" />
+          </div>
+        </ScrollArea>
+      </div>
     </Card>
   )
 }

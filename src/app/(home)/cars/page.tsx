@@ -5,6 +5,7 @@ import { FilterAdvertisements } from './components/filter-advertisements'
 import { FilterAdvertisementsSkeleton } from './components/filter-advertisements/filter-advertisements'
 import { PaginationAdvertisements } from './components/pagination-advertisements'
 import { Container } from '@/components/interface/container'
+import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area'
 
 import { Color, Fuel, Model, SoldStatus } from '@/@types/advertisement'
 
@@ -37,17 +38,22 @@ export default async function CarsPage({ searchParams }: CarsPageProps) {
           detalhes&quot; para ver mais detalhes e opções de compra ou venda.
         </Container.Description>
       </Container.Header>
-      <section className="flex min-h-[calc(100vh-330px)] w-full flex-col gap-x-5 gap-y-4 md:flex-row">
+      <section className="flex w-full flex-col gap-x-5 gap-y-4 md:max-h-[calc(100vh-300px)] md:flex-row">
         <Suspense fallback={<FilterAdvertisementsSkeleton />}>
           <FilterAdvertisements />
         </Suspense>
-        <div className="space-y-3">
-          <Suspense fallback={<CarsListSkeleton />}>
-            <CarsList {...props} />
-          </Suspense>
-          <Suspense fallback={null}>
-            <PaginationAdvertisements {...props} />
-          </Suspense>
+        <div className="flex w-full space-y-3 @container md:max-h-[70vh]">
+          <ScrollArea className="min-w-full" scrollHideDelay={0}>
+            <div className="mx-auto grid w-full gap-x-3 gap-y-4 px-2 @sm:grid-cols-1 @md:grid-cols-2 @lg:grid-cols-2 @3xl:grid-cols-3 @5xl:grid-cols-4">
+              <Suspense fallback={<CarsListSkeleton />}>
+                <CarsList {...props} />
+              </Suspense>
+            </div>
+            <Suspense fallback={null}>
+              <PaginationAdvertisements {...props} />
+            </Suspense>
+            <ScrollBar />
+          </ScrollArea>
         </div>
       </section>
     </Container.Content>

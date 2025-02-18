@@ -12,7 +12,6 @@ type HandleFavoriteActionsProps = {
 export const handleFavoriteActions = async ({
   advertisementId,
 }: HandleFavoriteActionsProps): Promise<ActionResponse<string>> => {
-  'use server'
   try {
     const message = await handleFavorite(advertisementId)
     revalidateTag('findAllFavoritesByUserId')

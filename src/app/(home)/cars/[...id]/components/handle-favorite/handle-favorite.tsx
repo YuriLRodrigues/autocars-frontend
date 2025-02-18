@@ -1,6 +1,9 @@
 'use client'
+import { useRouter } from 'next/navigation'
+
 import { Icon } from '@/components/ui/icon'
 
+import { useUserPayloadStore } from '@/hooks/use-user-details'
 import { useFindAdIsFavorited } from '@/http/orval-generation/routes/like-controller/like-controller'
 import { cn } from '@/lib/utils'
 import { useQueryClient } from '@tanstack/react-query'
@@ -14,14 +17,31 @@ type HandleFavoriteButtonProps = {
 
 export const HandleFavoriteButton = ({ advertisementId }: HandleFavoriteButtonProps) => {
   const queryClient = useQueryClient()
+  const router = useRouter()
+
+  const { isAuthenticated } = useUserPayloadStore((state) => state.actions)
 
   const { data } = useFindAdIsFavorited(advertisementId, {
-    query: { queryKey: ['isFavorited', advertisementId], staleTime: Infinity },
+    query: {
+      queryKey: ['isFavorited', advertisementId],
+      staleTime: Number.POSITIVE_INFINITY,
+      enabled: isAuthenticated(),
+    },
   })
 
   const advertisementIsFavorite = String(data) === 'true'
 
   const handleFavorite = async () => {
+    if (!isAuthenticated()) {
+      toast.error('Você precisa estar logado para favoritar um anúncio', {
+        action: {
+          label: 'Fazer login',
+          onClick: () => router.push('/auth/sign-in'),
+        },
+      })
+      return
+    }
+
     const result = await handleFavoriteActions({ advertisementId })
 
     if (!result.error) {
@@ -30,7 +50,7 @@ export const HandleFavoriteButton = ({ advertisementId }: HandleFavoriteButtonPr
     } else {
       switch (result.error) {
         case 'Resource not found':
-          toast.error('Favorito não encontrado')
+          toast.error('Anúncio não encontrado')
           break
         default:
           toast.error(`Erro ao ${advertisementIsFavorite ? 'desfavoritar' : 'favoritar'} o anúncio`, {

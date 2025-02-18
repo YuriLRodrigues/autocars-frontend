@@ -1,37 +1,47 @@
+import { Suspense } from 'react'
+
 import { CarCarousel } from './components/car-carousel'
-import { CarDetails } from './components/car-details'
+import { CarDetails, CarDetailsSkeleton } from './components/car-details'
+import { Feedbacks, FeedbacksSkeleton } from './components/feedbacks'
+import { CreateFeedback } from './components/feedbacks/create-feedback'
+import { PaginationFeedbacks } from './components/feedbacks/pagination-feedbacks'
 import { Container } from '@/components/interface/container'
-import { Button } from '@/components/ui/button'
 import { CustomBreadCrumb } from '@/components/ui/custom-breadcrumb'
+import { Icon } from '@/components/ui/icon'
 
-import { findAdById } from '@/http/orval-generation/routes/advertisement-controller/advertisement-controller'
+import { isAuthenticated } from '@/auth'
 
-type CarsPageProps = {
-  params: Promise<{ id: string }>
+type CarsDetailsPageProps = {
+  params: Promise<{ id: string; page?: number; limit: number }>
 }
 
-export default async function CarsPage({ params }: CarsPageProps) {
-  const { id } = await params
-
-  const adDetails = await findAdById(id)
+export default async function CarsDetailsPage({ params }: CarsDetailsPageProps) {
+  const { id, limit, page } = await params
+  const userIsAuthenticated = await isAuthenticated()
 
   return (
     <Container.Content className="space-y-4 pt-16">
       <CustomBreadCrumb />
       <section className="grid gap-x-8 gap-y-5 lg:grid-cols-2">
-        {/* todo: criar a suspense com deduplicata e isloading com o react quwery */}
-        <CarDetails adDetails={adDetails} advertisementId={id} />
-        <CarCarousel images={adDetails.images} />
-        <div className="flex flex-wrap items-center justify-center gap-3 lg:hidden">
-          <Button effect="shine">Comprar agora</Button>
-          <Button variant="secondary" effect="ringHover">
-            Adicionar ao carrinho
-          </Button>
-        </div>
+        <Suspense fallback={<CarDetailsSkeleton />}>
+          <CarDetails advertisementId={id} />
+        </Suspense>
+        <CarCarousel advertisementId={id} />
       </section>
-      <section>
-        <h4 className="text-3xl font-bold tracking-tight">Comentários</h4>
-        {/* Comment section */}
+      <section className="space-y-4">
+        <div className="flex w-full flex-wrap items-center justify-between gap-4">
+          <span className="flex items-center gap-4">
+            <Icon name="Star" className="size-8 text-yellow-500" fill="currentColor" />
+            <h4 className="text-3xl font-bold uppercase tracking-tight">Avaliações dos usuários</h4>{' '}
+          </span>
+          {userIsAuthenticated && <CreateFeedback />}
+        </div>
+        <Suspense fallback={<FeedbacksSkeleton />}>
+          <Feedbacks advertisementId={id} limit={Number(limit) || 6} page={Number(page) || 1} />
+        </Suspense>
+        <Suspense fallback={null}>
+          <PaginationFeedbacks advertisementId={id} limit={Number(limit) || 6} page={Number(page) || 1} />
+        </Suspense>
       </section>
     </Container.Content>
   )

@@ -35,44 +35,33 @@ export const CarsList = async (props: CardsListProps) => {
     )
   }
 
-  return (
-    <section className="mx-auto flex h-fit w-fit flex-wrap justify-center gap-6 md:justify-start">
-      {results.map((ad, index) => (
-        <AnimatedWrapper key={ad.advertisementId} delay={0.25 * index}>
-          <AdvertisementCard
-            advertisementId={ad.advertisementId}
-            capacity={ad.capacity}
-            model={ad.model}
-            doors={ad.doors}
-            fuel={ad.fuel}
-            gearBox={ad.gearBox}
-            km={ad.km}
-            price={ad.price}
-            soldStatus={ad.soldStatus}
-            thumbnailUrl={ad.thumbnailUrl}
-            blurHash={ad.blurHash}
-            salePrice={ad.salePrice}
-            title={ad.title}
-          >
-            <Link href={`/cars/${ad.advertisementId}`}>
-              <Button effect="shineHover">Ver detalhes</Button>
-            </Link>
-            <Button variant="secondary" effect="ringHover">
-              Comprar agora
-            </Button>
-          </AdvertisementCard>
-        </AnimatedWrapper>
-      ))}
-    </section>
-  )
+  return results.map((ad, index) => (
+    <AnimatedWrapper key={ad.advertisementId} delay={0.1 * index}>
+      <AdvertisementCard
+        advertisementId={ad.advertisementId}
+        capacity={ad.capacity}
+        model={ad.model}
+        doors={ad.doors}
+        fuel={ad.fuel}
+        gearBox={ad.gearBox}
+        km={ad.km}
+        price={ad.price}
+        soldStatus={ad.soldStatus}
+        thumbnailUrl={ad.thumbnailUrl}
+        blurHash={ad.blurHash}
+        salePrice={ad.salePrice}
+        title={ad.title}
+      >
+        <Link href={`/cars/${ad.advertisementId}`} className="min-w-full">
+          <Button className="min-w-full p-2" effect="shineHover">
+            Ver detalhes
+          </Button>
+        </Link>
+      </AdvertisementCard>
+    </AnimatedWrapper>
+  ))
 }
 
 export const CarsListSkeleton = () => {
-  return (
-    <section className="mx-auto flex h-fit w-fit flex-wrap justify-center gap-6 md:justify-start">
-      {[...Array(12)].map((_, index) => (
-        <AdvertisementCardSkeleton key={index} />
-      ))}
-    </section>
-  )
+  return [...Array(12)].map((_, index) => <AdvertisementCardSkeleton key={index} />)
 }

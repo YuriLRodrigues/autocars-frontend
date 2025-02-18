@@ -3,14 +3,11 @@ import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 
 import { useUserPayloadStore } from '@/hooks/use-user-details'
-import { AUTH_COOKIE_NAME } from '@/utils/constants'
-import { SIGNIN_COOKIE_MAX_AGE } from '@/utils/cookie-max-age'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { setCookie } from 'cookies-next/client'
 import { toast } from 'sonner'
 
 import { signInSchema, SignInSchemaProps } from './schema'
-import { SignInActions } from './sign-in.actions'
+import { signInActions } from './sign-in.actions'
 
 type useSignInProps = {
   defaultValues?: Partial<SignInSchemaProps>
@@ -39,15 +36,11 @@ export const useSignIn = ({ defaultValues }: useSignInProps = {}) => {
     !form.formState.errors.password
 
   const onSubmit = async (data: SignInSchemaProps) => {
-    const response = await SignInActions({ email: data.email, password: data.password })
+    const response = await signInActions({ email: data.email, password: data.password })
 
     if (!response.error) {
-      await setCookie(AUTH_COOKIE_NAME, response.data, { maxAge: SIGNIN_COOKIE_MAX_AGE, httpOnly: true })
-
       addUserPayload()
-
       toast.success('Usuário conectado ao sistema, seja bem vindo!')
-
       router.replace('/')
     } else {
       switch (response.error) {

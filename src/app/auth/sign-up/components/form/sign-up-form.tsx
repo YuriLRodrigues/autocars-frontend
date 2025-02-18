@@ -235,7 +235,15 @@ export const SignUpForm = () => {
 
           <div className="flex flex-wrap items-center justify-end gap-4 p-4">
             {isSignUpStep && (
-              <Button variant="outline" type="button" effect="ringHover" className="h-8" asChild>
+              <Button
+                variant="outline"
+                type="button"
+                icon={<Icon name="ArrowLeft" />}
+                effect="ringHover"
+                className="h-8"
+                iconPlacement="left"
+                asChild
+              >
                 <Link href="/">Voltar para o site</Link>
               </Button>
             )}

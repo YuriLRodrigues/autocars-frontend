@@ -109,7 +109,14 @@ export const AnimatedWrapper: React.FC<AnimatedWrapperProps> = ({
   const variants = custom || createVariants(type, direction)
 
   return (
-    <motion.div ref={ref} initial="hidden" animate={controls} variants={variants} transition={{ duration, delay }}>
+    <motion.div
+      ref={ref}
+      initial="hidden"
+      animate={controls}
+      variants={variants}
+      transition={{ duration, delay }}
+      className="mx-auto min-h-full min-w-full"
+    >
       {children}
     </motion.div>
   )

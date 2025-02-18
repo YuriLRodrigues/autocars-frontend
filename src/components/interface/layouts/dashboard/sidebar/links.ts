@@ -57,12 +57,12 @@ export const dashboardLinks: DashboardLinksProps[] = [
     iconName: 'Star',
     permissionRoles: [UserRoles.Manager, UserRoles.Seller, UserRoles.Customer],
   },
-  {
-    href: '/dashboard/likes',
-    label: 'Curtidas',
-    iconName: 'Heart',
-    permissionRoles: [UserRoles.Manager, UserRoles.Seller, UserRoles.Customer],
-  },
+  // {
+  //   href: '/dashboard/likes',
+  //   label: 'Curtidas',
+  //   iconName: 'Heart',
+  //   permissionRoles: [UserRoles.Manager, UserRoles.Seller, UserRoles.Customer],
+  // },
 ]
 
 export const dashboardProfileLinks: DashboardLinksProps[] = [

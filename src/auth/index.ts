@@ -23,6 +23,7 @@ export type TokenPayload = {
   name: string
   username: string
   email: string
+  exp: number
 }
 
 export const authToken = async (): Promise<TokenPayload | null> => {
@@ -41,5 +42,6 @@ export const authToken = async (): Promise<TokenPayload | null> => {
     name: payloadDecored?.name,
     username: payloadDecored?.username,
     email: payloadDecored?.email,
+    exp: payloadDecored?.exp,
   }
 }

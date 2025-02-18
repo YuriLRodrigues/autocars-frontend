@@ -36,6 +36,8 @@ export const Navbar = async () => {
           const isValidToUserAccess =
             !link.permissionRoles || (userRole ? link.permissionRoles.includes(userRole) : false)
 
+          if (link.isAuthOnly && userAlreadyAuthenticated) return null
+
           if (!isValidToUserAccess) return null
           return (
             <NavLink

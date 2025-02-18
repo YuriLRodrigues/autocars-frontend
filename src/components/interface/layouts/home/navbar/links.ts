@@ -44,6 +44,12 @@ export const profileLinks: NavbarLinksProps[] = [
     permissionRoles: [UserRoles.Seller],
   },
   {
+    href: '/dashboard/favorites',
+    label: 'Favoritos',
+    iconName: 'Heart',
+    permissionRoles: [UserRoles.Customer, UserRoles.Manager, UserRoles.Seller],
+  },
+  {
     href: '/dashboard/profile',
     label: 'Perfil',
     iconName: 'User',

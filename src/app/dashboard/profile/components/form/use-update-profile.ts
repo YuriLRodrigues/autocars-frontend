@@ -2,15 +2,12 @@
 import { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 
-import { updateOwnUser, useMe } from '@/http/orval-generation/routes/user-controller/user-controller'
-import { AUTH_COOKIE_NAME } from '@/utils/constants'
-import { SIGNIN_COOKIE_MAX_AGE } from '@/utils/cookie-max-age'
-import { wait } from '@/utils/wait'
+import { useMe } from '@/http/orval-generation/routes/user-controller/user-controller'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { setCookie } from 'cookies-next/client'
 import { toast } from 'sonner'
 
 import { UpdateProfileSchemaProps, updateProfileSchema } from './schema'
+import { updateProfileActions } from './update-profile.actions'
 
 type UseUpdateProfileFormProps = {
   uploadedAvatar?: string
@@ -43,17 +40,17 @@ export const useUpdateProfileForm = ({ uploadedAvatar }: UseUpdateProfileFormPro
   const onSubmit = async (values: UpdateProfileSchemaProps) => {
     const { email, name, username } = values
 
-    try {
-      const { token } = await updateOwnUser({ avatar: uploadedAvatar, email, name, username })
-      setCookie(AUTH_COOKIE_NAME, token, { maxAge: SIGNIN_COOKIE_MAX_AGE, httpOnly: true })
+    const response = await updateProfileActions({
+      email,
+      avatar: uploadedAvatar,
+      name,
+      username,
+    })
 
-      toast.success(`Perfil atualizado`)
-
-      await wait()
-      window.location.reload()
-    } catch (error) {
-      const _error = error as Error
-      switch (_error.message) {
+    if (!response.error) {
+      toast.success(`Perfil atualizado com sucesso`)
+    } else {
+      switch (response.error) {
         case 'Not allowed':
           toast.error('Você não possui permissão para realizar esta ação')
           break

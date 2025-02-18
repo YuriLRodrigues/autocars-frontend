@@ -16,10 +16,11 @@ export const FavoritesList = async () => {
   }
 
   return (
-    <section className="flex flex-wrap gap-6">
+    <section className="mx-auto grid w-full gap-x-3 gap-y-4 px-2 sm:grid-cols-2 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4">
       {results.map((fav, index) => (
         <AnimatedWrapper key={fav.id} delay={0.25 * index}>
           <AdvertisementCard
+            className="mx-auto w-full max-sm:max-w-[400px]"
             advertisementId={fav.advertisement.id}
             model={fav.advertisement.model}
             soldStatus={fav.advertisement.soldStatus}

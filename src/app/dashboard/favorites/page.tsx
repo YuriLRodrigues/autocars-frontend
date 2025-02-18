@@ -7,8 +7,8 @@ export default function FavoritesPage() {
       <Container.Header>
         <Container.Title>Favoritos</Container.Title>
         <Container.Description>
-          Aqui você pode adicionar veículos às suas listas de favoritos. Clique em &quot;adicionar&quot; para adicionar
-          um novo favorito ou &quot;remover&quot; para remover um favorito.
+          Aqui você pode visualizar os veículos adicionados à sua lista de favoritos. Clique na &quot;estrela&quot; para
+          remover um favorito.
         </Container.Description>
       </Container.Header>
       <section className="min-h-[calc(100vh-330px)]">

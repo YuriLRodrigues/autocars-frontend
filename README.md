@@ -78,7 +78,7 @@ src/
 ## ⚙️ Instalação
 
 ```bash
-$ npm install
+$ npm install --legacy-peer-deps
 ```
 
 ## 🚀 Rodando a Aplicação

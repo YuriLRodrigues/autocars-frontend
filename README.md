@@ -8,13 +8,13 @@ As principais tecnologias usadas no frontend incluem:
 
 - ![Next.js](https://img.shields.io/badge/Next.js-000000?style=for-the-badge&logo=nextdotjs&logoColor=white) - NextJS - Framework React para SSR e SSG
 - ![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge&logo=typescript&logoColor=white) - TypeScript - Tipagem estática para maior segurança
-- ![Tailwind CSS](https://img.shields.io/badge/TailwindCSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white) - TailwindCss - Estilização moderna e eficiente
+- ![TailwindCSS](https://img.shields.io/badge/tailwindcss-%2338B2AC.svg?style=for-the-badge&logo=tailwind-css&logoColor=white) - TailwindCss - Estilização moderna e eficiente
 - ![Zustand](https://img.shields.io/badge/Zustand-000000?style=for-the-badge&) - Zustand - Gerenciamento de estado leve
-- ![React Hook Form](https://img.shields.io/badge/ReactHookForm-EC5990?style=for-the-badge&) - React Hook Form - Gerenciamento de formulários
-- ![Framer Motion](https://img.shields.io/badge/FramerMotion-0055FF?style=for-the-badge&) - Framer Motion - Animações fluidas
+- ![React Hook Form](https://img.shields.io/badge/React%20Hook%20Form-%23EC5990.svg?style=for-the-badge&logo=reacthookform&logoColor=white) - React Hook Form - Gerenciamento de formulários
+- ![Framer](https://img.shields.io/badge/Framer-black?style=for-the-badge&logo=framer&logoColor=blue) - Framer Motion - Animações fluidas
 - ![Shadcn](https://img.shields.io/badge/Shadcn-000000?style=for-the-badge&) - Shadcn - Componentes acessíveis e customizáveis
-- ![Cypress](https://img.shields.io/badge/Cypress-17202C?style=for-the-badge&) - Cypress - Testes end-to-end e de componentes
-- ![Zod](https://img.shields.io/badge/Zod-000000?style=for-the-badge&) - Zod - Validação de esquemas
+- ![cypress](https://img.shields.io/badge/-cypress-%23E5E5E5?style=for-the-badge&logo=cypress&logoColor=058a5e) - Cypress - Testes end-to-end e de componentes
+- ![Zod](https://img.shields.io/badge/zod-%233068b7.svg?style=for-the-badge&logo=zod&logoColor=white) - Zod - Validação de esquemas
 - ![Next Themes](https://img.shields.io/badge/NextThemes-000000?style=for-the-badge&) - Next Themes - Modo escuro e claro dinâmico
 
 ## 📂 Estrutura de Pastas

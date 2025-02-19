@@ -13,7 +13,7 @@ import { Icon } from '@/components/ui/icon'
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
 import { ScrollArea } from '@/components/ui/scroll-area'
 
-import { CreateFeedbackForm } from './form /form'
+import { CreateFeedbackForm } from './form '
 
 export const CreateFeedback = () => {
   return (

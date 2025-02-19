@@ -1,6 +1,6 @@
 import { Suspense } from 'react'
 
-import { CreateAdvertisement } from '../../components/create-advertisement/create-advertisement'
+import { CreateAdvertisement } from '../../components/create-advertisement'
 import { OwnTable, OwnTableRows, OwnTableRowsSkeleton } from '@/app/dashboard/components/advertisements-table/own'
 import { FilterAdvertisements } from '@/app/dashboard/components/filter-advertisement'
 import { InputTitleForm } from '@/app/dashboard/components/filter-advertisement/form/input-title-form'

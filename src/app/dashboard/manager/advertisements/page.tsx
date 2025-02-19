@@ -9,7 +9,7 @@ import {
   ManagerTableRowsSkeleton,
 } from '@/app/dashboard/components/advertisements-table/manager/manager-table-rows'
 import { OwnTable, OwnTableRows, OwnTableRowsSkeleton } from '@/app/dashboard/components/advertisements-table/own'
-import { CreateAdvertisement } from '@/app/dashboard/components/create-advertisement/create-advertisement'
+import { CreateAdvertisement } from '@/app/dashboard/components/create-advertisement'
 import { Container } from '@/components/interface/container'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 

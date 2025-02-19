@@ -1,1 +1,1 @@
-export { UpdateProfileForm } from './form'
+export { CreateFeedbackForm } from './form'

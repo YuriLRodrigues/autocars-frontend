@@ -12,4 +12,5 @@ export const DEFAULT_TOKEN_PAYLOAD: TokenPayload = {
   roles: [],
   sub: '',
   username: '',
+  exp: 0,
 }

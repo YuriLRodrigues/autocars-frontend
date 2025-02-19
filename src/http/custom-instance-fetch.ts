@@ -1,6 +1,9 @@
 import { FetchResponseError } from '@/@types/fetch-response-error'
+import { envT3Oss } from '@/env.mjs'
 import { AUTH_COOKIE_NAME } from '@/utils/constants'
 import { getCookie } from 'cookies-next/client'
+
+const baseUrl = envT3Oss.NEXT_PUBLIC_API_URL
 
 const getBody = <T>(c: Response | Request): Promise<T> => {
   const contentType = c.headers.get('content-type')
@@ -48,7 +51,7 @@ const getHeaders = async (headers?: HeadersInit, body?: BodyInit | undefined | n
 export async function customFetch<T>(path: string, options: RequestInit): Promise<T> {
   const headers = await getHeaders(options.headers, options.body)
 
-  const url = new URL(path)
+  const url = new URL(`${baseUrl}${path}`)
 
   const request = new Request(url, {
     ...options,

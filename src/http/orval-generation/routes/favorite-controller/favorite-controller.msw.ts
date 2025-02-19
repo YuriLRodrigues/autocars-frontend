@@ -51,13 +51,12 @@ export const getFindAllFavoritesResponseMock = (): FindAllFavorites200 => ({
     Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() => ({
       id: faker.string.alpha(20),
       advertisement: {
-        createdAt: `${faker.date.past().toISOString().split('.')[0]}Z`,
         id: faker.string.alpha(20),
         title: faker.string.alpha(20),
+        thumbnailUrl: faker.string.alpha(20),
+        blurHash: faker.string.alpha(20),
         price: faker.number.int({ min: undefined, max: undefined }),
-        salePrice: faker.number.int({ min: undefined, max: undefined }),
-        soldStatus: faker.helpers.arrayElement(['Sold', 'Active', 'Reserved'] as const),
-        thumbnail: faker.string.alpha(20),
+        status: faker.string.alpha(20),
       },
       user: {
         name: faker.string.alpha(20),

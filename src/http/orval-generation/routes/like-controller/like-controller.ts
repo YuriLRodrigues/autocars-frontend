@@ -35,7 +35,7 @@ import type {
 type SecondParameter<T extends (...args: any) => any> = Parameters<T>[1]
 
 export const getFindAdIsLikedUrl = (id: string) => {
-  return `http://localhost:3333/like/ad/${id}`
+  return `/like/ad/${id}`
 }
 
 export const findAdIsLiked = async (id: string, options?: RequestInit): Promise<boolean> => {
@@ -46,7 +46,7 @@ export const findAdIsLiked = async (id: string, options?: RequestInit): Promise<
 }
 
 export const getFindAdIsLikedQueryKey = (id: string) => {
-  return [`http://localhost:3333/like/ad/${id}`] as const
+  return [`/like/ad/${id}`] as const
 }
 
 export const getFindAdIsLikedInfiniteQueryOptions = <
@@ -238,7 +238,7 @@ export function useFindAdIsLiked<
 }
 
 export const getHandleAdvertisementLikeUrl = (id: string) => {
-  return `http://localhost:3333/like/ad/${id}`
+  return `/like/ad/${id}`
 }
 
 export const handleAdvertisementLike = async (
@@ -290,7 +290,7 @@ export const useHandleAdvertisementLike = <
   return useMutation(mutationOptions)
 }
 export const getFindAllAdvertisementLikesUrl = (id: string) => {
-  return `http://localhost:3333/like/ad/likes-count/${id}`
+  return `/like/ad/likes-count/${id}`
 }
 
 export const findAllAdvertisementLikes = async (id: string, options?: RequestInit): Promise<number> => {
@@ -301,7 +301,7 @@ export const findAllAdvertisementLikes = async (id: string, options?: RequestIni
 }
 
 export const getFindAllAdvertisementLikesQueryKey = (id: string) => {
-  return [`http://localhost:3333/like/ad/likes-count/${id}`] as const
+  return [`/like/ad/likes-count/${id}`] as const
 }
 
 export const getFindAllAdvertisementLikesInfiniteQueryOptions = <
@@ -495,7 +495,7 @@ export function useFindAllAdvertisementLikes<
 }
 
 export const getFindFeedbackIsLikedUrl = (id: string) => {
-  return `http://localhost:3333/like/fb/${id}`
+  return `/like/fb/${id}`
 }
 
 export const findFeedbackIsLiked = async (id: string, options?: RequestInit): Promise<boolean> => {
@@ -506,7 +506,7 @@ export const findFeedbackIsLiked = async (id: string, options?: RequestInit): Pr
 }
 
 export const getFindFeedbackIsLikedQueryKey = (id: string) => {
-  return [`http://localhost:3333/like/fb/${id}`] as const
+  return [`/like/fb/${id}`] as const
 }
 
 export const getFindFeedbackIsLikedInfiniteQueryOptions = <
@@ -698,7 +698,7 @@ export function useFindFeedbackIsLiked<
 }
 
 export const getHandleFeedbackLikeUrl = (id: string) => {
-  return `http://localhost:3333/like/fb/${id}`
+  return `/like/fb/${id}`
 }
 
 export const handleFeedbackLike = async (id: string, options?: RequestInit): Promise<HandleFeedbackLikeResponseDto> => {
@@ -747,7 +747,7 @@ export const useHandleFeedbackLike = <
   return useMutation(mutationOptions)
 }
 export const getFindAllFeedbackLikesUrl = (id: string) => {
-  return `http://localhost:3333/like/fb/likes-count/${id}`
+  return `/like/fb/likes-count/${id}`
 }
 
 export const findAllFeedbackLikes = async (id: string, options?: RequestInit): Promise<number> => {
@@ -758,7 +758,7 @@ export const findAllFeedbackLikes = async (id: string, options?: RequestInit): P
 }
 
 export const getFindAllFeedbackLikesQueryKey = (id: string) => {
-  return [`http://localhost:3333/like/fb/likes-count/${id}`] as const
+  return [`/like/fb/likes-count/${id}`] as const
 }
 
 export const getFindAllFeedbackLikesInfiniteQueryOptions = <
@@ -950,7 +950,7 @@ export function useFindAllFeedbackLikes<
 }
 
 export const getFindAdIsFavoritedUrl = (id: string) => {
-  return `http://localhost:3333/favorite/is-favorited/${id}`
+  return `/favorite/is-favorited/${id}`
 }
 
 export const findAdIsFavorited = async (id: string, options?: RequestInit): Promise<boolean> => {
@@ -961,7 +961,7 @@ export const findAdIsFavorited = async (id: string, options?: RequestInit): Prom
 }
 
 export const getFindAdIsFavoritedQueryKey = (id: string) => {
-  return [`http://localhost:3333/favorite/is-favorited/${id}`] as const
+  return [`/favorite/is-favorited/${id}`] as const
 }
 
 export const getFindAdIsFavoritedInfiniteQueryOptions = <

@@ -1,3 +1,5 @@
+import Link from 'next/link'
+
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Badge } from '@/components/ui/badge'
 import { Skeleton } from '@/components/ui/skeleton'
@@ -51,19 +53,21 @@ export const TableRows = async ({ limit, page, createdAt, name, role, title, sta
     return (
       <TableRowRoot key={row.id} className="*:text-center">
         <TableCell className="!text-left">
-          <div className="flex items-center gap-2">
-            <Avatar>
-              <AvatarImage
-                src={row.avatar || '/assets/default-user-avatar.webp'}
-                className="object-cover object-center"
-              />
-              <AvatarFallback>AC</AvatarFallback>
-            </Avatar>
-            <div className="flex flex-col">
-              <span className="text-sm font-medium text-foreground">{row.name}</span>
-              <span className="text-xs text-foreground/40">{row.email}</span>
+          <Link href={`/profile/${row.id}`}>
+            <div className="flex items-center gap-2">
+              <Avatar>
+                <AvatarImage
+                  src={row.avatar || '/assets/default-user-avatar.webp'}
+                  className="object-cover object-center"
+                />
+                <AvatarFallback>AC</AvatarFallback>
+              </Avatar>
+              <div className="flex flex-col">
+                <span className="text-sm font-medium text-foreground">{row.name}</span>
+                <span className="text-xs text-foreground/40">{row.email}</span>
+              </div>
             </div>
-          </div>
+          </Link>
         </TableCell>
         <TableCell>{formatDate(row.createdAt)}</TableCell>
         <TableCell>{userRoles}</TableCell>

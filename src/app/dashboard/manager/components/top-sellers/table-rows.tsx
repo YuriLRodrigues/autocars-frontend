@@ -1,3 +1,5 @@
+import Link from 'next/link'
+
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Skeleton } from '@/components/ui/skeleton'
 import { TableCell, TableRow as TableRowRoot } from '@/components/ui/table'
@@ -28,16 +30,18 @@ export const TableRows = async () => {
     return (
       <TableRowRoot key={row.id} className="*:text-center">
         <TableCell className="!text-left">
-          <div className="flex items-center gap-2">
-            <Avatar>
-              <AvatarImage
-                src={row.profileImg || '/assets/default-user-avatar.webp'}
-                className="object-cover object-center"
-              />
-              <AvatarFallback>AC</AvatarFallback>
-            </Avatar>
-            <span className="text-sm font-medium text-foreground">{row.name}</span>
-          </div>
+          <Link href={`/profile/${row.id}`}>
+            <div className="flex items-center gap-2">
+              <Avatar>
+                <AvatarImage
+                  src={row.profileImg || '/assets/default-user-avatar.webp'}
+                  className="object-cover object-center"
+                />
+                <AvatarFallback>AC</AvatarFallback>
+              </Avatar>
+              <span className="text-sm font-medium text-foreground">{row.name}</span>
+            </div>
+          </Link>
         </TableCell>
         <TableCell>{userRoles}</TableCell>
         <TableCell>{formatCurrencyBRL(row.amountSold)}</TableCell>

@@ -38,7 +38,11 @@ export async function middleware(request: NextRequest) {
     if (pathIsAuth) return NextResponse.redirect(new URL('/', request.nextUrl.origin))
   }
 
-  if (!token && (pathname.includes('/dashboard') || (pathname !== '/' && !pathname.includes('/cars') && !pathIsAuth))) {
+  if (
+    !token &&
+    (pathname.includes('/dashboard') ||
+      (pathname !== '/' && !pathname.includes('/cars') && !pathIsAuth && !pathname.startsWith('/profile')))
+  ) {
     return NextResponse.redirect(new URL('/auth/sign-in', request.nextUrl.origin))
   }
 

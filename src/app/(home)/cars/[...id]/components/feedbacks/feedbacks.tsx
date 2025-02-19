@@ -1,3 +1,5 @@
+import Link from 'next/link'
+
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Skeleton } from '@/components/ui/skeleton'
@@ -37,13 +39,15 @@ export const Feedbacks = async ({ advertisementId, limit, page }: FeedbacksProps
           <CardHeader>
             <CardTitle className="space-y-1.5">
               <span className="text-sm text-foreground/60">{formatDate(feedback.createdAt)}</span>
-              <div className="flex items-center gap-1">
-                <Avatar>
-                  <AvatarImage src={feedback.user.avatar} className="object-cover object-center" />
-                  <AvatarFallback>AC</AvatarFallback>
-                </Avatar>
-                <p>{feedback.user.name}</p>
-              </div>
+              <Link href={`/profile/${feedback.user.id}`}>
+                <div className="flex items-center gap-1">
+                  <Avatar>
+                    <AvatarImage src={feedback.user.avatar} className="object-cover object-center" />
+                    <AvatarFallback>AC</AvatarFallback>
+                  </Avatar>
+                  <p>{feedback.user.name}</p>
+                </div>
+              </Link>
               <span>{mappingStarsQuantity[feedback.stars]}</span>
             </CardTitle>
           </CardHeader>

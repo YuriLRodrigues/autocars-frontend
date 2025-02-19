@@ -45,9 +45,7 @@ export const getFindAllFavoritesByUserIdUrl = (params?: FindAllFavoritesByUserId
     }
   })
 
-  return normalizedParams.size
-    ? `http://localhost:3333/favorite?${normalizedParams.toString()}`
-    : `http://localhost:3333/favorite`
+  return normalizedParams.size ? `/favorite?${normalizedParams.toString()}` : `/favorite`
 }
 
 export const findAllFavoritesByUserId = async (
@@ -61,7 +59,7 @@ export const findAllFavoritesByUserId = async (
 }
 
 export const getFindAllFavoritesByUserIdQueryKey = (params?: FindAllFavoritesByUserIdParams) => {
-  return [`http://localhost:3333/favorite`, ...(params ? [params] : [])] as const
+  return [`/favorite`, ...(params ? [params] : [])] as const
 }
 
 export const getFindAllFavoritesByUserIdInfiniteQueryOptions = <
@@ -263,9 +261,7 @@ export const getFindAllFavoritesUrl = (params?: FindAllFavoritesParams) => {
     }
   })
 
-  return normalizedParams.size
-    ? `http://localhost:3333/favorite/admin?${normalizedParams.toString()}`
-    : `http://localhost:3333/favorite/admin`
+  return normalizedParams.size ? `/favorite/admin?${normalizedParams.toString()}` : `/favorite/admin`
 }
 
 export const findAllFavorites = async (
@@ -279,7 +275,7 @@ export const findAllFavorites = async (
 }
 
 export const getFindAllFavoritesQueryKey = (params?: FindAllFavoritesParams) => {
-  return [`http://localhost:3333/favorite/admin`, ...(params ? [params] : [])] as const
+  return [`/favorite/admin`, ...(params ? [params] : [])] as const
 }
 
 export const getFindAllFavoritesInfiniteQueryOptions = <
@@ -471,7 +467,7 @@ export function useFindAllFavorites<
 }
 
 export const getFindDistinctFavoritesCountUrl = () => {
-  return `http://localhost:3333/favorite/distinct-count`
+  return `/favorite/distinct-count`
 }
 
 export const findDistinctFavoritesCount = async (options?: RequestInit): Promise<number> => {
@@ -482,7 +478,7 @@ export const findDistinctFavoritesCount = async (options?: RequestInit): Promise
 }
 
 export const getFindDistinctFavoritesCountQueryKey = () => {
-  return [`http://localhost:3333/favorite/distinct-count`] as const
+  return [`/favorite/distinct-count`] as const
 }
 
 export const getFindDistinctFavoritesCountInfiniteQueryOptions = <
@@ -646,7 +642,7 @@ export function useFindDistinctFavoritesCount<
 }
 
 export const getFindFavoritesCountByAdvertisementUrl = (id: string) => {
-  return `http://localhost:3333/favorite/count/${id}`
+  return `/favorite/count/${id}`
 }
 
 export const findFavoritesCountByAdvertisement = async (id: string, options?: RequestInit): Promise<number> => {
@@ -657,7 +653,7 @@ export const findFavoritesCountByAdvertisement = async (id: string, options?: Re
 }
 
 export const getFindFavoritesCountByAdvertisementQueryKey = (id: string) => {
-  return [`http://localhost:3333/favorite/count/${id}`] as const
+  return [`/favorite/count/${id}`] as const
 }
 
 export const getFindFavoritesCountByAdvertisementInfiniteQueryOptions = <
@@ -863,7 +859,7 @@ export function useFindFavoritesCountByAdvertisement<
 }
 
 export const getFindFavoritesCountUrl = () => {
-  return `http://localhost:3333/favorite/count`
+  return `/favorite/count`
 }
 
 export const findFavoritesCount = async (options?: RequestInit): Promise<number> => {
@@ -874,7 +870,7 @@ export const findFavoritesCount = async (options?: RequestInit): Promise<number>
 }
 
 export const getFindFavoritesCountQueryKey = () => {
-  return [`http://localhost:3333/favorite/count`] as const
+  return [`/favorite/count`] as const
 }
 
 export const getFindFavoritesCountInfiniteQueryOptions = <
@@ -1036,7 +1032,7 @@ export function useFindFavoritesCount<
 }
 
 export const getHandleFavoriteUrl = (id: string) => {
-  return `http://localhost:3333/favorite/handle-favorite/${id}`
+  return `/favorite/handle-favorite/${id}`
 }
 
 export const handleFavorite = async (id: string, options?: RequestInit): Promise<string> => {

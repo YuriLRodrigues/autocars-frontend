@@ -5,21 +5,18 @@
  * Cars seller API
  * OpenAPI spec version: 1.0.0
  */
-import type { AdvertisementDtoSoldStatus } from './advertisementDtoSoldStatus'
 
 export interface AdvertisementDto {
-  /** Creation date of the advertisement */
-  createdAt: string
   /** Unique identifier of the advertisement */
   id: string
   /** Title of the advertisement */
   title: string
+  /** Thumbnail URL of the advertisement */
+  thumbnailUrl: string
+  /** BlurHash for the image, used for low-quality image preview */
+  blurHash: string
   /** Price of the advertisement */
   price: number
-  /** Sale price of the advertisement */
-  salePrice: number
-  /** Status of the advertisement (available, sold, reserved) */
-  soldStatus: AdvertisementDtoSoldStatus
-  /** URL of the ad thumbnail */
-  thumbnail: string
+  /** Status of the advertisement (e.g., SOLD, AVAILABLE) */
+  status: string
 }

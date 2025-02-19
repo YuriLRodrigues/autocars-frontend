@@ -1,4 +1,6 @@
-import { FavoritesList } from './components/favorites-list'
+import { Suspense } from 'react'
+
+import { FavoritesList, FavoritesListSkeleton } from './components'
 import { Container } from '@/components/interface/container'
 
 export default function FavoritesPage() {
@@ -12,7 +14,9 @@ export default function FavoritesPage() {
         </Container.Description>
       </Container.Header>
       <section className="min-h-[calc(100vh-330px)]">
-        <FavoritesList />
+        <Suspense fallback={<FavoritesListSkeleton />}>
+          <FavoritesList />
+        </Suspense>
       </section>
     </Container.Content>
   )

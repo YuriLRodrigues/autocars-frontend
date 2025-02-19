@@ -107,16 +107,7 @@ export const getFindAllAdvertisementsByUserIdResponseMock = (): FindAllAdvertise
   },
   results: faker.helpers.arrayElement([
     Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() => ({
-      user: {
-        name: faker.string.alpha(20),
-        avatar: faker.string.alpha(20),
-        id: faker.string.alpha(20),
-        address: {
-          street: faker.string.alpha(20),
-          city: faker.string.alpha(20),
-          zipCode: faker.number.int({ min: undefined, max: undefined }),
-        },
-      },
+      user: { profileImg: faker.string.alpha(20), username: faker.string.alpha(20), id: faker.string.alpha(20) },
       advertisement: {
         createdAt: `${faker.date.past().toISOString().split('.')[0]}Z`,
         id: faker.string.alpha(20),
@@ -124,7 +115,25 @@ export const getFindAllAdvertisementsByUserIdResponseMock = (): FindAllAdvertise
         price: faker.number.int({ min: undefined, max: undefined }),
         salePrice: faker.number.int({ min: undefined, max: undefined }),
         soldStatus: faker.helpers.arrayElement(['Sold', 'Active', 'Reserved'] as const),
-        thumbnail: faker.string.alpha(20),
+        km: faker.number.int({ min: undefined, max: undefined }),
+        thumbnailUrl: faker.string.alpha(20),
+        blurHash: faker.string.alpha(20),
+        capacity: faker.helpers.arrayElement(['Two', 'Four', 'Five', 'Six'] as const),
+        doors: faker.helpers.arrayElement(['Two', 'Three', 'Four'] as const),
+        fuel: faker.helpers.arrayElement(['Gasoline', 'Flex', 'Ethanol', 'Diesel', 'GNV', 'Eletric'] as const),
+        gearBox: faker.helpers.arrayElement(['Automatic', 'Manual'] as const),
+        model: faker.helpers.arrayElement([
+          'SUV',
+          'Sedan',
+          'Hatch',
+          'Pickups',
+          'Crossover',
+          'Stilt',
+          'Minivan',
+          'Sport',
+          'Van',
+          'Coupe',
+        ] as const),
       },
     })),
     undefined,
@@ -370,7 +379,7 @@ export const getFindAllAdvertisementsByUserIdMockHandler = (
         info: Parameters<Parameters<typeof http.get>[1]>[0],
       ) => Promise<FindAllAdvertisementsByUserId200> | FindAllAdvertisementsByUserId200),
 ) => {
-  return http.get('*/advertisement/all/owner/:userId', async (info) => {
+  return http.get('*/advertisement/all/by-user/:userId', async (info) => {
     await delay(1000)
 
     return new HttpResponse(

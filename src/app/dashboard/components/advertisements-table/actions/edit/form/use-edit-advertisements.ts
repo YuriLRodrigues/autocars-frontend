@@ -167,7 +167,10 @@ export const useEditAdvertisementsForm = ({ uploadedFiles, advertisementId }: us
         localization,
         phone,
         price,
-        thumbnailImageId,
+        thumbnailImageId:
+          advertisementDetails?.images.find((img) => img.isThumbnail)?.id === thumbnailImageId
+            ? undefined
+            : thumbnailImageId,
         title,
         year,
         details: details ?? [],

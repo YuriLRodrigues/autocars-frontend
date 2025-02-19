@@ -3,6 +3,7 @@ import { defineConfig } from 'orval'
 export default defineConfig({
   'auto-cars': {
     input: {
+      // target: 'https://yuri-rodrigues-autocars-backend.pd8edx.easypanel.host/swagger/docs/swagger.json',
       target: 'http://localhost:3333/swagger/docs/swagger.json',
       validation: false,
     },
@@ -14,7 +15,6 @@ export default defineConfig({
       client: 'react-query',
       httpClient: 'fetch',
       clean: true,
-      baseUrl: 'http://localhost:3333/',
       mock: true,
       override: {
         fetch: {
@@ -34,7 +34,7 @@ export default defineConfig({
       },
     },
     // hooks: {
-    //   afterAllFilesWrite: 'npx eslint --fix .',
+    //   afterAllFilesWrite: 'npx eslint --fix ./src',
     // },
   },
 })

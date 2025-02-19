@@ -1,3 +1,4 @@
+import Link from 'next/link'
 import { Fragment } from 'react'
 
 import { CardIcon } from '@/app/components/advertisement-card/card-icon'
@@ -99,16 +100,18 @@ export const CarDetails = async ({ advertisementId }: CarDetailsProps) => {
           <AccordionContent className="space-y-4">
             <div className="flex w-fit items-center justify-center gap-4">
               <p>Vendido e entregue por:</p>
-              <div className="mx-auto flex flex-row items-center gap-3">
-                <Avatar>
-                  <AvatarImage
-                    src={adDetails.user.avatar || '/assets/default-user-avatar.webp'}
-                    className="object-cover object-center"
-                  />
-                  <AvatarFallback>{adDetails.user.name[0].toUpperCase()}</AvatarFallback>
-                </Avatar>
-                <span className="line-clamp-1 text-sm font-medium text-foreground">{adDetails.user.name}</span>
-              </div>
+              <Link href={`/profile/${adDetails.user.id}`}>
+                <div className="mx-auto flex flex-row items-center gap-3">
+                  <Avatar>
+                    <AvatarImage
+                      src={adDetails.user.avatar || '/assets/default-user-avatar.webp'}
+                      className="object-cover object-center"
+                    />
+                    <AvatarFallback className="cursor-pointer">{adDetails.user.name[0].toUpperCase()}</AvatarFallback>
+                  </Avatar>
+                  <span className="line-clamp-1 text-sm font-medium text-foreground">{adDetails.user.name}</span>
+                </div>
+              </Link>
             </div>
             <p>Informações de contato: {formatPhoneNumber(adDetails.phone)}</p>
           </AccordionContent>

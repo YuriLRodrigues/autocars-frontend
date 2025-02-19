@@ -1,4 +1,5 @@
 import { AdvertisementCard } from '@/app/components/advertisement-card'
+import { AdvertisementCardSkeleton } from '@/app/components/advertisement-card/advertisement-card'
 import { AnimatedWrapper } from '@/components/ui/animated-wrapper'
 import { Card } from '@/components/ui/card'
 
@@ -37,6 +38,14 @@ export const FavoritesList = async () => {
           />
         </AnimatedWrapper>
       ))}
+    </section>
+  )
+}
+
+export const FavoritesListSkeleton = () => {
+  return (
+    <section className="mx-auto grid w-full gap-x-3 gap-y-4 px-2 sm:grid-cols-2 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4">
+      {...[...Array(12)].map((_, index) => <AdvertisementCardSkeleton key={index} />)}
     </section>
   )
 }

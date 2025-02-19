@@ -9,9 +9,10 @@
 /**
  * Status of the advertisement (available, sold, reserved)
  */
-export type AdvertisementDtoSoldStatus = (typeof AdvertisementDtoSoldStatus)[keyof typeof AdvertisementDtoSoldStatus]
+export type AdvertisementByUserIdDtoSoldStatus =
+  (typeof AdvertisementByUserIdDtoSoldStatus)[keyof typeof AdvertisementByUserIdDtoSoldStatus]
 
-export const AdvertisementDtoSoldStatus = {
+export const AdvertisementByUserIdDtoSoldStatus = {
   Sold: 'Sold',
   Active: 'Active',
   Reserved: 'Reserved',

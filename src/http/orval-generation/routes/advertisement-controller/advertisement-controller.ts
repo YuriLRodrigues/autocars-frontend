@@ -52,7 +52,7 @@ import type {
 type SecondParameter<T extends (...args: any) => any> = Parameters<T>[1]
 
 export const getCreateAdvertisementUrl = () => {
-  return `http://localhost:3333/advertisement`
+  return `/advertisement`
 }
 
 export const createAdvertisement = async (
@@ -123,7 +123,7 @@ export const useCreateAdvertisement = <
   return useMutation(mutationOptions)
 }
 export const getDeleteAdvertisementUrl = (id: string) => {
-  return `http://localhost:3333/advertisement/${id}`
+  return `/advertisement/${id}`
 }
 
 export const deleteAdvertisement = async (id: string, options?: RequestInit): Promise<DeletedAdResponseDto> => {
@@ -172,7 +172,7 @@ export const useDeleteAdvertisement = <
   return useMutation(mutationOptions)
 }
 export const getFindAdByIdUrl = (id: string) => {
-  return `http://localhost:3333/advertisement/details/${id}`
+  return `/advertisement/details/${id}`
 }
 
 export const findAdById = async (id: string, options?: RequestInit): Promise<FindAdByIdResponseDto> => {
@@ -183,7 +183,7 @@ export const findAdById = async (id: string, options?: RequestInit): Promise<Fin
 }
 
 export const getFindAdByIdQueryKey = (id: string) => {
-  return [`http://localhost:3333/advertisement/details/${id}`] as const
+  return [`/advertisement/details/${id}`] as const
 }
 
 export const getFindAdByIdInfiniteQueryOptions = <
@@ -384,8 +384,8 @@ export const getFindAllAdvertisementsByUserIdUrl = (userId: string, params?: Fin
   })
 
   return normalizedParams.size
-    ? `http://localhost:3333/advertisement/all/owner/${userId}?${normalizedParams.toString()}`
-    : `http://localhost:3333/advertisement/all/owner/${userId}`
+    ? `/advertisement/all/by-user/${userId}?${normalizedParams.toString()}`
+    : `/advertisement/all/by-user/${userId}`
 }
 
 export const findAllAdvertisementsByUserId = async (
@@ -403,7 +403,7 @@ export const getFindAllAdvertisementsByUserIdQueryKey = (
   userId: string,
   params?: FindAllAdvertisementsByUserIdParams,
 ) => {
-  return [`http://localhost:3333/advertisement/all/owner/${userId}`, ...(params ? [params] : [])] as const
+  return [`/advertisement/all/by-user/${userId}`, ...(params ? [params] : [])] as const
 }
 
 export const getFindAllAdvertisementsByUserIdInfiniteQueryOptions = <
@@ -617,9 +617,7 @@ export const getFindAllOwnAdvertisementsUrl = (params?: FindAllOwnAdvertisements
     }
   })
 
-  return normalizedParams.size
-    ? `http://localhost:3333/advertisement/all/own?${normalizedParams.toString()}`
-    : `http://localhost:3333/advertisement/all/own`
+  return normalizedParams.size ? `/advertisement/all/own?${normalizedParams.toString()}` : `/advertisement/all/own`
 }
 
 export const findAllOwnAdvertisements = async (
@@ -633,7 +631,7 @@ export const findAllOwnAdvertisements = async (
 }
 
 export const getFindAllOwnAdvertisementsQueryKey = (params?: FindAllOwnAdvertisementsParams) => {
-  return [`http://localhost:3333/advertisement/all/own`, ...(params ? [params] : [])] as const
+  return [`/advertisement/all/own`, ...(params ? [params] : [])] as const
 }
 
 export const getFindAllOwnAdvertisementsInfiniteQueryOptions = <
@@ -836,8 +834,8 @@ export const getFindAllManagerAdvertisementsUrl = (params?: FindAllManagerAdvert
   })
 
   return normalizedParams.size
-    ? `http://localhost:3333/advertisement/all/manager?${normalizedParams.toString()}`
-    : `http://localhost:3333/advertisement/all/manager`
+    ? `/advertisement/all/manager?${normalizedParams.toString()}`
+    : `/advertisement/all/manager`
 }
 
 export const findAllManagerAdvertisements = async (
@@ -851,7 +849,7 @@ export const findAllManagerAdvertisements = async (
 }
 
 export const getFindAllManagerAdvertisementsQueryKey = (params?: FindAllManagerAdvertisementsParams) => {
-  return [`http://localhost:3333/advertisement/all/manager`, ...(params ? [params] : [])] as const
+  return [`/advertisement/all/manager`, ...(params ? [params] : [])] as const
 }
 
 export const getFindAllManagerAdvertisementsInfiniteQueryOptions = <
@@ -1047,7 +1045,7 @@ export function useFindAllManagerAdvertisements<
 }
 
 export const getFindAdvertisementsMetricsByUserIdUrl = () => {
-  return `http://localhost:3333/advertisement/owner-metrics`
+  return `/advertisement/owner-metrics`
 }
 
 export const findAdvertisementsMetricsByUserId = async (
@@ -1060,7 +1058,7 @@ export const findAdvertisementsMetricsByUserId = async (
 }
 
 export const getFindAdvertisementsMetricsByUserIdQueryKey = () => {
-  return [`http://localhost:3333/advertisement/owner-metrics`] as const
+  return [`/advertisement/owner-metrics`] as const
 }
 
 export const getFindAdvertisementsMetricsByUserIdInfiniteQueryOptions = <
@@ -1230,7 +1228,7 @@ export function useFindAdvertisementsMetricsByUserId<
 }
 
 export const getFindAdvertisementsMetricsUrl = () => {
-  return `http://localhost:3333/advertisement/admin-metrics`
+  return `/advertisement/admin-metrics`
 }
 
 export const findAdvertisementsMetrics = async (
@@ -1243,7 +1241,7 @@ export const findAdvertisementsMetrics = async (
 }
 
 export const getFindAdvertisementsMetricsQueryKey = () => {
-  return [`http://localhost:3333/advertisement/admin-metrics`] as const
+  return [`/advertisement/admin-metrics`] as const
 }
 
 export const getFindAdvertisementsMetricsInfiniteQueryOptions = <
@@ -1415,9 +1413,7 @@ export const getFindAllAdvertisementsUrl = (params?: FindAllAdvertisementsParams
     }
   })
 
-  return normalizedParams.size
-    ? `http://localhost:3333/advertisement/all?${normalizedParams.toString()}`
-    : `http://localhost:3333/advertisement/all`
+  return normalizedParams.size ? `/advertisement/all?${normalizedParams.toString()}` : `/advertisement/all`
 }
 
 export const findAllAdvertisements = async (
@@ -1431,7 +1427,7 @@ export const findAllAdvertisements = async (
 }
 
 export const getFindAllAdvertisementsQueryKey = (params?: FindAllAdvertisementsParams) => {
-  return [`http://localhost:3333/advertisement/all`, ...(params ? [params] : [])] as const
+  return [`/advertisement/all`, ...(params ? [params] : [])] as const
 }
 
 export const getFindAllAdvertisementsInfiniteQueryOptions = <
@@ -1631,9 +1627,7 @@ export const getFindAllSoldAdsUrl = (params: FindAllSoldAdsParams) => {
     }
   })
 
-  return normalizedParams.size
-    ? `http://localhost:3333/advertisement/sold-ads?${normalizedParams.toString()}`
-    : `http://localhost:3333/advertisement/sold-ads`
+  return normalizedParams.size ? `/advertisement/sold-ads?${normalizedParams.toString()}` : `/advertisement/sold-ads`
 }
 
 export const findAllSoldAds = async (
@@ -1647,7 +1641,7 @@ export const findAllSoldAds = async (
 }
 
 export const getFindAllSoldAdsQueryKey = (params: FindAllSoldAdsParams) => {
-  return [`http://localhost:3333/advertisement/sold-ads`, ...(params ? [params] : [])] as const
+  return [`/advertisement/sold-ads`, ...(params ? [params] : [])] as const
 }
 
 export const getFindAllSoldAdsInfiniteQueryOptions = <
@@ -1839,7 +1833,7 @@ export function useFindAllSoldAds<
 }
 
 export const getUpdateAdvertisementUrl = (id: string) => {
-  return `http://localhost:3333/advertisement/update/${id}`
+  return `/advertisement/update/${id}`
 }
 
 export const updateAdvertisement = async (

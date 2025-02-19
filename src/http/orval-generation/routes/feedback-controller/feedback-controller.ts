@@ -44,9 +44,7 @@ export const getFindAllFeedbacksByAdIdUrl = (id: string, params?: FindAllFeedbac
     }
   })
 
-  return normalizedParams.size
-    ? `http://localhost:3333/feedback/ad/${id}?${normalizedParams.toString()}`
-    : `http://localhost:3333/feedback/ad/${id}`
+  return normalizedParams.size ? `/feedback/ad/${id}?${normalizedParams.toString()}` : `/feedback/ad/${id}`
 }
 
 export const findAllFeedbacksByAdId = async (
@@ -61,7 +59,7 @@ export const findAllFeedbacksByAdId = async (
 }
 
 export const getFindAllFeedbacksByAdIdQueryKey = (id: string, params?: FindAllFeedbacksByAdIdParams) => {
-  return [`http://localhost:3333/feedback/ad/${id}`, ...(params ? [params] : [])] as const
+  return [`/feedback/ad/${id}`, ...(params ? [params] : [])] as const
 }
 
 export const getFindAllFeedbacksByAdIdInfiniteQueryOptions = <
@@ -263,7 +261,7 @@ export function useFindAllFeedbacksByAdId<
 }
 
 export const getCreateFeedbackByAdIdUrl = (id: string) => {
-  return `http://localhost:3333/feedback/ad/${id}`
+  return `/feedback/ad/${id}`
 }
 
 export const createFeedbackByAdId = async (

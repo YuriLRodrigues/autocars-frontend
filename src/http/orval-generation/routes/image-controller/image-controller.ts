@@ -40,7 +40,7 @@ import type {
 type SecondParameter<T extends (...args: any) => any> = Parameters<T>[1]
 
 export const getDeleteImageUrl = (id: string) => {
-  return `http://localhost:3333/image/${id}`
+  return `/image/${id}`
 }
 
 export const deleteImage = async (id: string, options?: RequestInit): Promise<DeleteImageResponseDto> => {
@@ -97,9 +97,7 @@ export const getFindAllImagesUrl = (params?: FindAllImagesParams) => {
     }
   })
 
-  return normalizedParams.size
-    ? `http://localhost:3333/image/all?${normalizedParams.toString()}`
-    : `http://localhost:3333/image/all`
+  return normalizedParams.size ? `/image/all?${normalizedParams.toString()}` : `/image/all`
 }
 
 export const findAllImages = async (params?: FindAllImagesParams, options?: RequestInit): Promise<FindAllImages200> => {
@@ -110,7 +108,7 @@ export const findAllImages = async (params?: FindAllImagesParams, options?: Requ
 }
 
 export const getFindAllImagesQueryKey = (params?: FindAllImagesParams) => {
-  return [`http://localhost:3333/image/all`, ...(params ? [params] : [])] as const
+  return [`/image/all`, ...(params ? [params] : [])] as const
 }
 
 export const getFindAllImagesInfiniteQueryOptions = <
@@ -302,7 +300,7 @@ export function useFindAllImages<
 }
 
 export const getFindImageMetricsUrl = () => {
-  return `http://localhost:3333/image/metrics`
+  return `/image/metrics`
 }
 
 export const findImageMetrics = async (options?: RequestInit): Promise<FindImageMetricsResponseDto> => {
@@ -349,7 +347,7 @@ export const useFindImageMetrics = <
   return useMutation(mutationOptions)
 }
 export const getUploadImagesUrl = () => {
-  return `http://localhost:3333/image/upload`
+  return `/image/upload`
 }
 
 export const uploadImages = async (options?: RequestInit): Promise<Upload[]> => {
@@ -393,7 +391,7 @@ export const useUploadImages = <TError = SwaggerBadRequestDto | SwaggerNotAllowe
   return useMutation(mutationOptions)
 }
 export const getUploadAvatarUrl = () => {
-  return `http://localhost:3333/image/upload/avatar`
+  return `/image/upload/avatar`
 }
 
 export const uploadAvatar = async (options?: RequestInit): Promise<AvatarDto> => {

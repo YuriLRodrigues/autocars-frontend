@@ -42,7 +42,7 @@ import type {
 type SecondParameter<T extends (...args: any) => any> = Parameters<T>[1]
 
 export const getCreateBrandUrl = () => {
-  return `http://localhost:3333/brand`
+  return `/brand`
 }
 
 export const createBrand = async (
@@ -110,9 +110,7 @@ export const getFindAllBrandsUrl = (params?: FindAllBrandsParams) => {
     }
   })
 
-  return normalizedParams.size
-    ? `http://localhost:3333/brand?${normalizedParams.toString()}`
-    : `http://localhost:3333/brand`
+  return normalizedParams.size ? `/brand?${normalizedParams.toString()}` : `/brand`
 }
 
 export const findAllBrands = async (params?: FindAllBrandsParams, options?: RequestInit): Promise<FindAllBrands200> => {
@@ -123,7 +121,7 @@ export const findAllBrands = async (params?: FindAllBrandsParams, options?: Requ
 }
 
 export const getFindAllBrandsQueryKey = (params?: FindAllBrandsParams) => {
-  return [`http://localhost:3333/brand`, ...(params ? [params] : [])] as const
+  return [`/brand`, ...(params ? [params] : [])] as const
 }
 
 export const getFindAllBrandsInfiniteQueryOptions = <
@@ -303,7 +301,7 @@ export function useFindAllBrands<TData = Awaited<ReturnType<typeof findAllBrands
 }
 
 export const getUpdateBrandUrl = (id: string) => {
-  return `http://localhost:3333/brand/${id}`
+  return `/brand/${id}`
 }
 
 export const updateBrand = async (
@@ -381,7 +379,7 @@ export const useUpdateBrand = <
   return useMutation(mutationOptions)
 }
 export const getDeleteBrandUrl = (id: string) => {
-  return `http://localhost:3333/brand/delete/${id}`
+  return `/brand/delete/${id}`
 }
 
 export const deleteBrand = async (id: string, options?: RequestInit): Promise<DeleteBrandResponseDto> => {

@@ -19,7 +19,7 @@ import type {
 type SecondParameter<T extends (...args: any) => any> = Parameters<T>[1]
 
 export const getUpdateAddressUrl = () => {
-  return `http://localhost:3333/address`
+  return `/address`
 }
 
 export const updateAddress = async (

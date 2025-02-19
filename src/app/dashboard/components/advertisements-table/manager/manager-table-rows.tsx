@@ -1,4 +1,5 @@
 import Image from 'next/image'
+import Link from 'next/link'
 import { Fragment } from 'react'
 
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
@@ -80,16 +81,18 @@ export const ManagerTableRows = async ({
         </div>
       </TableCell>
       <TableCell className="!text-left">
-        <div className="mx-auto flex flex-row items-center gap-3">
-          <Avatar>
-            <AvatarImage
-              src={row.user.avatar || '/assets/default-user-avatar.webp'}
-              className="object-cover object-center"
-            />
-            <AvatarFallback>{row.user.name[0].toUpperCase()}</AvatarFallback>
-          </Avatar>
-          <span className="line-clamp-1 text-sm font-medium text-foreground">{row.user.name}</span>
-        </div>
+        <Link href={`/profile/${row.user.id}`}>
+          <div className="mx-auto flex flex-row items-center gap-3">
+            <Avatar>
+              <AvatarImage
+                src={row.user.avatar || '/assets/default-user-avatar.webp'}
+                className="object-cover object-center"
+              />
+              <AvatarFallback>{row.user.name[0].toUpperCase()}</AvatarFallback>
+            </Avatar>
+            <span className="line-clamp-1 text-sm font-medium text-foreground">{row.user.name}</span>
+          </div>
+        </Link>
       </TableCell>
       <TableCell>
         <span className="mx-auto flex flex-row items-center gap-3">

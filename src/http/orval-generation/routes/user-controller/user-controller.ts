@@ -54,7 +54,7 @@ import type {
 type SecondParameter<T extends (...args: any) => any> = Parameters<T>[1]
 
 export const getHandleActiveUserUrl = (id: string) => {
-  return `http://localhost:3333/user/handle-active/${id}`
+  return `/user/handle-active/${id}`
 }
 
 export const handleActiveUser = async (id: string, options?: RequestInit): Promise<HandleActiveUserResponseDto> => {
@@ -103,7 +103,7 @@ export const useHandleActiveUser = <
   return useMutation(mutationOptions)
 }
 export const getDeleteOwnUserUrl = () => {
-  return `http://localhost:3333/user/own`
+  return `/user/own`
 }
 
 export const deleteOwnUser = async (options?: RequestInit): Promise<DeleteOwnUserResponseDto> => {
@@ -150,7 +150,7 @@ export const useDeleteOwnUser = <
   return useMutation(mutationOptions)
 }
 export const getDeleteUserUrl = (id: string) => {
-  return `http://localhost:3333/user/manage/${id}`
+  return `/user/manage/${id}`
 }
 
 export const deleteUser = async (id: string, options?: RequestInit): Promise<DeleteUserResponseDto> => {
@@ -199,7 +199,7 @@ export const useDeleteUser = <
   return useMutation(mutationOptions)
 }
 export const getFindAllTopSellersUrl = () => {
-  return `http://localhost:3333/user/top-sellers`
+  return `/user/top-sellers`
 }
 
 export const findAllTopSellers = async (options?: RequestInit): Promise<FindAllTopSellersResponseDto[]> => {
@@ -210,7 +210,7 @@ export const findAllTopSellers = async (options?: RequestInit): Promise<FindAllT
 }
 
 export const getFindAllTopSellersQueryKey = () => {
-  return [`http://localhost:3333/user/top-sellers`] as const
+  return [`/user/top-sellers`] as const
 }
 
 export const getFindAllTopSellersInfiniteQueryOptions = <
@@ -380,9 +380,7 @@ export const getFindAllUsersUrl = (params?: FindAllUsersParams) => {
     }
   })
 
-  return normalizedParams.size
-    ? `http://localhost:3333/user/find-all?${normalizedParams.toString()}`
-    : `http://localhost:3333/user/find-all`
+  return normalizedParams.size ? `/user/find-all?${normalizedParams.toString()}` : `/user/find-all`
 }
 
 export const findAllUsers = async (params?: FindAllUsersParams, options?: RequestInit): Promise<FindAllUsers200> => {
@@ -393,7 +391,7 @@ export const findAllUsers = async (params?: FindAllUsersParams, options?: Reques
 }
 
 export const getFindAllUsersQueryKey = (params?: FindAllUsersParams) => {
-  return [`http://localhost:3333/user/find-all`, ...(params ? [params] : [])] as const
+  return [`/user/find-all`, ...(params ? [params] : [])] as const
 }
 
 export const getFindAllUsersInfiniteQueryOptions = <
@@ -585,7 +583,7 @@ export function useFindAllUsers<
 }
 
 export const getForgotPasswordUrl = () => {
-  return `http://localhost:3333/user/forgot-password`
+  return `/user/forgot-password`
 }
 
 export const forgotPassword = async (
@@ -669,9 +667,7 @@ export const getNewPasswordUrl = (params: NewPasswordParams) => {
     }
   })
 
-  return normalizedParams.size
-    ? `http://localhost:3333/user/new-password?${normalizedParams.toString()}`
-    : `http://localhost:3333/user/new-password`
+  return normalizedParams.size ? `/user/new-password?${normalizedParams.toString()}` : `/user/new-password`
 }
 
 export const newPassword = async (
@@ -749,7 +745,7 @@ export const useNewPassword = <
   return useMutation(mutationOptions)
 }
 export const getSignInUrl = () => {
-  return `http://localhost:3333/user/sign-in`
+  return `/user/sign-in`
 }
 
 export const signIn = async (signInBodyDto: SignInBodyDto, options?: RequestInit): Promise<SignInResponseDto> => {
@@ -800,7 +796,7 @@ export const useSignIn = <
   return useMutation(mutationOptions)
 }
 export const getSignUpUrl = () => {
-  return `http://localhost:3333/user/sign-up`
+  return `/user/sign-up`
 }
 
 export const signUp = async (signUpBodyDto: SignUpBodyDto, options?: RequestInit): Promise<SignUpResponseDto> => {
@@ -851,7 +847,7 @@ export const useSignUp = <
   return useMutation(mutationOptions)
 }
 export const getMeUrl = () => {
-  return `http://localhost:3333/user/me`
+  return `/user/me`
 }
 
 export const me = async (options?: RequestInit): Promise<MeDto> => {
@@ -862,7 +858,7 @@ export const me = async (options?: RequestInit): Promise<MeDto> => {
 }
 
 export const getMeQueryKey = () => {
-  return [`http://localhost:3333/user/me`] as const
+  return [`/user/me`] as const
 }
 
 export const getMeInfiniteQueryOptions = <
@@ -991,7 +987,7 @@ export function useMe<TData = Awaited<ReturnType<typeof me>>, TError = SwaggerBa
 }
 
 export const getUpdateOwnUserUrl = () => {
-  return `http://localhost:3333/user/update-own`
+  return `/user/update-own`
 }
 
 export const updateOwnUser = async (

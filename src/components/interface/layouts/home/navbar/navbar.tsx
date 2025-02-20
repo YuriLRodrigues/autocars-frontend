@@ -1,4 +1,5 @@
 import Image from 'next/image'
+import Link from 'next/link'
 import { Suspense } from 'react'
 
 import { UserRoles } from '@/@types/user'
@@ -22,10 +23,12 @@ export const Navbar = async () => {
 
   return (
     <nav className="fixed z-[99] flex w-full items-center justify-between px-4 py-2 backdrop-blur-xl">
-      <div className="flex items-center gap-3">
-        <Image src={AutoCarsLogo} alt="Auto Cars Logo" className="h-auto w-8" width={80} height={80} />
-        <span className="font-semibold text-primary">AutoCars</span>
-      </div>
+      <Link href="/">
+        <div className="flex items-center gap-3">
+          <Image src={AutoCarsLogo} alt="Auto Cars Logo" className="h-auto w-8" width={80} height={80} />
+          <span className="font-semibold text-primary">AutoCars</span>
+        </div>
+      </Link>
       <ul className="hidden items-center justify-center md:flex">
         {navbarLinks.map((link) => {
           const userRole =

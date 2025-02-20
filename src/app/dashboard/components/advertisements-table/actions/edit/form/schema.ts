@@ -28,6 +28,11 @@ export const editAdvertisementSchema = z.object({
       errorMap: () => ({ message: 'Preço deve ser um número', code: 'invalid_type' }),
     })
     .optional(),
+  salePrice: z
+    .number({
+      errorMap: () => ({ message: 'Preço em promoção deve ser um número', code: 'invalid_type' }),
+    })
+    .optional(),
   gearBox: z.string().min(1, { message: 'Tipo de câmbio inválido' }).optional(),
   fuel: z.string().min(1, { message: 'Tipo de combustível inválido' }).optional(),
   capacity: z.string().min(1, { message: 'Capacidade de assentos inválida' }).optional(),

@@ -42,9 +42,9 @@ export const DashboardSidebarSkeleton = () => {
       <SidebarHeader>
         <div className="flex w-full items-center justify-center gap-2 group-data-[state=collapsed]:gap-0">
           <Image
-            src="/loading.svg"
+            src="/assets/placeholder.svg"
             alt="Auto Cars Logo"
-            className="h-auto w-8 group-data-[state=collapsed]:w-6"
+            className="h-auto w-8 rounded-full group-data-[state=collapsed]:w-6"
             width={80}
             height={80}
           />

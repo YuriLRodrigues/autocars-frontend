@@ -1,36 +1,32 @@
+'use server'
+
+import { revalidateTag } from 'next/cache'
+
+import { ActionResponse } from '@/@types/actions'
 import { deleteAdvertisement } from '@/http/orval-generation/routes/advertisement-controller/advertisement-controller'
-import { wait } from '@/utils/wait'
-import { toast } from 'sonner'
 
 type DeleteAdvertisementActionsProps = {
   advertisementId: string
+  currentPathname: string
 }
 
-export const deleteAdvertisementActions = async ({ advertisementId }: DeleteAdvertisementActionsProps) => {
+export const deleteAdvertisementActions = async ({
+  advertisementId,
+  currentPathname,
+}: DeleteAdvertisementActionsProps): Promise<ActionResponse<string>> => {
   try {
     await deleteAdvertisement(advertisementId)
-    toast.success('Anúncio deletado')
-    await wait()
-    window.location.reload()
+
+    if (currentPathname.includes('manager')) {
+      revalidateTag('findAllManagerAdvertisements')
+    }
+
+    revalidateTag('findAllOwnAdvertisements')
+    revalidateTag('findAllAdvertisements')
+
+    return { data: 'Anúncio deletado com sucesso', success: true }
   } catch (error) {
     const _error = error as Error
-
-    switch (_error.message) {
-      case 'Resource not found':
-        toast.error('Anúncio não encontrado')
-        break
-      case 'Not allowed':
-        toast.error('Você não tem permissão para realizar esta ação')
-        break
-      default:
-        toast.error('Erro ao deletar o anúncio', {
-          action: {
-            label: 'Tentar novamente',
-            onClick: async () => {
-              await deleteAdvertisementActions({ advertisementId })
-            },
-          },
-        })
-    }
+    return { data: null, success: false, error: _error.message }
   }
 }

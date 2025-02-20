@@ -72,13 +72,15 @@ export const ManagerTableRows = async ({
   return results.map((row) => (
     <TableRowRoot key={row.id} className="*:text-center">
       <TableCell className="!text-left">
-        <div className="line-clamp-1 flex items-center gap-2">
-          <Avatar>
-            <AvatarImage src={row.thumbnailUrl} className="object-cover object-center" />
-            <AvatarFallback>AC</AvatarFallback>
-          </Avatar>
-          <p className="max-w-60 text-nowrap text-sm font-medium text-foreground">{row.title}</p>
-        </div>
+        <Link href={`/cars/${row.id}`}>
+          <div className="line-clamp-1 flex items-center gap-2">
+            <Avatar>
+              <AvatarImage src={row.thumbnailUrl} className="object-cover object-center" />
+              <AvatarFallback>AC</AvatarFallback>
+            </Avatar>
+            <p className="max-w-60 text-nowrap text-sm font-medium text-foreground">{row.title}</p>
+          </div>
+        </Link>
       </TableCell>
       <TableCell className="!text-left">
         <Link href={`/profile/${row.user.id}`}>

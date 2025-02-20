@@ -8,7 +8,6 @@ import { decode } from 'jsonwebtoken'
 import { create } from 'zustand'
 import { persist, createJSONStorage } from 'zustand/middleware'
 
-// Payload padrão para evitar valores indefinidos
 const defaultUserPayload: TokenPayload = {
   email: '',
   name: '',

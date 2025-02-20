@@ -385,6 +385,37 @@ export const EditAdvertisementForm = ({ advertisementId }: EditAdvertisementForm
 
           <FormField
             control={form.control}
+            name="salePrice"
+            render={({ field }) => (
+              <FormItem>
+                <FormControl>
+                  <Input
+                    autoComplete="off"
+                    placeholder="Preço de promoção ?"
+                    type="text"
+                    {...field}
+                    value={field.value ? formatCurrencyBRL(field.value) : ''}
+                    onChange={(e) => {
+                      const input = e.target
+                      const rawValue = input.value.split(',')[0].replace(/[^\d]/g, '')
+                      const numericValue = parseInt(rawValue, 10) || 0
+
+                      field.onChange(numericValue)
+
+                      setTimeout(() => {
+                        const length = input.value.length
+                        input.setSelectionRange(length, length - 3)
+                      }, 0)
+                    }}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
             name="phone"
             render={({ field }) => (
               <FormItem>

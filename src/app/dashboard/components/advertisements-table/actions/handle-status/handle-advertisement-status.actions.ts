@@ -25,6 +25,7 @@ export const changeAdvertisementStatusActions = async ({
 
     revalidateTag('findAllOwnAdvertisements')
     revalidateTag('findAllAdvertisements')
+
     return { data: 'Status alterado com  sucesso', success: true }
   } catch (error) {
     const _error = error as Error

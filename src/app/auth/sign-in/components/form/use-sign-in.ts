@@ -2,6 +2,7 @@ import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 
+import { TokenPayload } from '@/auth'
 import { useUserPayloadStore } from '@/hooks/use-user-details'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { toast } from 'sonner'
@@ -39,7 +40,10 @@ export const useSignIn = ({ defaultValues }: useSignInProps = {}) => {
     const response = await signInActions({ email: data.email, password: data.password })
 
     if (!response.error) {
-      addUserPayload()
+      const { email, exp, name, roles, sub, username, avatar } = (response.data as TokenPayload) || null
+
+      addUserPayload({ email, exp, name, roles, sub, username, avatar })
+
       toast.success('Usuário conectado ao sistema, seja bem vindo!')
       router.replace('/')
     } else {

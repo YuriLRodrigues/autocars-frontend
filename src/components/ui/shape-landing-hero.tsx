@@ -83,8 +83,8 @@ function HeroGeometric({
   title2?: string
   description?: string
 }) {
-  const { theme } = useTheme()
-  const isDarkMode = theme === 'dark'
+  const { resolvedTheme } = useTheme()
+  const isDarkMode = resolvedTheme === 'dark'
 
   const fadeUpVariants = {
     hidden: { opacity: 0, y: 30 },

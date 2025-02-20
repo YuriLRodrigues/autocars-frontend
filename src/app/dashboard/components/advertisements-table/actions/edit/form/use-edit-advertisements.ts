@@ -1,15 +1,13 @@
+import { usePathname } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 
-import { Capacity, Color, Doors, Fuel, GearBox, Model } from '@/@types/advertisement'
-import {
-  updateAdvertisement,
-  useFindAdById,
-} from '@/http/orval-generation/routes/advertisement-controller/advertisement-controller'
-import { wait } from '@/utils/wait'
+import { useToggle } from '@/hooks/use-toggle'
+import { useFindAdById } from '@/http/orval-generation/routes/advertisement-controller/advertisement-controller'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { toast } from 'sonner'
 
+import { editAdvertisementActions } from './edit-advertisement.actions'
 import { EditAdvertisementSchemaProps, editAdvertisementSchema } from './schema'
 
 type useEditAdvertisementsFormProps = {
@@ -18,6 +16,9 @@ type useEditAdvertisementsFormProps = {
 }
 
 export const useEditAdvertisementsForm = ({ uploadedFiles, advertisementId }: useEditAdvertisementsFormProps) => {
+  const currentPathname = usePathname()
+  const { toggle } = useToggle()
+
   const { data: advertisementDetails } = useFindAdById(advertisementId)
 
   const oldImages = advertisementDetails?.images || []
@@ -70,6 +71,7 @@ export const useEditAdvertisementsForm = ({ uploadedFiles, advertisementId }: us
         km: advertisementDetails.km || 0,
         localization: advertisementDetails.localization || '',
         price: advertisementDetails.price || 0,
+        salePrice: advertisementDetails.salePrice || undefined,
         title: advertisementDetails.title || '',
         year: advertisementDetails.year || 0,
         description: advertisementDetails.description || '',
@@ -131,57 +133,25 @@ export const useEditAdvertisementsForm = ({ uploadedFiles, advertisementId }: us
   }, [form, form.watch()])
 
   const onSubmit = async (values: EditAdvertisementSchemaProps) => {
-    const {
-      brandId,
-      capacity,
-      color,
-      description,
-      doors,
-      fuel,
-      gearBox,
-      newImagesIds,
-      km,
-      localization,
-      model,
-      phone,
-      price,
-      thumbnailImageId,
-      title,
-      year,
-      details,
-    } = values
-
-    try {
-      await updateAdvertisement(advertisementId, {
-        brandId,
-        capacity: capacity as Capacity,
-        color: color as Color,
-        description,
-        doors: doors as Doors,
-        fuel: fuel as Fuel,
-        gearBox: gearBox as GearBox,
-        model: model as Model,
-        newImagesIds: newImagesIds || [],
-        removedImagesIds,
-        km,
-        localization,
-        phone,
-        price,
+    const response = await editAdvertisementActions({
+      values: {
+        ...values,
         thumbnailImageId:
           advertisementDetails?.images.find((img) => img.isThumbnail)?.id === thumbnailImageId
             ? undefined
-            : thumbnailImageId,
-        title,
-        year,
-        details: details ?? [],
-      })
+            : values.thumbnailImageId,
+        details: values.details ?? [],
+      },
+      advertisementId,
+      currentPathname,
+    })
 
-      toast.success(`Anúncio atualizado com sucesso`)
-      await wait()
-      window.location.reload()
-    } catch (error) {
-      const _error = error as Error
-      switch (_error.message) {
+    if (response.success) {
+      toast.success('Anúncio atualizado com sucesso')
+      toggle(false)
+      return
+    } else {
+      switch (response.error) {
         case 'Not allowed':
           toast.error('Você não possui permissão para realizar esta ação')
           break

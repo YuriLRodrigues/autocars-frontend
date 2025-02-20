@@ -81,6 +81,8 @@ export const getFindFavoritesCountByAdvertisementResponseMock = (): number => fa
 
 export const getFindFavoritesCountResponseMock = (): number => faker.number.int()
 
+export const getFindAdIsFavoritedResponseMock = (): boolean => faker.datatype.boolean()
+
 export const getHandleFavoriteResponseMock = (): string => faker.word.sample()
 
 export const getFindAllFavoritesByUserIdMockHandler = (
@@ -184,6 +186,25 @@ export const getFindFavoritesCountMockHandler = (
   })
 }
 
+export const getFindAdIsFavoritedMockHandler = (
+  overrideResponse?: boolean | ((info: Parameters<Parameters<typeof http.get>[1]>[0]) => Promise<boolean> | boolean),
+) => {
+  return http.get('*/favorite/is-favorited/:id', async (info) => {
+    await delay(1000)
+
+    return new HttpResponse(
+      JSON.stringify(
+        overrideResponse !== undefined
+          ? typeof overrideResponse === 'function'
+            ? await overrideResponse(info)
+            : overrideResponse
+          : getFindAdIsFavoritedResponseMock(),
+      ),
+      { status: 200, headers: { 'Content-Type': 'application/json' } },
+    )
+  })
+}
+
 export const getHandleFavoriteMockHandler = (
   overrideResponse?: string | ((info: Parameters<Parameters<typeof http.patch>[1]>[0]) => Promise<string> | string),
 ) => {
@@ -208,5 +229,6 @@ export const getFavoriteControllerMock = () => [
   getFindDistinctFavoritesCountMockHandler(),
   getFindFavoritesCountByAdvertisementMockHandler(),
   getFindFavoritesCountMockHandler(),
+  getFindAdIsFavoritedMockHandler(),
   getHandleFavoriteMockHandler(),
 ]

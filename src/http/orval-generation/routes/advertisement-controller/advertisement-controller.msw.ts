@@ -307,6 +307,8 @@ export const getUpdateAdvertisementResponseMock = (
   ...overrideResponse,
 })
 
+export const getUpdateSalePriceByAdvertisementResponseMock = (): string => faker.word.sample()
+
 export const getCreateAdvertisementMockHandler = (
   overrideResponse?:
     | CreateAdResponseDto
@@ -555,6 +557,25 @@ export const getUpdateAdvertisementMockHandler = (
     )
   })
 }
+
+export const getUpdateSalePriceByAdvertisementMockHandler = (
+  overrideResponse?: string | ((info: Parameters<Parameters<typeof http.patch>[1]>[0]) => Promise<string> | string),
+) => {
+  return http.patch('*/advertisement/update/sale-price/:id', async (info) => {
+    await delay(1000)
+
+    return new HttpResponse(
+      JSON.stringify(
+        overrideResponse !== undefined
+          ? typeof overrideResponse === 'function'
+            ? await overrideResponse(info)
+            : overrideResponse
+          : getUpdateSalePriceByAdvertisementResponseMock(),
+      ),
+      { status: 200, headers: { 'Content-Type': 'application/json' } },
+    )
+  })
+}
 export const getAdvertisementControllerMock = () => [
   getCreateAdvertisementMockHandler(),
   getDeleteAdvertisementMockHandler(),
@@ -567,4 +588,5 @@ export const getAdvertisementControllerMock = () => [
   getFindAllAdvertisementsMockHandler(),
   getFindAllSoldAdsMockHandler(),
   getUpdateAdvertisementMockHandler(),
+  getUpdateSalePriceByAdvertisementMockHandler(),
 ]

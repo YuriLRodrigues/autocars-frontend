@@ -1031,6 +1031,209 @@ export function useFindFavoritesCount<
   return query
 }
 
+export const getFindAdIsFavoritedUrl = (id: string) => {
+  return `/favorite/is-favorited/${id}`
+}
+
+export const findAdIsFavorited = async (id: string, options?: RequestInit): Promise<boolean> => {
+  return customFetch<boolean>(getFindAdIsFavoritedUrl(id), {
+    ...options,
+    method: 'GET',
+  })
+}
+
+export const getFindAdIsFavoritedQueryKey = (id: string) => {
+  return [`/favorite/is-favorited/${id}`] as const
+}
+
+export const getFindAdIsFavoritedInfiniteQueryOptions = <
+  TData = InfiniteData<Awaited<ReturnType<typeof findAdIsFavorited>>>,
+  TError = SwaggerBadRequestDto | SwaggerResourceNotFoundDto,
+>(
+  id: string,
+  options?: {
+    query?: Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof findAdIsFavorited>>, TError, TData>>
+    request?: SecondParameter<typeof customFetch>
+  },
+) => {
+  const { query: queryOptions, request: requestOptions } = options ?? {}
+
+  const queryKey = queryOptions?.queryKey ?? getFindAdIsFavoritedQueryKey(id)
+
+  const queryFn: QueryFunction<Awaited<ReturnType<typeof findAdIsFavorited>>> = ({ signal }) =>
+    findAdIsFavorited(id, { signal, ...requestOptions })
+
+  return { queryKey, queryFn, enabled: !!id, networkMode: 'always', ...queryOptions } as UseInfiniteQueryOptions<
+    Awaited<ReturnType<typeof findAdIsFavorited>>,
+    TError,
+    TData
+  > & { queryKey: DataTag<QueryKey, TData, TError> }
+}
+
+export type FindAdIsFavoritedInfiniteQueryResult = NonNullable<Awaited<ReturnType<typeof findAdIsFavorited>>>
+export type FindAdIsFavoritedInfiniteQueryError = SwaggerBadRequestDto | SwaggerResourceNotFoundDto
+
+export function useFindAdIsFavoritedInfinite<
+  TData = InfiniteData<Awaited<ReturnType<typeof findAdIsFavorited>>>,
+  TError = SwaggerBadRequestDto | SwaggerResourceNotFoundDto,
+>(
+  id: string,
+  options: {
+    query: Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof findAdIsFavorited>>, TError, TData>> &
+      Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof findAdIsFavorited>>,
+          TError,
+          Awaited<ReturnType<typeof findAdIsFavorited>>
+        >,
+        'initialData'
+      >
+    request?: SecondParameter<typeof customFetch>
+  },
+): DefinedUseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useFindAdIsFavoritedInfinite<
+  TData = InfiniteData<Awaited<ReturnType<typeof findAdIsFavorited>>>,
+  TError = SwaggerBadRequestDto | SwaggerResourceNotFoundDto,
+>(
+  id: string,
+  options?: {
+    query?: Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof findAdIsFavorited>>, TError, TData>> &
+      Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof findAdIsFavorited>>,
+          TError,
+          Awaited<ReturnType<typeof findAdIsFavorited>>
+        >,
+        'initialData'
+      >
+    request?: SecondParameter<typeof customFetch>
+  },
+): UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useFindAdIsFavoritedInfinite<
+  TData = InfiniteData<Awaited<ReturnType<typeof findAdIsFavorited>>>,
+  TError = SwaggerBadRequestDto | SwaggerResourceNotFoundDto,
+>(
+  id: string,
+  options?: {
+    query?: Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof findAdIsFavorited>>, TError, TData>>
+    request?: SecondParameter<typeof customFetch>
+  },
+): UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+
+export function useFindAdIsFavoritedInfinite<
+  TData = InfiniteData<Awaited<ReturnType<typeof findAdIsFavorited>>>,
+  TError = SwaggerBadRequestDto | SwaggerResourceNotFoundDto,
+>(
+  id: string,
+  options?: {
+    query?: Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof findAdIsFavorited>>, TError, TData>>
+    request?: SecondParameter<typeof customFetch>
+  },
+): UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+  const queryOptions = getFindAdIsFavoritedInfiniteQueryOptions(id, options)
+
+  const query = useInfiniteQuery(queryOptions) as UseInfiniteQueryResult<TData, TError> & {
+    queryKey: DataTag<QueryKey, TData, TError>
+  }
+
+  query.queryKey = queryOptions.queryKey
+
+  return query
+}
+
+export const getFindAdIsFavoritedQueryOptions = <
+  TData = Awaited<ReturnType<typeof findAdIsFavorited>>,
+  TError = SwaggerBadRequestDto | SwaggerResourceNotFoundDto,
+>(
+  id: string,
+  options?: {
+    query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof findAdIsFavorited>>, TError, TData>>
+    request?: SecondParameter<typeof customFetch>
+  },
+) => {
+  const { query: queryOptions, request: requestOptions } = options ?? {}
+
+  const queryKey = queryOptions?.queryKey ?? getFindAdIsFavoritedQueryKey(id)
+
+  const queryFn: QueryFunction<Awaited<ReturnType<typeof findAdIsFavorited>>> = ({ signal }) =>
+    findAdIsFavorited(id, { signal, ...requestOptions })
+
+  return { queryKey, queryFn, enabled: !!id, networkMode: 'always', ...queryOptions } as UseQueryOptions<
+    Awaited<ReturnType<typeof findAdIsFavorited>>,
+    TError,
+    TData
+  > & { queryKey: DataTag<QueryKey, TData, TError> }
+}
+
+export type FindAdIsFavoritedQueryResult = NonNullable<Awaited<ReturnType<typeof findAdIsFavorited>>>
+export type FindAdIsFavoritedQueryError = SwaggerBadRequestDto | SwaggerResourceNotFoundDto
+
+export function useFindAdIsFavorited<
+  TData = Awaited<ReturnType<typeof findAdIsFavorited>>,
+  TError = SwaggerBadRequestDto | SwaggerResourceNotFoundDto,
+>(
+  id: string,
+  options: {
+    query: Partial<UseQueryOptions<Awaited<ReturnType<typeof findAdIsFavorited>>, TError, TData>> &
+      Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof findAdIsFavorited>>,
+          TError,
+          Awaited<ReturnType<typeof findAdIsFavorited>>
+        >,
+        'initialData'
+      >
+    request?: SecondParameter<typeof customFetch>
+  },
+): DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useFindAdIsFavorited<
+  TData = Awaited<ReturnType<typeof findAdIsFavorited>>,
+  TError = SwaggerBadRequestDto | SwaggerResourceNotFoundDto,
+>(
+  id: string,
+  options?: {
+    query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof findAdIsFavorited>>, TError, TData>> &
+      Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof findAdIsFavorited>>,
+          TError,
+          Awaited<ReturnType<typeof findAdIsFavorited>>
+        >,
+        'initialData'
+      >
+    request?: SecondParameter<typeof customFetch>
+  },
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useFindAdIsFavorited<
+  TData = Awaited<ReturnType<typeof findAdIsFavorited>>,
+  TError = SwaggerBadRequestDto | SwaggerResourceNotFoundDto,
+>(
+  id: string,
+  options?: {
+    query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof findAdIsFavorited>>, TError, TData>>
+    request?: SecondParameter<typeof customFetch>
+  },
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+
+export function useFindAdIsFavorited<
+  TData = Awaited<ReturnType<typeof findAdIsFavorited>>,
+  TError = SwaggerBadRequestDto | SwaggerResourceNotFoundDto,
+>(
+  id: string,
+  options?: {
+    query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof findAdIsFavorited>>, TError, TData>>
+    request?: SecondParameter<typeof customFetch>
+  },
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+  const queryOptions = getFindAdIsFavoritedQueryOptions(id, options)
+
+  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+
+  query.queryKey = queryOptions.queryKey
+
+  return query
+}
+
 export const getHandleFavoriteUrl = (id: string) => {
   return `/favorite/handle-favorite/${id}`
 }

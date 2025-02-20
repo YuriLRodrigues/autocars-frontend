@@ -35,7 +35,7 @@ import type {
 type SecondParameter<T extends (...args: any) => any> = Parameters<T>[1]
 
 export const getFindAdIsLikedUrl = (id: string) => {
-  return `/like/ad/${id}`
+  return `/like/ad/is-liked/${id}`
 }
 
 export const findAdIsLiked = async (id: string, options?: RequestInit): Promise<boolean> => {
@@ -46,7 +46,7 @@ export const findAdIsLiked = async (id: string, options?: RequestInit): Promise<
 }
 
 export const getFindAdIsLikedQueryKey = (id: string) => {
-  return [`/like/ad/${id}`] as const
+  return [`/like/ad/is-liked/${id}`] as const
 }
 
 export const getFindAdIsLikedInfiniteQueryOptions = <
@@ -237,58 +237,6 @@ export function useFindAdIsLiked<
   return query
 }
 
-export const getHandleAdvertisementLikeUrl = (id: string) => {
-  return `/like/ad/${id}`
-}
-
-export const handleAdvertisementLike = async (
-  id: string,
-  options?: RequestInit,
-): Promise<HandleAdvertisementLikeResponseDto> => {
-  return customFetch<HandleAdvertisementLikeResponseDto>(getHandleAdvertisementLikeUrl(id), {
-    ...options,
-    method: 'PATCH',
-  })
-}
-
-export const getHandleAdvertisementLikeMutationOptions = <
-  TError = SwaggerBadRequestDto | SwaggerResourceNotFoundDto,
-  TContext = unknown,
->(options?: {
-  mutation?: UseMutationOptions<Awaited<ReturnType<typeof handleAdvertisementLike>>, TError, { id: string }, TContext>
-  request?: SecondParameter<typeof customFetch>
-}): UseMutationOptions<Awaited<ReturnType<typeof handleAdvertisementLike>>, TError, { id: string }, TContext> => {
-  const mutationKey = ['handleAdvertisementLike']
-  const { mutation: mutationOptions, request: requestOptions } = options
-    ? options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey
-      ? options
-      : { ...options, mutation: { ...options.mutation, mutationKey } }
-    : { mutation: { mutationKey }, request: undefined }
-
-  const mutationFn: MutationFunction<Awaited<ReturnType<typeof handleAdvertisementLike>>, { id: string }> = (props) => {
-    const { id } = props ?? {}
-
-    return handleAdvertisementLike(id, requestOptions)
-  }
-
-  return { mutationFn, ...mutationOptions }
-}
-
-export type HandleAdvertisementLikeMutationResult = NonNullable<Awaited<ReturnType<typeof handleAdvertisementLike>>>
-
-export type HandleAdvertisementLikeMutationError = SwaggerBadRequestDto | SwaggerResourceNotFoundDto
-
-export const useHandleAdvertisementLike = <
-  TError = SwaggerBadRequestDto | SwaggerResourceNotFoundDto,
-  TContext = unknown,
->(options?: {
-  mutation?: UseMutationOptions<Awaited<ReturnType<typeof handleAdvertisementLike>>, TError, { id: string }, TContext>
-  request?: SecondParameter<typeof customFetch>
-}): UseMutationResult<Awaited<ReturnType<typeof handleAdvertisementLike>>, TError, { id: string }, TContext> => {
-  const mutationOptions = getHandleAdvertisementLikeMutationOptions(options)
-
-  return useMutation(mutationOptions)
-}
 export const getFindAllAdvertisementLikesUrl = (id: string) => {
   return `/like/ad/likes-count/${id}`
 }
@@ -494,8 +442,60 @@ export function useFindAllAdvertisementLikes<
   return query
 }
 
+export const getHandleAdvertisementLikeUrl = (id: string) => {
+  return `/like/ad/handle-like/${id}`
+}
+
+export const handleAdvertisementLike = async (
+  id: string,
+  options?: RequestInit,
+): Promise<HandleAdvertisementLikeResponseDto> => {
+  return customFetch<HandleAdvertisementLikeResponseDto>(getHandleAdvertisementLikeUrl(id), {
+    ...options,
+    method: 'PATCH',
+  })
+}
+
+export const getHandleAdvertisementLikeMutationOptions = <
+  TError = SwaggerBadRequestDto | SwaggerResourceNotFoundDto,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<Awaited<ReturnType<typeof handleAdvertisementLike>>, TError, { id: string }, TContext>
+  request?: SecondParameter<typeof customFetch>
+}): UseMutationOptions<Awaited<ReturnType<typeof handleAdvertisementLike>>, TError, { id: string }, TContext> => {
+  const mutationKey = ['handleAdvertisementLike']
+  const { mutation: mutationOptions, request: requestOptions } = options
+    ? options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey
+      ? options
+      : { ...options, mutation: { ...options.mutation, mutationKey } }
+    : { mutation: { mutationKey }, request: undefined }
+
+  const mutationFn: MutationFunction<Awaited<ReturnType<typeof handleAdvertisementLike>>, { id: string }> = (props) => {
+    const { id } = props ?? {}
+
+    return handleAdvertisementLike(id, requestOptions)
+  }
+
+  return { mutationFn, ...mutationOptions }
+}
+
+export type HandleAdvertisementLikeMutationResult = NonNullable<Awaited<ReturnType<typeof handleAdvertisementLike>>>
+
+export type HandleAdvertisementLikeMutationError = SwaggerBadRequestDto | SwaggerResourceNotFoundDto
+
+export const useHandleAdvertisementLike = <
+  TError = SwaggerBadRequestDto | SwaggerResourceNotFoundDto,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<Awaited<ReturnType<typeof handleAdvertisementLike>>, TError, { id: string }, TContext>
+  request?: SecondParameter<typeof customFetch>
+}): UseMutationResult<Awaited<ReturnType<typeof handleAdvertisementLike>>, TError, { id: string }, TContext> => {
+  const mutationOptions = getHandleAdvertisementLikeMutationOptions(options)
+
+  return useMutation(mutationOptions)
+}
 export const getFindFeedbackIsLikedUrl = (id: string) => {
-  return `/like/fb/${id}`
+  return `/like/fb/is-liked/${id}`
 }
 
 export const findFeedbackIsLiked = async (id: string, options?: RequestInit): Promise<boolean> => {
@@ -506,7 +506,7 @@ export const findFeedbackIsLiked = async (id: string, options?: RequestInit): Pr
 }
 
 export const getFindFeedbackIsLikedQueryKey = (id: string) => {
-  return [`/like/fb/${id}`] as const
+  return [`/like/fb/is-liked/${id}`] as const
 }
 
 export const getFindFeedbackIsLikedInfiniteQueryOptions = <
@@ -697,55 +697,6 @@ export function useFindFeedbackIsLiked<
   return query
 }
 
-export const getHandleFeedbackLikeUrl = (id: string) => {
-  return `/like/fb/${id}`
-}
-
-export const handleFeedbackLike = async (id: string, options?: RequestInit): Promise<HandleFeedbackLikeResponseDto> => {
-  return customFetch<HandleFeedbackLikeResponseDto>(getHandleFeedbackLikeUrl(id), {
-    ...options,
-    method: 'PATCH',
-  })
-}
-
-export const getHandleFeedbackLikeMutationOptions = <
-  TError = SwaggerBadRequestDto | SwaggerResourceNotFoundDto,
-  TContext = unknown,
->(options?: {
-  mutation?: UseMutationOptions<Awaited<ReturnType<typeof handleFeedbackLike>>, TError, { id: string }, TContext>
-  request?: SecondParameter<typeof customFetch>
-}): UseMutationOptions<Awaited<ReturnType<typeof handleFeedbackLike>>, TError, { id: string }, TContext> => {
-  const mutationKey = ['handleFeedbackLike']
-  const { mutation: mutationOptions, request: requestOptions } = options
-    ? options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey
-      ? options
-      : { ...options, mutation: { ...options.mutation, mutationKey } }
-    : { mutation: { mutationKey }, request: undefined }
-
-  const mutationFn: MutationFunction<Awaited<ReturnType<typeof handleFeedbackLike>>, { id: string }> = (props) => {
-    const { id } = props ?? {}
-
-    return handleFeedbackLike(id, requestOptions)
-  }
-
-  return { mutationFn, ...mutationOptions }
-}
-
-export type HandleFeedbackLikeMutationResult = NonNullable<Awaited<ReturnType<typeof handleFeedbackLike>>>
-
-export type HandleFeedbackLikeMutationError = SwaggerBadRequestDto | SwaggerResourceNotFoundDto
-
-export const useHandleFeedbackLike = <
-  TError = SwaggerBadRequestDto | SwaggerResourceNotFoundDto,
-  TContext = unknown,
->(options?: {
-  mutation?: UseMutationOptions<Awaited<ReturnType<typeof handleFeedbackLike>>, TError, { id: string }, TContext>
-  request?: SecondParameter<typeof customFetch>
-}): UseMutationResult<Awaited<ReturnType<typeof handleFeedbackLike>>, TError, { id: string }, TContext> => {
-  const mutationOptions = getHandleFeedbackLikeMutationOptions(options)
-
-  return useMutation(mutationOptions)
-}
 export const getFindAllFeedbackLikesUrl = (id: string) => {
   return `/like/fb/likes-count/${id}`
 }
@@ -949,205 +900,52 @@ export function useFindAllFeedbackLikes<
   return query
 }
 
-export const getFindAdIsFavoritedUrl = (id: string) => {
-  return `/favorite/is-favorited/${id}`
+export const getHandleFeedbackLikeUrl = (id: string) => {
+  return `/like/fb/handle-like/${id}`
 }
 
-export const findAdIsFavorited = async (id: string, options?: RequestInit): Promise<boolean> => {
-  return customFetch<boolean>(getFindAdIsFavoritedUrl(id), {
+export const handleFeedbackLike = async (id: string, options?: RequestInit): Promise<HandleFeedbackLikeResponseDto> => {
+  return customFetch<HandleFeedbackLikeResponseDto>(getHandleFeedbackLikeUrl(id), {
     ...options,
-    method: 'GET',
+    method: 'PATCH',
   })
 }
 
-export const getFindAdIsFavoritedQueryKey = (id: string) => {
-  return [`/favorite/is-favorited/${id}`] as const
-}
-
-export const getFindAdIsFavoritedInfiniteQueryOptions = <
-  TData = InfiniteData<Awaited<ReturnType<typeof findAdIsFavorited>>>,
+export const getHandleFeedbackLikeMutationOptions = <
   TError = SwaggerBadRequestDto | SwaggerResourceNotFoundDto,
->(
-  id: string,
-  options?: {
-    query?: Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof findAdIsFavorited>>, TError, TData>>
-    request?: SecondParameter<typeof customFetch>
-  },
-) => {
-  const { query: queryOptions, request: requestOptions } = options ?? {}
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<Awaited<ReturnType<typeof handleFeedbackLike>>, TError, { id: string }, TContext>
+  request?: SecondParameter<typeof customFetch>
+}): UseMutationOptions<Awaited<ReturnType<typeof handleFeedbackLike>>, TError, { id: string }, TContext> => {
+  const mutationKey = ['handleFeedbackLike']
+  const { mutation: mutationOptions, request: requestOptions } = options
+    ? options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey
+      ? options
+      : { ...options, mutation: { ...options.mutation, mutationKey } }
+    : { mutation: { mutationKey }, request: undefined }
 
-  const queryKey = queryOptions?.queryKey ?? getFindAdIsFavoritedQueryKey(id)
+  const mutationFn: MutationFunction<Awaited<ReturnType<typeof handleFeedbackLike>>, { id: string }> = (props) => {
+    const { id } = props ?? {}
 
-  const queryFn: QueryFunction<Awaited<ReturnType<typeof findAdIsFavorited>>> = ({ signal }) =>
-    findAdIsFavorited(id, { signal, ...requestOptions })
-
-  return { queryKey, queryFn, enabled: !!id, networkMode: 'always', ...queryOptions } as UseInfiniteQueryOptions<
-    Awaited<ReturnType<typeof findAdIsFavorited>>,
-    TError,
-    TData
-  > & { queryKey: DataTag<QueryKey, TData, TError> }
-}
-
-export type FindAdIsFavoritedInfiniteQueryResult = NonNullable<Awaited<ReturnType<typeof findAdIsFavorited>>>
-export type FindAdIsFavoritedInfiniteQueryError = SwaggerBadRequestDto | SwaggerResourceNotFoundDto
-
-export function useFindAdIsFavoritedInfinite<
-  TData = InfiniteData<Awaited<ReturnType<typeof findAdIsFavorited>>>,
-  TError = SwaggerBadRequestDto | SwaggerResourceNotFoundDto,
->(
-  id: string,
-  options: {
-    query: Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof findAdIsFavorited>>, TError, TData>> &
-      Pick<
-        DefinedInitialDataOptions<
-          Awaited<ReturnType<typeof findAdIsFavorited>>,
-          TError,
-          Awaited<ReturnType<typeof findAdIsFavorited>>
-        >,
-        'initialData'
-      >
-    request?: SecondParameter<typeof customFetch>
-  },
-): DefinedUseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useFindAdIsFavoritedInfinite<
-  TData = InfiniteData<Awaited<ReturnType<typeof findAdIsFavorited>>>,
-  TError = SwaggerBadRequestDto | SwaggerResourceNotFoundDto,
->(
-  id: string,
-  options?: {
-    query?: Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof findAdIsFavorited>>, TError, TData>> &
-      Pick<
-        UndefinedInitialDataOptions<
-          Awaited<ReturnType<typeof findAdIsFavorited>>,
-          TError,
-          Awaited<ReturnType<typeof findAdIsFavorited>>
-        >,
-        'initialData'
-      >
-    request?: SecondParameter<typeof customFetch>
-  },
-): UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useFindAdIsFavoritedInfinite<
-  TData = InfiniteData<Awaited<ReturnType<typeof findAdIsFavorited>>>,
-  TError = SwaggerBadRequestDto | SwaggerResourceNotFoundDto,
->(
-  id: string,
-  options?: {
-    query?: Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof findAdIsFavorited>>, TError, TData>>
-    request?: SecondParameter<typeof customFetch>
-  },
-): UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-
-export function useFindAdIsFavoritedInfinite<
-  TData = InfiniteData<Awaited<ReturnType<typeof findAdIsFavorited>>>,
-  TError = SwaggerBadRequestDto | SwaggerResourceNotFoundDto,
->(
-  id: string,
-  options?: {
-    query?: Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof findAdIsFavorited>>, TError, TData>>
-    request?: SecondParameter<typeof customFetch>
-  },
-): UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
-  const queryOptions = getFindAdIsFavoritedInfiniteQueryOptions(id, options)
-
-  const query = useInfiniteQuery(queryOptions) as UseInfiniteQueryResult<TData, TError> & {
-    queryKey: DataTag<QueryKey, TData, TError>
+    return handleFeedbackLike(id, requestOptions)
   }
 
-  query.queryKey = queryOptions.queryKey
-
-  return query
+  return { mutationFn, ...mutationOptions }
 }
 
-export const getFindAdIsFavoritedQueryOptions = <
-  TData = Awaited<ReturnType<typeof findAdIsFavorited>>,
+export type HandleFeedbackLikeMutationResult = NonNullable<Awaited<ReturnType<typeof handleFeedbackLike>>>
+
+export type HandleFeedbackLikeMutationError = SwaggerBadRequestDto | SwaggerResourceNotFoundDto
+
+export const useHandleFeedbackLike = <
   TError = SwaggerBadRequestDto | SwaggerResourceNotFoundDto,
->(
-  id: string,
-  options?: {
-    query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof findAdIsFavorited>>, TError, TData>>
-    request?: SecondParameter<typeof customFetch>
-  },
-) => {
-  const { query: queryOptions, request: requestOptions } = options ?? {}
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<Awaited<ReturnType<typeof handleFeedbackLike>>, TError, { id: string }, TContext>
+  request?: SecondParameter<typeof customFetch>
+}): UseMutationResult<Awaited<ReturnType<typeof handleFeedbackLike>>, TError, { id: string }, TContext> => {
+  const mutationOptions = getHandleFeedbackLikeMutationOptions(options)
 
-  const queryKey = queryOptions?.queryKey ?? getFindAdIsFavoritedQueryKey(id)
-
-  const queryFn: QueryFunction<Awaited<ReturnType<typeof findAdIsFavorited>>> = ({ signal }) =>
-    findAdIsFavorited(id, { signal, ...requestOptions })
-
-  return { queryKey, queryFn, enabled: !!id, networkMode: 'always', ...queryOptions } as UseQueryOptions<
-    Awaited<ReturnType<typeof findAdIsFavorited>>,
-    TError,
-    TData
-  > & { queryKey: DataTag<QueryKey, TData, TError> }
-}
-
-export type FindAdIsFavoritedQueryResult = NonNullable<Awaited<ReturnType<typeof findAdIsFavorited>>>
-export type FindAdIsFavoritedQueryError = SwaggerBadRequestDto | SwaggerResourceNotFoundDto
-
-export function useFindAdIsFavorited<
-  TData = Awaited<ReturnType<typeof findAdIsFavorited>>,
-  TError = SwaggerBadRequestDto | SwaggerResourceNotFoundDto,
->(
-  id: string,
-  options: {
-    query: Partial<UseQueryOptions<Awaited<ReturnType<typeof findAdIsFavorited>>, TError, TData>> &
-      Pick<
-        DefinedInitialDataOptions<
-          Awaited<ReturnType<typeof findAdIsFavorited>>,
-          TError,
-          Awaited<ReturnType<typeof findAdIsFavorited>>
-        >,
-        'initialData'
-      >
-    request?: SecondParameter<typeof customFetch>
-  },
-): DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useFindAdIsFavorited<
-  TData = Awaited<ReturnType<typeof findAdIsFavorited>>,
-  TError = SwaggerBadRequestDto | SwaggerResourceNotFoundDto,
->(
-  id: string,
-  options?: {
-    query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof findAdIsFavorited>>, TError, TData>> &
-      Pick<
-        UndefinedInitialDataOptions<
-          Awaited<ReturnType<typeof findAdIsFavorited>>,
-          TError,
-          Awaited<ReturnType<typeof findAdIsFavorited>>
-        >,
-        'initialData'
-      >
-    request?: SecondParameter<typeof customFetch>
-  },
-): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useFindAdIsFavorited<
-  TData = Awaited<ReturnType<typeof findAdIsFavorited>>,
-  TError = SwaggerBadRequestDto | SwaggerResourceNotFoundDto,
->(
-  id: string,
-  options?: {
-    query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof findAdIsFavorited>>, TError, TData>>
-    request?: SecondParameter<typeof customFetch>
-  },
-): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-
-export function useFindAdIsFavorited<
-  TData = Awaited<ReturnType<typeof findAdIsFavorited>>,
-  TError = SwaggerBadRequestDto | SwaggerResourceNotFoundDto,
->(
-  id: string,
-  options?: {
-    query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof findAdIsFavorited>>, TError, TData>>
-    request?: SecondParameter<typeof customFetch>
-  },
-): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
-  const queryOptions = getFindAdIsFavoritedQueryOptions(id, options)
-
-  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-
-  query.queryKey = queryOptions.queryKey
-
-  return query
+  return useMutation(mutationOptions)
 }

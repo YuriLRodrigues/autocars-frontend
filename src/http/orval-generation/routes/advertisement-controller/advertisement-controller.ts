@@ -47,6 +47,7 @@ import type {
   SwaggerNotAllowedDto,
   SwaggerResourceNotFoundDto,
   UpdateAdDTO,
+  UpdateSalePriceDTO,
 } from '../../schemas'
 
 type SecondParameter<T extends (...args: any) => any> = Parameters<T>[1]
@@ -1907,6 +1908,86 @@ export const useUpdateAdvertisement = <
   TContext
 > => {
   const mutationOptions = getUpdateAdvertisementMutationOptions(options)
+
+  return useMutation(mutationOptions)
+}
+export const getUpdateSalePriceByAdvertisementUrl = (id: string) => {
+  return `/advertisement/update/sale-price/${id}`
+}
+
+export const updateSalePriceByAdvertisement = async (
+  id: string,
+  updateSalePriceDTO: UpdateSalePriceDTO,
+  options?: RequestInit,
+): Promise<string> => {
+  return customFetch<string>(getUpdateSalePriceByAdvertisementUrl(id), {
+    ...options,
+    method: 'PATCH',
+    headers: { 'Content-Type': 'application/json', ...options?.headers },
+    body: JSON.stringify(updateSalePriceDTO),
+  })
+}
+
+export const getUpdateSalePriceByAdvertisementMutationOptions = <
+  TError = SwaggerBadRequestDto | SwaggerResourceNotFoundDto,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof updateSalePriceByAdvertisement>>,
+    TError,
+    { id: string; data: UpdateSalePriceDTO },
+    TContext
+  >
+  request?: SecondParameter<typeof customFetch>
+}): UseMutationOptions<
+  Awaited<ReturnType<typeof updateSalePriceByAdvertisement>>,
+  TError,
+  { id: string; data: UpdateSalePriceDTO },
+  TContext
+> => {
+  const mutationKey = ['updateSalePriceByAdvertisement']
+  const { mutation: mutationOptions, request: requestOptions } = options
+    ? options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey
+      ? options
+      : { ...options, mutation: { ...options.mutation, mutationKey } }
+    : { mutation: { mutationKey }, request: undefined }
+
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<typeof updateSalePriceByAdvertisement>>,
+    { id: string; data: UpdateSalePriceDTO }
+  > = (props) => {
+    const { id, data } = props ?? {}
+
+    return updateSalePriceByAdvertisement(id, data, requestOptions)
+  }
+
+  return { mutationFn, ...mutationOptions }
+}
+
+export type UpdateSalePriceByAdvertisementMutationResult = NonNullable<
+  Awaited<ReturnType<typeof updateSalePriceByAdvertisement>>
+>
+export type UpdateSalePriceByAdvertisementMutationBody = UpdateSalePriceDTO
+export type UpdateSalePriceByAdvertisementMutationError = SwaggerBadRequestDto | SwaggerResourceNotFoundDto
+
+export const useUpdateSalePriceByAdvertisement = <
+  TError = SwaggerBadRequestDto | SwaggerResourceNotFoundDto,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof updateSalePriceByAdvertisement>>,
+    TError,
+    { id: string; data: UpdateSalePriceDTO },
+    TContext
+  >
+  request?: SecondParameter<typeof customFetch>
+}): UseMutationResult<
+  Awaited<ReturnType<typeof updateSalePriceByAdvertisement>>,
+  TError,
+  { id: string; data: UpdateSalePriceDTO },
+  TContext
+> => {
+  const mutationOptions = getUpdateSalePriceByAdvertisementMutationOptions(options)
 
   return useMutation(mutationOptions)
 }

@@ -12,26 +12,24 @@ import type { HandleAdvertisementLikeResponseDto, HandleFeedbackLikeResponseDto 
 
 export const getFindAdIsLikedResponseMock = (): boolean => faker.datatype.boolean()
 
+export const getFindAllAdvertisementLikesResponseMock = (): number => faker.number.int()
+
 export const getHandleAdvertisementLikeResponseMock = (
   overrideResponse: Partial<HandleAdvertisementLikeResponseDto> = {},
 ): HandleAdvertisementLikeResponseDto => ({ message: faker.string.alpha(20), ...overrideResponse })
 
-export const getFindAllAdvertisementLikesResponseMock = (): number => faker.number.int()
-
 export const getFindFeedbackIsLikedResponseMock = (): boolean => faker.datatype.boolean()
+
+export const getFindAllFeedbackLikesResponseMock = (): number => faker.number.int()
 
 export const getHandleFeedbackLikeResponseMock = (
   overrideResponse: Partial<HandleFeedbackLikeResponseDto> = {},
 ): HandleFeedbackLikeResponseDto => ({ message: faker.string.alpha(20), ...overrideResponse })
 
-export const getFindAllFeedbackLikesResponseMock = (): number => faker.number.int()
-
-export const getFindAdIsFavoritedResponseMock = (): boolean => faker.datatype.boolean()
-
 export const getFindAdIsLikedMockHandler = (
   overrideResponse?: boolean | ((info: Parameters<Parameters<typeof http.get>[1]>[0]) => Promise<boolean> | boolean),
 ) => {
-  return http.get('*/like/ad/:id', async (info) => {
+  return http.get('*/like/ad/is-liked/:id', async (info) => {
     await delay(1000)
 
     return new HttpResponse(
@@ -43,29 +41,6 @@ export const getFindAdIsLikedMockHandler = (
           : getFindAdIsLikedResponseMock(),
       ),
       { status: 200, headers: { 'Content-Type': 'application/json' } },
-    )
-  })
-}
-
-export const getHandleAdvertisementLikeMockHandler = (
-  overrideResponse?:
-    | HandleAdvertisementLikeResponseDto
-    | ((
-        info: Parameters<Parameters<typeof http.patch>[1]>[0],
-      ) => Promise<HandleAdvertisementLikeResponseDto> | HandleAdvertisementLikeResponseDto),
-) => {
-  return http.patch('*/like/ad/:id', async (info) => {
-    await delay(1000)
-
-    return new HttpResponse(
-      JSON.stringify(
-        overrideResponse !== undefined
-          ? typeof overrideResponse === 'function'
-            ? await overrideResponse(info)
-            : overrideResponse
-          : getHandleAdvertisementLikeResponseMock(),
-      ),
-      { status: 201, headers: { 'Content-Type': 'application/json' } },
     )
   })
 }
@@ -89,10 +64,33 @@ export const getFindAllAdvertisementLikesMockHandler = (
   })
 }
 
+export const getHandleAdvertisementLikeMockHandler = (
+  overrideResponse?:
+    | HandleAdvertisementLikeResponseDto
+    | ((
+        info: Parameters<Parameters<typeof http.patch>[1]>[0],
+      ) => Promise<HandleAdvertisementLikeResponseDto> | HandleAdvertisementLikeResponseDto),
+) => {
+  return http.patch('*/like/ad/handle-like/:id', async (info) => {
+    await delay(1000)
+
+    return new HttpResponse(
+      JSON.stringify(
+        overrideResponse !== undefined
+          ? typeof overrideResponse === 'function'
+            ? await overrideResponse(info)
+            : overrideResponse
+          : getHandleAdvertisementLikeResponseMock(),
+      ),
+      { status: 201, headers: { 'Content-Type': 'application/json' } },
+    )
+  })
+}
+
 export const getFindFeedbackIsLikedMockHandler = (
   overrideResponse?: boolean | ((info: Parameters<Parameters<typeof http.get>[1]>[0]) => Promise<boolean> | boolean),
 ) => {
-  return http.get('*/like/fb/:id', async (info) => {
+  return http.get('*/like/fb/is-liked/:id', async (info) => {
     await delay(1000)
 
     return new HttpResponse(
@@ -104,29 +102,6 @@ export const getFindFeedbackIsLikedMockHandler = (
           : getFindFeedbackIsLikedResponseMock(),
       ),
       { status: 200, headers: { 'Content-Type': 'application/json' } },
-    )
-  })
-}
-
-export const getHandleFeedbackLikeMockHandler = (
-  overrideResponse?:
-    | HandleFeedbackLikeResponseDto
-    | ((
-        info: Parameters<Parameters<typeof http.patch>[1]>[0],
-      ) => Promise<HandleFeedbackLikeResponseDto> | HandleFeedbackLikeResponseDto),
-) => {
-  return http.patch('*/like/fb/:id', async (info) => {
-    await delay(1000)
-
-    return new HttpResponse(
-      JSON.stringify(
-        overrideResponse !== undefined
-          ? typeof overrideResponse === 'function'
-            ? await overrideResponse(info)
-            : overrideResponse
-          : getHandleFeedbackLikeResponseMock(),
-      ),
-      { status: 201, headers: { 'Content-Type': 'application/json' } },
     )
   })
 }
@@ -150,10 +125,14 @@ export const getFindAllFeedbackLikesMockHandler = (
   })
 }
 
-export const getFindAdIsFavoritedMockHandler = (
-  overrideResponse?: boolean | ((info: Parameters<Parameters<typeof http.get>[1]>[0]) => Promise<boolean> | boolean),
+export const getHandleFeedbackLikeMockHandler = (
+  overrideResponse?:
+    | HandleFeedbackLikeResponseDto
+    | ((
+        info: Parameters<Parameters<typeof http.patch>[1]>[0],
+      ) => Promise<HandleFeedbackLikeResponseDto> | HandleFeedbackLikeResponseDto),
 ) => {
-  return http.get('*/favorite/is-favorited/:id', async (info) => {
+  return http.patch('*/like/fb/handle-like/:id', async (info) => {
     await delay(1000)
 
     return new HttpResponse(
@@ -162,18 +141,17 @@ export const getFindAdIsFavoritedMockHandler = (
           ? typeof overrideResponse === 'function'
             ? await overrideResponse(info)
             : overrideResponse
-          : getFindAdIsFavoritedResponseMock(),
+          : getHandleFeedbackLikeResponseMock(),
       ),
-      { status: 200, headers: { 'Content-Type': 'application/json' } },
+      { status: 201, headers: { 'Content-Type': 'application/json' } },
     )
   })
 }
 export const getLikeControllerMock = () => [
   getFindAdIsLikedMockHandler(),
-  getHandleAdvertisementLikeMockHandler(),
   getFindAllAdvertisementLikesMockHandler(),
+  getHandleAdvertisementLikeMockHandler(),
   getFindFeedbackIsLikedMockHandler(),
-  getHandleFeedbackLikeMockHandler(),
   getFindAllFeedbackLikesMockHandler(),
-  getFindAdIsFavoritedMockHandler(),
+  getHandleFeedbackLikeMockHandler(),
 ]

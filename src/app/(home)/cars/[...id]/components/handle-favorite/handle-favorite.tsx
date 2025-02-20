@@ -4,7 +4,7 @@ import { useRouter } from 'next/navigation'
 import { Icon } from '@/components/ui/icon'
 
 import { useUserPayloadStore } from '@/hooks/use-user-details'
-import { useFindAdIsFavorited } from '@/http/orval-generation/routes/like-controller/like-controller'
+import { useFindAdIsFavorited } from '@/http/orval-generation/routes/favorite-controller/favorite-controller'
 import { cn } from '@/lib/utils'
 import { useQueryClient } from '@tanstack/react-query'
 import { toast } from 'sonner'
